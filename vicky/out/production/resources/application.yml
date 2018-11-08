@@ -1,0 +1,10 @@
+spring:
+  jackson:
+    property-naming-strategy: SNAKE_CASE
+logging:
+  level:
+    com.devadmin: DEBUG
+
+# slack integrations
+slackApi: https://slack.com/api
+slackBotToken: xoxb-92562004640-473141398659-hZlmFG2pz5fYHEW7nKDyvxmL
