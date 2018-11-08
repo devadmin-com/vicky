@@ -1,0 +1,49 @@
+buildscript {
+    ext {
+        springBootVersion = '2.1.0.RELEASE'
+    }
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+group = 'com.devadmin'
+version = '0.0.1.SNAPSHOT'
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+}
+
+ext {
+    slackIntegrationVersion = '0.0.1.SNAPSHOT'
+    jiraIntegrationVersion = '0.0.1.SNAPSHOT'
+
+    slf4jVersion = '1.7.25'
+    logbackVersion = '1.2.3'
+    junitVersion = '4.12'
+}
+
+dependencies {
+    // https://mvnrepository.com/artifact/io.projectreactor.ipc/reactor-netty
+    compile group: 'io.projectreactor.ipc', name: 'reactor-netty', version: '0.7.11.RELEASE'
+
+    compile("com.devadmin:slack:${jiraIntegrationVersion}")
+    compile("com.devadmin:slack:${slackIntegrationVersion}")
+    implementation('org.springframework.boot:spring-boot-starter')
+
+    compile "org.slf4j:slf4j-api:${slf4jVersion}"
+    compile "ch.qos.logback:logback-core:${logbackVersion}"
+    compile "ch.qos.logback:logback-classic:${logbackVersion}"
+
+    testCompile "junit:junit:${junitVersion}"
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+}
