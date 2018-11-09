@@ -32,14 +32,14 @@ import java.util.regex.Matcher;
 
 /**
  * Base class for making Slack Bots. Any class extending
- * this will get all powers of a Slack Bot.
+ * this will get all powers of a Slack AbstractBot.
  *
  * @author ramswaroop
  * @version 1.0.0, 05/06/2016
  */
-public abstract class Bot extends BaseBot {
+public abstract class AbstractBot extends BaseBot {
 
-    private static final Logger logger = LoggerFactory.getLogger(Bot.class);
+    private static final Logger logger = LoggerFactory.getLogger(AbstractBot.class);
 
     /**
      * Service to access Slack APIs.
@@ -62,12 +62,12 @@ public abstract class Bot extends BaseBot {
     public abstract String getSlackToken();
 
     /**
-     * An instance of the Bot is required by
+     * An instance of the AbstractBot is required by
      * the {@link BotWebSocketHandler} class.
      *
-     * @return the Bot instance overriding this method
+     * @return the AbstractBot instance overriding this method
      */
-    public abstract Bot getSlackBot();
+    public abstract AbstractBot getSlackBot();
 
     /**
      * Invoked after a successful web socket connection is
