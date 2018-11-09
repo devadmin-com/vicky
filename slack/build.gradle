@@ -22,7 +22,6 @@ ext {
 
 dependencies {
     compile("org.springframework:spring-websocket:${springWebsocketVersion}")
-    compile("org.springframework:spring-webmvc:${springWebsocketVersion}")
     compile("com.fasterxml.jackson.core:jackson-annotations:${jacksonVersion}")
     compile("com.fasterxml.jackson.core:jackson-core:${jacksonVersion}")
     compile("com.fasterxml.jackson.core:jackson-databind:${jacksonVersion}")

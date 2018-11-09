@@ -6,7 +6,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Annotation for different Event types in Slack RTM API, Fb Messenger Bot API.
+ * Annotation for different Event types in Slack RTM API, Fb Messenger AbstractBot API.
  */
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
