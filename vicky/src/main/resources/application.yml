@@ -7,5 +7,5 @@ logging:
 
 # slack integrations
 slackApi: https://slack.com/api
-slackBotToken: xoxb-474918643861-474558953648-o2Kp1eOHbSS7XxrVVf5l7t5a
-slashCommandToken: SP99f9lA5YGKfSOgg99KxmZ9
+slackBotToken: xoxb-474918643861-475541422883-usfjTM70X0vFMtoGQZUYzzFn
+slashCommandToken: Ep4sbvaoE7e6G0aCP13A0QLd
