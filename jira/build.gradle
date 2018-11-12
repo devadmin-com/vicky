@@ -11,13 +11,20 @@ repositories {
     jcenter()
 }
 
+jar {
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+}
+
 ext {
+    jiraClientVersion = '0.5'
     slf4jVersion = '1.7.25'
     logbackVersion = '1.2.3'
     junitVersion = '4.12'
 }
 
 dependencies {
+    compile "net.rcarz:jira-client:${jiraClientVersion}"
+
     compile "org.slf4j:slf4j-api:${slf4jVersion}"
     compile "ch.qos.logback:logback-core:${logbackVersion}"
     compile "ch.qos.logback:logback-classic:${logbackVersion}"
