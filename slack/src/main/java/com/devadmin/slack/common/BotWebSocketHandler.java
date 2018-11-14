@@ -1,6 +1,6 @@
 package com.devadmin.slack.common;
 
-import com.devadmin.slack.bot.Bot;
+import com.devadmin.slack.bot.AbstractBot;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.socket.BinaryMessage;
@@ -13,20 +13,20 @@ public class BotWebSocketHandler extends AbstractWebSocketHandler {
 
     private static final Logger logger = LoggerFactory.getLogger(BotWebSocketHandler.class);
 
-    private Bot bot;
+    private AbstractBot abstractBot;
 
-    public BotWebSocketHandler(Bot bot) {
-        this.bot = bot;
+    public BotWebSocketHandler(AbstractBot abstractBot) {
+        this.abstractBot = abstractBot;
     }
 
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-        bot.afterConnectionEstablished(session);
+        abstractBot.afterConnectionEstablished(session);
     }
 
     @Override
     public void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
-        bot.handleTextMessage(session, message);
+        abstractBot.handleTextMessage(session, message);
     }
 
     @Override
@@ -36,11 +36,11 @@ public class BotWebSocketHandler extends AbstractWebSocketHandler {
 
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
-        bot.afterConnectionClosed(session, status);
+        abstractBot.afterConnectionClosed(session, status);
     }
 
     @Override
     public void handleTransportError(WebSocketSession session, Throwable exception) throws Exception {
-        bot.handleTransportError(session, exception);
+        abstractBot.handleTransportError(session, exception);
     }
 }
