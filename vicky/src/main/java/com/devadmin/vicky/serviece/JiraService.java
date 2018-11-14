@@ -16,8 +16,8 @@ public class JiraService {
   @Value("${jiraPassword}")
   private String jiraPassword;
 
-    @Value("${jiraUrl}")
-    private String jiraUrl;
+  @Value("${jiraUrl}")
+  private String jiraUrl;
 
   private JiraClient jiraClient;
 
