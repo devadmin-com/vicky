@@ -7,12 +7,12 @@ logging:
 
 # slack integrations
 slackApi: https://slack.com/api
-slackBotToken: xoxb-92562004640-474276971920-hiuB1Nt4FeqFVa5vVWhrJseW
-slashCommandToken: 9OB1ANTlCcdjvz7tixcJWTSy
+#slackBotToken: xoxb-92562004640-474276971920-hiuB1Nt4FeqFVa5vVWhrJseW
+#slashCommandToken: 9OB1ANTlCcdjvz7tixcJWTSy
 #slackIncomingWebhookUrl: https://hooks.slack.com/services/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
 
-#slackBotToken: xoxb-474918643861-474558953648-o2Kp1eOHbSS7XxrVVf5l7t5a
-#slashCommandToken: SP99f9lA5YGKfSOgg99KxmZ9
+slackBotToken: xoxb-474918643861-474558953648-o2Kp1eOHbSS7XxrVVf5l7t5a
+slashCommandToken: SP99f9lA5YGKfSOgg99KxmZ9
 slackIncomingWebhookUrl: https://hooks.slack.com/services/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
 
 # jira integration
