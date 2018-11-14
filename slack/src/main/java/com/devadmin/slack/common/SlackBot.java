@@ -8,7 +8,7 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Controller
-public @interface JBot {
+public @interface SlackBot {
 
     /**
      * The value may indicate a suggestion for a logical component name,
