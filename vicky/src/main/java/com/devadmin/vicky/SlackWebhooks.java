@@ -100,17 +100,17 @@ public class SlackWebhooks {
     }
 
     switch (issueTypeName) {
-      case "Server": {
+      case "Server サーバー": {
           message = String.format(":hammer_and_wrench: <%s | %s> %s: %s @%s\n %s ➠ %s",
                   issueUrl, issueKey, issueStatusName, issueSummary, assignedTo, commenterId, comment);
           break;
         }
-      case "Operations": {
+      case "Operations 運営": {
           message =String.format(":gear: <%s | %s> %s: %s @%s\n %s ➠ %s",
                   issueUrl, issueKey, issueStatusName, issueSummary, assignedTo, commenterId, comment);
         }
         break;
-      case "Urgent bug":{
+      case "Urgent Bug 緊急バグ":{
           message = String.format(":zap: <%s | %s> %s: %s @%s\n %s ➠ %s",
                   issueUrl, issueKey, issueStatusName, issueSummary, assignedTo, commenterId, comment);
           break;
@@ -118,10 +118,11 @@ public class SlackWebhooks {
       default: {
           message = String.format(":rocket: <%s | %s> %s: %s @%s\n %s ➠ %s",
                   issueUrl, issueKey, issueStatusName, issueSummary, assignedTo, commenterId, comment);
+          break;
         }
     }
 
-    if ("Blocker tickets".equals(issuePriorityName)) {
+    if ("Blocker".equals(issuePriorityName)) {
       message = String.format(":bangbang: <%s | %s> %s: %s @%s\n %s ➠ %s",
               issueUrl, issueKey, issueStatusName, issueSummary, assignedTo, commenterId, comment);
     }

@@ -4,19 +4,17 @@ import com.devadmin.slack.bot.AbstractBot;
 import com.devadmin.slack.bot.models.Event;
 import com.devadmin.slack.common.Controller;
 import com.devadmin.slack.common.EventType;
-import com.devadmin.slack.common.SlackBot;
+import java.util.regex.Matcher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.socket.WebSocketSession;
 
-import java.util.regex.Matcher;
-
 /**
  * A simple Slack Bot. You can create multiple bots by just extending {@link AbstractBot} class like this
  * one.
  */
-@SlackBot
+//@SlackBot
 public class VickyBot extends AbstractBot {
 
   private static final Logger logger = LoggerFactory.getLogger(VickyBot.class);
