@@ -7,11 +7,11 @@ logging:
 
 # slack integrations
 slackApi: https://slack.com/api
-slackBotToken: xoxb-3666444034-479068848033-MZlRM9K6jKJaPrc8wVlp1eat
-slashCommandToken: wdwRLHJvrHVyBq60DmGsq0z4
-slackIncomingWebhookUrl: https://hooks.slack.com/services/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
+slackBotToken: <your slack bot token>
+slashCommandToken: <your slack slash command token>
+slackIncomingWebhookUrl: <your slack incomming webhook token>
 
 # jira integration
-jiraUrl: https://devadmin.atlassian.net
-jiraUsername: serpento@devadmin.com
-jiraPassword: Gz4815162342
+jiraUrl: <yourdomain.atlassian.net>
+jiraUsername: <your jira username>
+jiraPassword: <your jira password>
