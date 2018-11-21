@@ -1,12 +1,14 @@
 package com.devadmin.jira.webhook;
 
+import com.devadmin.jira.webhook.models.ChangeLog;
+import com.devadmin.jira.webhook.models.Comment;
 import com.devadmin.jira.webhook.models.Issue;
 import com.devadmin.jira.webhook.models.User;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class JiraIssueWebhookEvent {
+public class JiraWebhookEvent {
   private Long timestamp;
 
   @JsonProperty("webhookEvent")
@@ -20,6 +22,12 @@ public class JiraIssueWebhookEvent {
 
   @JsonProperty("issue")
   private Issue issue;
+
+  @JsonProperty("changelog")
+  private ChangeLog changeLog;
+
+  @JsonProperty("comment")
+  private Comment comment;
 
   public Long getTimestamp() {
     return timestamp;
@@ -59,5 +67,21 @@ public class JiraIssueWebhookEvent {
 
   public void setIssue(Issue issue) {
     this.issue = issue;
+  }
+
+  public ChangeLog getChangeLog() {
+    return changeLog;
+  }
+
+  public void setChangeLog(ChangeLog changeLog) {
+    this.changeLog = changeLog;
+  }
+
+  public Comment getComment() {
+    return comment;
+  }
+
+  public void setComment(Comment comment) {
+    this.comment = comment;
   }
 }

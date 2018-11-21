@@ -10,7 +10,7 @@ public class User {
     private String self;
 
     @JsonProperty("name")
-    private String nname;
+    private String name;
 
     @JsonProperty("key")
     private String key;
@@ -41,12 +41,12 @@ public class User {
         this.self = self;
     }
 
-    public String getNname() {
-        return nname;
+    public String getName() {
+        return name;
     }
 
-    public void setNname(String nname) {
-        this.nname = nname;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getKey() {

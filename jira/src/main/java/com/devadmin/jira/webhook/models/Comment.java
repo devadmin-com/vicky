@@ -1,15 +1,26 @@
 package com.devadmin.jira.webhook.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Date;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Comment {
+  @JsonProperty("self")
   private String self;
+  @JsonProperty("id")
   private String id;
+  @JsonProperty("author")
   private Author author;
+  @JsonProperty("body")
   private String body;
+  @JsonProperty("updateAuthor")
   private Author updateAuthor;
+  @JsonProperty("created")
   private Date created;
+  @JsonProperty("updated")
   private Date updated;
+  @JsonProperty("jsdPublic")
   private Boolean jsdPublic;
 
   public String getSelf() {

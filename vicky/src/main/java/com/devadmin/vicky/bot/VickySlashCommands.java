@@ -1,4 +1,4 @@
-package com.devadmin.vicky;
+package com.devadmin.vicky.bot;
 
 import com.devadmin.slack.bot.models.Attachment;
 import com.devadmin.slack.bot.models.RichMessage;
@@ -11,11 +11,12 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * Sample Hello World Slash Command Handler.
  */
-//@RestController
+@RestController
 public class VickySlashCommands {
 
     private static final Logger logger = LoggerFactory.getLogger(VickySlashCommands.class);
@@ -24,14 +25,14 @@ public class VickySlashCommands {
      * The token you get while creating a new Slash Command. You
      * should paste the token in application.properties file.
      */
-    @Value("${slashCommandToken}")
+    @Value("${vicky.slack.token.verification}")
     private String slackToken;
 
 
     /**
      * Slash Command handler. When a user types for example "/app help"
      * then slack sends a POST request to this endpoint. So, this endpoint
-     * should match the url you set while creating the Slack Slash Command.
+     * should match the url you set while creating the SlackProperties Slash Command.
      *
      * @param token
      * @param teamId

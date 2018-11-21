@@ -2,23 +2,12 @@ package com.devadmin.slack.bot;
 
 import com.devadmin.slack.bot.models.Event;
 import com.devadmin.slack.bot.models.Message;
+import com.devadmin.slack.bot.models.User;
 import com.devadmin.slack.common.BaseBot;
 import com.devadmin.slack.common.BotWebSocketHandler;
 import com.devadmin.slack.common.Controller;
 import com.devadmin.slack.common.EventType;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.StringUtils;
-import org.springframework.web.socket.CloseStatus;
-import org.springframework.web.socket.TextMessage;
-import org.springframework.web.socket.WebSocketHandler;
-import org.springframework.web.socket.WebSocketSession;
-import org.springframework.web.socket.client.WebSocketConnectionManager;
-import org.springframework.web.socket.client.standard.StandardWebSocketClient;
-
-import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -29,6 +18,18 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
+import javax.annotation.PostConstruct;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.socket.CloseStatus;
+import org.springframework.web.socket.TextMessage;
+import org.springframework.web.socket.WebSocketHandler;
+import org.springframework.web.socket.WebSocketSession;
+import org.springframework.web.socket.client.WebSocketConnectionManager;
+import org.springframework.web.socket.client.standard.StandardWebSocketClient;
 
 /**
  * Base class for making Slack Bots. Any class extending
@@ -46,6 +47,12 @@ public abstract class AbstractBot extends BaseBot {
      */
     @Autowired
     protected SlackService slackService;
+
+    @Autowired
+    protected RestTemplate restTemplate;
+
+    @Autowired
+    private SlackApiEndpoints slackApiEndpoints;
 
     /**
      * Task to ping Slack at regular intervals to prevent
@@ -174,6 +181,17 @@ public abstract class AbstractBot extends BaseBot {
 
     protected final void reply(WebSocketSession session, Event event, String text) {
         reply(session, event, new Message(text));
+    }
+
+    protected final void replyToSlackBot(String message, String userusername) {
+        Event event = restTemplate.postForEntity(slackApiEndpoints.getUserListApi(), null, Event.class, getSlackToken()).getBody();
+        if (event != null) {
+            for (User member : event.getMembers()) {
+                if (userusername.equals(member.getName())){
+                    restTemplate.postForEntity(slackApiEndpoints.getChatPostMessageApi(), null, String.class, getSlackToken(), member.getId(), message);
+                }
+            }
+        }
     }
 
     /**

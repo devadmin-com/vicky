@@ -12,8 +12,6 @@ repositories {
 }
 
 ext {
-//    jiraClientVersion = '0.5'
-//    fugueVersion = '4.7.1'
     apacheHttpComponentsVersion = '4.2.5'
     jsonLibVersion = '2.4'
     jodaTimeVersion = '2.3'
@@ -25,23 +23,17 @@ ext {
 }
 
 dependencies {
-
-//    compile "com.atlassian.jira:jira-rest-java-client-core:${jiraJavaClientVersion}"
-//    compile "io.atlassian.fugue:fugue:${fugueVersion}"
-    
-//    compile "net.rcarz:jira-client:${jiraClientVersion}"
-
     compile "org.apache.httpcomponents:httpclient:${apacheHttpComponentsVersion}"
     compile "org.apache.httpcomponents:httpmime:${apacheHttpComponentsVersion}"
     compile "net.sf.json-lib:json-lib:${jsonLibVersion}:jdk15"
     compile "joda-time:joda-time:${jodaTimeVersion}"
 
-    compileOnly("com.fasterxml.jackson.core:jackson-annotations:${jacksonVersion}")
-    compileOnly("com.fasterxml.jackson.core:jackson-databind:${jacksonVersion}")
+    compileOnly "com.fasterxml.jackson.core:jackson-annotations:${jacksonVersion}"
+    compileOnly "com.fasterxml.jackson.core:jackson-databind:${jacksonVersion}"
 
-    compile "org.slf4j:slf4j-api:${slf4jVersion}"
-    compile "ch.qos.logback:logback-core:${logbackVersion}"
-    compile "ch.qos.logback:logback-classic:${logbackVersion}"
+    compileOnly "org.slf4j:slf4j-api:${slf4jVersion}"
+    compileOnly "ch.qos.logback:logback-core:${logbackVersion}"
+    compileOnly "ch.qos.logback:logback-classic:${logbackVersion}"
 
     testCompile "junit:junit:${junitVersion}"
 }

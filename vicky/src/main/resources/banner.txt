@@ -1,0 +1,10 @@
+
+  ${AnsiColor.GREEN} ██╗   ██╗  ██╗   ██████╗  ██╗  ██╗  ██╗   ██╗
+  ${AnsiColor.GREEN} ██║   ██║  ██║  ██╔════╝  ██║ ██╔╝  ╚██╗ ██╔╝
+  ${AnsiColor.GREEN} ██║   ██║  ██║  ██║       █████╔╝    ╚████╔╝
+  ${AnsiColor.GREEN} ╚██╗ ██╔╝  ██║  ██║       ██╔═██╗     ╚██╔╝
+  ${AnsiColor.GREEN}  ╚████╔╝   ██║  ╚██████╗  ██║  ██╗     ██║
+  ${AnsiColor.GREEN}   ╚═══╝    ╚═╝   ╚═════╝  ╚═╝  ╚═╝     ╚═╝
+
+${AnsiColor.BRIGHT_BLUE}::  Vicky 🤓 :: Running Spring Boot ${spring-boot.version} ::
+:: http://devadmin.com ::${AnsiColor.DEFAULT}
