@@ -9,7 +9,7 @@ public class SlackApiEndpoints {
     /**
      * Endpoint for Slack Api
      */
-    @Value("${slackApi}")
+    @Value("${vicky.slack.api-url}")
     private String slackApi;
 
     /**
@@ -22,4 +22,25 @@ public class SlackApiEndpoints {
     public String getImListApi() {
         return slackApi + "/im.list?token={token}&limit={limit}&next_cursor={cursor}";
     }
+
+    public String getChatPostMessageApi() {
+        return slackApi + "/chat.postMessage?token={token}&channel={channel}&text={text}";
+    }
+
+    public String lookupUserByEmailApi() {
+        return slackApi + "/users.lookupByEmail?token={token}&email={email}";
+    }
+
+    public String getConversationsListApi() {
+        return slackApi + "/conversations.list?token={token}&type={type}";
+    }
+
+    public String getUserListApi() {
+        return slackApi + "/users.list?token={token}";
+    }
+
+    public String getImOpenApi() {
+        return slackApi + "/im.open?token={token}&user={user}";
+    }
+
 }

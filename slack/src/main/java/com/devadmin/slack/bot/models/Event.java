@@ -36,6 +36,8 @@ public class Event {
     private boolean isStarred;
     @JsonProperty("pinned_to")
     private String[] pinnedTo;
+    @JsonProperty("members")
+    private User[] members;
     private Channel channel;
     private Channel[] ims;
     private Item item;
@@ -169,6 +171,14 @@ public class Event {
 
     public void setPinnedTo(String[] pinnedTo) {
         this.pinnedTo = pinnedTo;
+    }
+
+    public User[] getMembers() {
+        return members;
+    }
+
+    public void setMembers(User[] members) {
+        this.members = members;
     }
 
     public Channel getChannel() {

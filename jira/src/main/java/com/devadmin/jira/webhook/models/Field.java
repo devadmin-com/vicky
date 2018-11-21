@@ -31,6 +31,9 @@ public class Field {
   @JsonProperty("priority")
   private Priority priority;
 
+  @JsonProperty("created")
+  private String createdDate;
+
   public IssueType getIssueType() {
     return issueType;
   }
@@ -93,5 +96,13 @@ public class Field {
 
   public void setPriority(Priority priority) {
     this.priority = priority;
+  }
+
+  public String getCreatedDate() {
+    return createdDate;
+  }
+
+  public void setCreatedDate(String createdDate) {
+    this.createdDate = createdDate;
   }
 }

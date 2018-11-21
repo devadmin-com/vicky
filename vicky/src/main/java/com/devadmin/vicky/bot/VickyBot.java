@@ -1,48 +1,68 @@
-package com.devadmin.vicky;
+package com.devadmin.vicky.bot;
 
 import com.devadmin.slack.bot.AbstractBot;
 import com.devadmin.slack.bot.models.Event;
 import com.devadmin.slack.common.Controller;
 import com.devadmin.slack.common.EventType;
+import com.devadmin.slack.common.SlackBot;
+import com.devadmin.vicky.config.VickyProperties.Slack;
 import java.util.regex.Matcher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.socket.WebSocketSession;
 
 /**
- * A simple Slack Bot. You can create multiple bots by just extending {@link AbstractBot} class like this
- * one.
+ * Vicky slack bot.
  */
-//@SlackBot
+@SlackBot
 public class VickyBot extends AbstractBot {
 
   private static final Logger logger = LoggerFactory.getLogger(VickyBot.class);
 
   /**
-   * Slack token from application.properties file. You can get your slack token next <a
-   * href="https://my.slack.com/services/new/bot">creating a new bot</a>.
+   * Slack properties from application.yml file.
    */
-  @Value("${slackBotToken}")
-  private String slackToken;
+  private final Slack slack;
 
-  @Override
-  public String getSlackToken() {
-    return slackToken;
+  /**
+   * @param slack properties from application.yml.
+   */
+  @Autowired
+  public VickyBot(Slack slack) {
+    this.slack = slack;
   }
 
+  /**
+   * You can get your slack bot token next
+   * <a href="https://my.slack.com/services/new/bot">creating a new bot</a>.
+   *
+   * @return Slack bot token from application.yml file
+   */
+  @Override
+  public String getSlackToken() {
+    return slack.getToken().getBot();
+  }
+
+  /**
+   * @return slack bot vicky
+   */
   @Override
   public AbstractBot getSlackBot() {
     return this;
   }
 
+  public void sendDirectMessageToBot(String message, String username) {
+      replyToSlackBot(message, username);
+  }
+
   /**
-   * Invoked when the bot receives a direct mention (@botname: message) or a direct message. NOTE:
-   * These two event types are added by jbot to make your task easier, Slack doesn't have any direct
-   * way to determine these type of events.
+   * Invoked when the bot receives a direct mention (@botname: message) or a direct message. NOTE: SlackProperties
+   * doesn't have any direct way to determine these type of events.
    *
-   * @param session
-   * @param event
+   * @param session websocket session
+   * @param event the event which will be happened when the bot receives a direct mention (@botname: message) or a
+   * direct message.
    */
   @Controller(events = {EventType.DIRECT_MENTION, EventType.DIRECT_MESSAGE})
   public void onReceiveDM(WebSocketSession session, Event event) {
@@ -50,12 +70,8 @@ public class VickyBot extends AbstractBot {
   }
 
   /**
-   * Invoked when bot receives an event of type message with text satisfying the pattern {@code
-   * ([a-z ]{2})(\d+)([a-z ]{2})}. For example, messages like "ab12xy" or "ab2bc" etc will invoke
-   * this method.
-   *
-   * @param session
-   * @param event
+   * Invoked when bot receives an event of type message with text satisfying the pattern {@code ([a-z ]{2})(\d+)([a-z
+   * ]{2})}. For example, messages like "ab12xy" or "ab2bc" etc will invoke this method.
    */
   @Controller(events = EventType.MESSAGE, pattern = "^([a-z ]{2})(\\d+)([a-z ]{2})$")
   public void onReceiveMessage(WebSocketSession session, Event event, Matcher matcher) {
@@ -77,9 +93,6 @@ public class VickyBot extends AbstractBot {
 
   /**
    * Invoked when an item is pinned in the channel.
-   *
-   * @param session
-   * @param event
    */
   @Controller(events = EventType.PIN_ADDED)
   public void onPinAdded(WebSocketSession session, Event event) {
@@ -88,13 +101,9 @@ public class VickyBot extends AbstractBot {
   }
 
   /**
-   * Invoked when bot receives an event of type file shared. NOTE: You can't reply to this event as
-   * slack doesn't send a channel id for this event type. You can learn more about <a
-   * href="https://api.slack.com/events/file_shared">file_shared</a> event from Slack's Api
-   * documentation.
-   *
-   * @param session
-   * @param event
+   * Invoked when bot receives an event of type file shared. NOTE: You can't reply to this event as slack doesn't send a
+   * channel id for this event type. You can learn more about <a href="https://api.slack.com/events/file_shared">file_shared</a>
+   * event from SlackProperties's Api documentation.
    */
   @Controller(events = EventType.FILE_SHARED)
   public void onFileShared(WebSocketSession session, Event event) {
@@ -102,13 +111,10 @@ public class VickyBot extends AbstractBot {
   }
 
   /**
-   * Conversation feature of JBot. This method is the starting point of the conversation (as it
-   * calls {@link AbstractBot#startConversation(Event, String)} within it. You can chain methods which will
-   * be invoked one after the other leading to a conversation. You can chain methods with {@link
-   * Controller#next()} by specifying the method name to chain with.
-   *
-   * @param session
-   * @param event
+   * Conversation feature of JBot. This method is the starting point of the conversation (as it calls {@link
+   * AbstractBot#startConversation(Event, String)} within it. You can chain methods which will be invoked one after the
+   * other leading to a conversation. You can chain methods with {@link Controller#next()} by specifying the method name
+   * to chain with.
    */
   @Controller(pattern = "(setup meeting)", next = "confirmTiming")
   public void setupMeeting(WebSocketSession session, Event event) {
@@ -118,9 +124,6 @@ public class VickyBot extends AbstractBot {
 
   /**
    * This method will be invoked after {@link VickyBot#setupMeeting(WebSocketSession, Event)}.
-   *
-   * @param session
-   * @param event
    */
   @Controller(next = "askTimeForMeeting")
   public void confirmTiming(WebSocketSession session, Event event) {
@@ -133,9 +136,6 @@ public class VickyBot extends AbstractBot {
 
   /**
    * This method will be invoked after {@link VickyBot#confirmTiming(WebSocketSession, Event)}.
-   *
-   * @param session
-   * @param event
    */
   @Controller(next = "askWhetherToRepeat")
   public void askTimeForMeeting(WebSocketSession session, Event event) {
@@ -151,9 +151,6 @@ public class VickyBot extends AbstractBot {
 
   /**
    * This method will be invoked after {@link VickyBot#askTimeForMeeting(WebSocketSession, Event)}.
-   *
-   * @param session
-   * @param event
    */
   @Controller
   public void askWhetherToRepeat(WebSocketSession session, Event event) {

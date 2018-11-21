@@ -1,0 +1,70 @@
+{
+  "groups": [
+    {
+      "name": "vicky",
+      "type": "com.devadmin.vicky.config.VickyProperties",
+      "sourceType": "com.devadmin.vicky.config.VickyProperties"
+    },
+    {
+      "name": "vicky.jira",
+      "type": "com.devadmin.vicky.config.VickyProperties$Jira",
+      "sourceType": "com.devadmin.vicky.config.VickyProperties",
+      "sourceMethod": "getJira()"
+    },
+    {
+      "name": "vicky.slack",
+      "type": "com.devadmin.vicky.config.VickyProperties$Slack",
+      "sourceType": "com.devadmin.vicky.config.VickyPropertie",
+      "sourceMethod": "getSlack()"
+    },
+    {
+      "name": "vicky.slack.token",
+      "type": "com.devadmin.vicky.config.VickyProperties$Slack$Token",
+      "sourceType": "com.devadmin.vicky.config.VickyProperties",
+      "sourceMethod": "getToken()"
+    },
+    {
+      "name": "vicky.slack.webhook",
+      "type": "com.devadmin.vicky.config.VickyProperties$Slack$Webhook",
+      "sourceType": "com.devadmin.vicky.config.VickyProperties",
+      "sourceMethod": "getWebhook()"
+    }
+  ],
+  "properties": [
+    {
+      "name": "vicky.jira.cloud-url",
+      "type": "java.lang.String",
+      "sourceType": "com.devadmin.vicky.config.VickyProperties$Jira"
+    },
+    {
+      "name": "vicky.jira.username",
+      "type": "java.lang.String",
+      "sourceType": "com.devadmin.vicky.config.VickyProperties$Jira"
+    },
+    {
+      "name": "vicky.jira.password",
+      "type": "java.lang.String",
+      "sourceType": "com.devadmin.vicky.config.VickyProperties$Jira"
+    },
+    {
+      "name": "vicky.slack.api-url",
+      "type": "java.lang.String",
+      "sourceType": "com.devadmin.vicky.config.VickyProperties$Slack"
+    },
+    {
+      "name": "vicky.slack.token.bot",
+      "type": "java.lang.String",
+      "sourceType": "com.devadmin.vicky.config.VickyProperties$Slack$Token"
+    },
+    {
+      "name": "vicky.slack.token.verification",
+      "type": "java.lang.String",
+      "sourceType": "com.devadmin.vicky.config.VickyProperties$Slack$Token"
+    },
+    {
+      "name": "vicky.slack.webhook.incoming",
+      "type": "java.util.Map<java.lang.String, java.lang.String>",
+      "sourceType": "com.devadmin.vicky.config.VickyProperties$Slack$Webhook"
+    }
+  ]
+}

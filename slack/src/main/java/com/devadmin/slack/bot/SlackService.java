@@ -29,6 +29,8 @@ public class SlackService {
 
     private List<String> imChannelIds = new ArrayList<>();
 
+    private Channel[] channels;
+
     private final SlackApiEndpoints slackApiEndpoints;
 
     private final RestTemplate restTemplate;
@@ -109,6 +111,14 @@ public class SlackService {
 
     public void setWebSocketUrl(String webSocketUrl) {
         this.webSocketUrl = webSocketUrl;
+    }
+
+    public Channel[] getChannels() {
+        return channels;
+    }
+
+    public void setChannels(Channel[] channels) {
+        this.channels = channels;
     }
 }
 
