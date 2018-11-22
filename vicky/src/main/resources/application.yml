@@ -1,17 +1,25 @@
+# spring application properties
 spring:
   jackson:
     property-naming-strategy: SNAKE_CASE
 logging:
   level:
-    com.devadmin: DEBUG
+    com.devadmin: INFO
 
-# slack integrations
-slackApi: https://slack.com/api
-slackBotToken: <your slack bot token>
-slashCommandToken: <your slack slash command token>
-slackIncomingWebhookUrl: <your slack incomming webhook token>
-
-# jira integration
-jiraUrl: <yourdomain.atlassian.net>
-jiraUsername: <your jira username>
-jiraPassword: <your jira password>
+# vicky application properties
+vicky:
+  # jira integration
+  jira:
+    cloud-url: <yourdomain.atlassian.net>
+    username: <your jira username>
+    password: <your jira password>
+  # slack integration
+  slack:
+    api-url: https://slack.com/api
+    token:
+      bot: <your slack bot token>
+      verification: <your slack slash command token>
+    webhook:
+      incoming:
+        channel-name1: <your slack incomming webhook token1>
+        channel-name2: <your slack incomming webhook token2>
