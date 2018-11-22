@@ -85,13 +85,19 @@ public class SlackWebhookService {
     message = String.format(issueTypeIcon + " <%s | %s> %s: %s\n %s ➠ %s",
         issueUrl, issueKey, issueStatusName, issueSummary, commenterId, comment);
 
-    for (String username : findMentionedUsernameListInTheComment(comment)) {
-      String replacedMessage = message.replace("[~" + username + "]", "@" + username);
-      vickyBot.sendDirectMessageToBot(replacedMessage, username);
-    }
-
-    if (!"Unassigned".equals(assignedTo)){
-      vickyBot.sendDirectMessageToBot(message, assignedTo);
+    List<String> mentionedUsernameListInTheComment = findMentionedUsernameListInTheComment(comment);
+    if (mentionedUsernameListInTheComment.size() > 0) {
+      for (String username : mentionedUsernameListInTheComment) {
+        String replacedMessage = message.replace("[~" + username + "]", "@" + username);
+        vickyBot.sendDirectMessageToBot(replacedMessage, username);
+        if (!"Unassigned".equals(assignedTo)) {
+          vickyBot.sendDirectMessageToBot(replacedMessage, assignedTo);
+        }
+      }
+    } else {
+      if (!"Unassigned".equals(assignedTo)) {
+        vickyBot.sendDirectMessageToBot(message, assignedTo);
+      }
     }
   }
 
