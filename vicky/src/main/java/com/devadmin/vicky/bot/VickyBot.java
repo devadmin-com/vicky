@@ -5,7 +5,7 @@ import com.devadmin.slack.bot.models.Event;
 import com.devadmin.slack.common.Controller;
 import com.devadmin.slack.common.EventType;
 import com.devadmin.slack.common.SlackBot;
-import com.devadmin.vicky.config.VickyProperties.Slack;
+import com.devadmin.vicky.config.VickyProperties;
 import java.util.regex.Matcher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,14 +23,14 @@ public class VickyBot extends AbstractBot {
   /**
    * Slack properties from application.yml file.
    */
-  private final Slack slack;
+  private final VickyProperties vickyProperties;
 
   /**
-   * @param slack properties from application.yml.
+   * @param vickyProperties from application.yml.
    */
   @Autowired
-  public VickyBot(Slack slack) {
-    this.slack = slack;
+  public VickyBot(VickyProperties vickyProperties) {
+    this.vickyProperties = vickyProperties;
   }
 
   /**
@@ -41,7 +41,7 @@ public class VickyBot extends AbstractBot {
    */
   @Override
   public String getSlackToken() {
-    return slack.getToken().getBot();
+    return vickyProperties.getSlack().getToken().getBot();
   }
 
   /**

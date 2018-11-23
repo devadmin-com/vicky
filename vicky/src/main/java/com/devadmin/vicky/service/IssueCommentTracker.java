@@ -10,13 +10,13 @@ import java.util.TimerTask;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * This class contain issue comment tracker functionality
+ */
 public class IssueCommentTracker {
 
-//  private static final long DELAY = 1000L * 60L * 60L * 24L;
-//  private static final long PERIOD = 1000L * 60L * 60L * 6L;
-
-  private static final long DELAY = 1000L * 60L;
-  private static final long PERIOD = 1000L * 60L * 2L;
+  private static final long DELAY = 1000L * 60L * 60L * 24L;
+  private static final long PERIOD = 1000L * 60L * 60L * 6L;
 
   private Timer timer = new Timer();
 

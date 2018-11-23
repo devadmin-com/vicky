@@ -3,9 +3,10 @@ package com.devadmin.vicky.config;
 import java.util.Map;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.NestedConfigurationProperty;
-import org.springframework.context.annotation.Configuration;
 
-@Configuration
+/**
+ * Property class for custom application properties in application.yml file.
+ */
 @ConfigurationProperties(prefix = "vicky")
 public class VickyProperties {
 
