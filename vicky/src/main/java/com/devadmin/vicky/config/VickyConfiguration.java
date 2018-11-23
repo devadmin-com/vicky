@@ -5,11 +5,16 @@ import com.devadmin.vicky.config.VickyProperties.Slack;
 import com.devadmin.vicky.config.VickyProperties.Slack.Token;
 import com.devadmin.vicky.config.VickyProperties.Slack.Webhook;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestTemplate;
 
+/**
+ * Configuration file for Vicky
+ */
 @Configuration
+@EnableConfigurationProperties(VickyProperties.class)
 public class VickyConfiguration {
 
   private final VickyProperties vickyProperties;

@@ -6,14 +6,13 @@ import com.devadmin.jira.JiraClient;
 import com.devadmin.jira.JiraException;
 import com.devadmin.vicky.config.VickyProperties.Jira;
 import java.util.List;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+/**
+ * This class contains methods for requesting JIRA rest endpoints
+ */
 @Service
 public class JiraRestService {
-
-  private static final Logger LOGGER = LoggerFactory.getLogger(JiraRestService.class);
 
   private JiraClient jiraClient;
 

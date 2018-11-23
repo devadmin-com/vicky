@@ -23,6 +23,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
+/**
+ *  This class contains methods for processing JIRA events
+ */
 @Component
 public class SlackWebhookService {
 
