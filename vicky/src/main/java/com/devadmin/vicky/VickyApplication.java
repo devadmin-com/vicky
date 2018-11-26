@@ -6,6 +6,8 @@ import org.springframework.context.annotation.ComponentScan;
 
 /**
  * Main class for Vicky application
+ *
+ * @see SpringApplication
  */
 @SpringBootApplication
 @ComponentScan("com.devadmin")

@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 /**
- * This class contain methods which received events from JIRA
+ * This class contain methods which received events from JIRA @todo looks wrong? JIRA? really?
+ *
+ * @todo how does this relate to Vicky.Bot class?
  */
 @RestController
 public class SlackWebhooksController {

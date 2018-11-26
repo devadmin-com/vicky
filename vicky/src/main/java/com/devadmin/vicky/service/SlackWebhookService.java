@@ -24,7 +24,9 @@ import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 /**
- *  This class contains methods for processing JIRA events
+ *  This class contains methods for processing JIRA events @todo, really? why's it called slackwebhookservice?
+ *
+ * @todo why do we have a slack webhook service and controller and vickybot? why are they in separate packages? how do they relate?
  */
 @Component
 public class SlackWebhookService {
