@@ -3,6 +3,11 @@ package com.devadmin.vicky.controller.model.jira;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+
+/**
+ * This is the object which contains the information about user (issue creator)
+ *
+ */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class UserModel {
     @JsonProperty("self")

@@ -4,6 +4,11 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Date;
 
+/**
+ * This is the object contains information related to issue comment
+ *
+ */
+
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class CommentModel {
   @JsonProperty("self")

@@ -3,6 +3,10 @@ package com.devadmin.vicky.controller.model.jira;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+/**
+ * This is the object which contains the information related to issue type
+ *
+ */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class IssueTypeModel {
   @JsonProperty("self")
