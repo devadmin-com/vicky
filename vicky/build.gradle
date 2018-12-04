@@ -1,6 +1,6 @@
 buildscript {
     ext {
-        springBootVersion = '2.1.0.RELEASE'
+        springBootVersion = '2.1.1.RELEASE'
     }
     repositories {
         jcenter()
@@ -32,7 +32,10 @@ repositories {
 
 ext {
     slackIntegrationVersion = '0.0.1.SNAPSHOT'
-    jiraIntegrationVersion = '0.0.1.SNAPSHOT'
+    jiraClentVersion = '0.5'
+
+    dozerVersion = '5.5.1'
+    lombokVersion = '1.18.4'
 
     slf4jVersion = '1.7.25'
     logbackVersion = '1.2.3'
@@ -40,11 +43,13 @@ ext {
 }
 
 dependencies {
-    compile "com.devadmin:jira:${jiraIntegrationVersion}"
-    compile "com.devadmin:slack:${slackIntegrationVersion}"
+    implementation "net.sf.dozer:dozer:${dozerVersion}"
     implementation'org.springframework.boot:spring-boot-starter-web'
     implementation'org.springframework.boot:spring-boot-starter'
     annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+
+    compile "net.rcarz:jira-client:${jiraClentVersion}"
+    compile "com.devadmin:slack:${slackIntegrationVersion}"
 
     compile "org.slf4j:slf4j-api:${slf4jVersion}"
     compile "ch.qos.logback:logback-core:${logbackVersion}"
