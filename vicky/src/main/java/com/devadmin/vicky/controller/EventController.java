@@ -1,7 +1,7 @@
 package com.devadmin.vicky.controller;
 
-import com.devadmin.vicky.controller.model.jira.JiraEventModel;
-import com.devadmin.vicky.event.JiraEvent;
+import com.devadmin.vicky.controller.model.EventModel;
+import com.devadmin.vicky.event.GenericEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,9 +30,9 @@ public class EventController {
   }
 
   @PostMapping("/jira")
-  public ResponseEntity jiraEvent(@RequestBody JiraEventModel jiraEventModel) {
-    JiraEvent jiraEvent = new JiraEvent(this, jiraEventModel);
-    applicationEventPublisher.publishEvent(jiraEvent);
+  public ResponseEntity jiraEvent(@RequestBody EventModel EventModel) {
+    final GenericEvent<EventModel> genericEvent = new GenericEvent<>(EventModel);
+    applicationEventPublisher.publishEvent(genericEvent);
     if (LOGGER.isDebugEnabled()) {
       LOGGER.debug("Jira event published");
     }

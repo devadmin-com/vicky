@@ -1,12 +1,14 @@
-package com.devadmin.vicky.service;
+package com.devadmin.vicky.service.impl;
 
 import com.devadmin.slack.bot.models.RichMessage;
 import com.devadmin.vicky.bot.VickyBot;
 import com.devadmin.vicky.config.VickyProperties;
 import com.devadmin.vicky.exception.VickyException;
+import com.devadmin.vicky.service.EventService;
+import com.devadmin.vicky.service.IssueCommentTracker;
+import com.devadmin.vicky.service.dto.EventDto;
 import com.devadmin.vicky.service.dto.jira.FieldDto;
 import com.devadmin.vicky.service.dto.jira.ItemDto;
-import com.devadmin.vicky.service.dto.jira.JiraEventDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.ArrayList;
@@ -25,8 +27,7 @@ import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 @Service
-public class JiraService {
-
+public class JiraEventServiceImpl implements EventService {
   private static final Logger LOGGER = LoggerFactory.getLogger(JiraService.class);
 
   private final VickyProperties vickyProperties;
@@ -36,7 +37,7 @@ public class JiraService {
   private final VickyBot vickyBot;
 
   @Autowired
-  public JiraService(VickyProperties vickyProperties, JiraClient jiraClient, VickyBot vickyBot) {
+  public JiraEventServiceImpl(VickyProperties vickyProperties, JiraClient jiraClient, VickyBot vickyBot) {
     this.vickyBot = vickyBot;
     this.jiraClient = jiraClient;
     this.vickyProperties = vickyProperties;
@@ -45,30 +46,30 @@ public class JiraService {
   /**
    * In this method, we try to understand which type of event we received from Jira server
    *
-   * @param jiraEventDto received event from Jira server
+   * @param eventDto received event from Jira server
    */
-  public void eventProcessing(JiraEventDto jiraEventDto) throws VickyException {
-    String eventType = getJiraEventType(jiraEventDto);
+  public void eventProcessing(com.devadmin.vicky.service.dto.EventDto eventDto) throws VickyException {
+    String eventType = getJiraEventType(eventDto);
     if ("issue".equals(eventType)) {
-      issueEventProcessing(jiraEventDto);
+      issueEventProcessing(eventDto);
     } else if ("comment".equals(eventType)) {
-      commentEventProcessing(jiraEventDto);
+      commentEventProcessing(eventDto);
     }
   }
 
   /**
    * In this method we processing comment event
    *
-   * @param jiraEventDto received event from Jira server
+   * @param eventDto received event from Jira server
    */
-  private void commentEventProcessing(JiraEventDto jiraEventDto) {
+  private void commentEventProcessing(EventDto eventDto) {
     String message;
     String comment;
     String commenterId;
 
-    FieldDto issueFields = jiraEventDto.getIssue().getFields();
+    FieldDto issueFields = eventDto.getIssue().getFields();
     String issueTypeName = issueFields.getIssueType().getName();
-    String issueKey = jiraEventDto.getIssue().getKey();
+    String issueKey = eventDto.getIssue().getKey();
     String issueUrl = String.format("%s/browse/%s", vickyProperties.getJira().getCloudUrl(), issueKey);
     String issueStatusName = issueFields.getStatus().getName();
     String issueSummary = issueFields.getSummary();
@@ -76,8 +77,8 @@ public class JiraService {
         ? "Unassigned" : issueFields.getAssignee().getName();
 
     String issueTypeIcon = getIssueTypeIconBasedOnIssueTypeName(issueTypeName);
-    comment = jiraEventDto.getComment().getBody();
-    commenterId = jiraEventDto.getComment().getAuthor().getDisplayName();
+    comment = eventDto.getComment().getBody();
+    commenterId = eventDto.getComment().getAuthor().getDisplayName();
 
     message = String.format(issueTypeIcon + " <%s | %s> %s: %s\n %s ➠ %s",
         issueUrl, issueKey, issueStatusName, issueSummary, commenterId, comment);
@@ -101,16 +102,16 @@ public class JiraService {
   /**
    * In this method we processing issue event
    *
-   * @param jiraEventDto received event from Jira server
+   * @param eventDto received event from Jira server
    */
-  private void issueEventProcessing(JiraEventDto jiraEventDto) throws VickyException{
+  private void issueEventProcessing(com.devadmin.vicky.service.dto.EventDto eventDto) throws VickyException{
     String message;
     String lastComment;
 
-    FieldDto issueFields = jiraEventDto.getIssue().getFields();
-    String username = jiraEventDto.getUser().getName();
+    FieldDto issueFields = eventDto.getIssue().getFields();
+    String username = eventDto.getUser().getName();
     String issueTypeName = issueFields.getIssueType().getName();
-    String issueKey = jiraEventDto.getIssue().getKey();
+    String issueKey = eventDto.getIssue().getKey();
     String issueUrl = String.format("%s/browse/%s", vickyProperties.getJira().getCloudUrl(), issueKey);
     String issueProjectName = issueFields.getProject().getName();
     String issueStatusName = issueFields.getStatus().getName();
@@ -121,7 +122,7 @@ public class JiraService {
     String issueTypeIcon = getIssueTypeIconBasedOnIssueTypeNameAndIssuePriorityName(issuePriorityName, issueTypeName);
 
     List<Comment> comments;
-    String issueId = jiraEventDto.getIssue().getId();
+    String issueId = eventDto.getIssue().getId();
     try {
       comments = jiraClient.getIssue(issueId).getComments();
     } catch (JiraException e) {
@@ -135,14 +136,14 @@ public class JiraService {
       lastComment = "This ticket did not comment more than 24 hours";
       message = String.format(":no_entry_sign: <%s | %s> %s: %s @%s\n %s",
           issueUrl, issueKey, issueStatusName, issueSummary, assignedTo, lastComment);
-      new IssueCommentTracker(jiraEventDto, message, jiraClient, vickyBot, username);
+      new IssueCommentTracker(eventDto, message, jiraClient, vickyBot, username);
     }
 
     message = String.format(issueTypeIcon + " <%s | %s> %s: %s @%s\n %s",
         issueUrl, issueKey, issueStatusName, issueSummary, assignedTo, lastComment);
 
-    if (jiraEventDto.getChangeLog() != null) {
-      for (ItemDto item : jiraEventDto.getChangeLog().getItems()) {
+    if (eventDto.getChangeLog() != null) {
+      for (ItemDto item : eventDto.getChangeLog().getItems()) {
         if("assignee".equals(item.getField()) && item.getTo() != null){
           message = String.format(issueTypeIcon + " <%s | %s> %s: %s\n %s",
               issueUrl, issueKey, issueStatusName, issueSummary, assignedTo, lastComment);
@@ -208,12 +209,12 @@ public class JiraService {
 
   /**
    * This method check which type of event we received from Jira
-   * @param jiraEventDto received event from Jira server
+   * @param eventDto received event from Jira server
    * @return the type of event we received
    */
-  private String getJiraEventType(JiraEventDto jiraEventDto){
+  private String getJiraEventType(EventDto eventDto){
     String eventType = "Unsupported event type";
-    switch (jiraEventDto.getWebhookEvent()){
+    switch (eventDto.getWebhookEvent()){
       case "jira:issue_created":
       case "jira:issue_updated":
       case "jira:issue_deleted":
@@ -239,8 +240,6 @@ public class JiraService {
     RichMessage richMessage = new RichMessage(message);
     Map<String, String> incomingWebhooks = vickyProperties.getSlack().getWebhook().getIncoming();
 
-
-    // For debugging purpose only
     try {
       LOGGER.debug("Reply (RichMessage): {}", new ObjectMapper().writeValueAsString(richMessage));
     } catch (JsonProcessingException e) {
@@ -256,6 +255,4 @@ public class JiraService {
       LOGGER.error("Error posting to SlackProperties Incoming Webhook: ", e);
     }
   }
-
-
 }
