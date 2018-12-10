@@ -27,6 +27,8 @@ public class FieldModel {
   private PriorityModel priority;
   @JsonProperty("created")
   private String createdDate;
+  @JsonProperty("labels")
+  private String[] labels;
 
   public IssueTypeModel getIssueType() {
     return issueType;
@@ -90,5 +92,13 @@ public class FieldModel {
 
   public void setCreatedDate(String createdDate) {
     this.createdDate = createdDate;
+  }
+
+  public String[] getLabels() {
+    return labels;
+  }
+
+  public void setLabels(String[] labels) {
+    this.labels = labels;
   }
 }

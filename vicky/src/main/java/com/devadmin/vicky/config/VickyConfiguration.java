@@ -1,7 +1,5 @@
 package com.devadmin.vicky.config;
 
-import com.devadmin.vicky.util.DozerMapper;
-import com.devadmin.vicky.util.impl.DozerMapperImpl;
 import net.rcarz.jiraclient.BasicCredentials;
 import net.rcarz.jiraclient.JiraClient;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,22 +25,32 @@ public class VickyConfiguration {
     this.vickyProperties = vickyProperties;
   }
 
+  /**
+   * This method create RestTemplate bean
+   *
+   * @return RestTemplate instance
+   */
   @Bean
   public RestTemplate getRestTemplate() {
     return new RestTemplate();
   }
 
-  @Bean
-  public DozerMapper dozerMapper() {
-    return new DozerMapperImpl();
-  }
-
+  /**
+   * This method create JiraClient bean based on application properties
+   *
+   * @return JiraClient instance
+   */
   @Bean
   public JiraClient getJiraClient() {
     BasicCredentials basicCredentials = new BasicCredentials(vickyProperties.getJira().getUsername(), vickyProperties.getJira().getPassword());
     return new JiraClient(vickyProperties.getJira().getCloudUrl(), basicCredentials);
   }
 
+  /**
+   * This method creates ApplicationEventMulticaster bean in order to support asynchronous event handler
+   *
+   * @return ApplicationEventMulticaster instance
+   */
   @Bean(name = "applicationEventMulticaster")
   public ApplicationEventMulticaster simpleApplicationEventMulticaster() {
     SimpleApplicationEventMulticaster eventMulticaster = new SimpleApplicationEventMulticaster();
