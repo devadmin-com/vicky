@@ -1,11 +1,12 @@
 package com.devadmin.vicky.event;
 
 /**
- * A class is the generic event type
+ * An event wrapper holding a model which describes the event.
  *
- * @param <T> The type of event
+ * This allows listeners to not care about the implementation of the event model.
+ *
  */
-public class GenericEvent<T> {
+public abstract class GenericEvent<T> {
   private T eventModel;
   private boolean assignee = false;
 
@@ -13,19 +14,8 @@ public class GenericEvent<T> {
     this.eventModel = eventModel;
   }
 
-  public GenericEvent() {
-
-  }
-
   public T getEventModel() {
     return eventModel;
   }
 
-  public boolean isAssignee() {
-    return assignee;
-  }
-
-  public void setAssignee(boolean assignee) {
-    this.assignee = assignee;
-  }
 }

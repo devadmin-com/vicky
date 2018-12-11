@@ -3,9 +3,9 @@
 //import com.devadmin.vicky.controller.model.jira.JiraEventModel;
 //import com.devadmin.vicky.event.GenericEvent;
 //import com.devadmin.vicky.exception.VickyException;
-//import com.devadmin.vicky.service.impl.MessageServiceImpl;
-//import com.devadmin.vicky.service.impl.SlackServiceImpl;
-//import com.devadmin.vicky.service.message.SlackMessageConverter;
+//import com.devadmin.vicky.service.slack.SlackMessageService;
+//import com.devadmin.vicky.service.slack.SlackMessageServiceImpl;
+//import com.devadmin.vicky.service.message.SimpleFormatter;
 //import com.fasterxml.jackson.databind.ObjectMapper;
 //import java.io.File;
 //import org.junit.Before;
@@ -20,13 +20,13 @@
 //public class JiraEventListenerTest {
 //
 //  @Mock
-//  private SlackMessageConverter messageConverter;
+//  private SimpleFormatter messageConverter;
 //
 //  @Mock
-//  private MessageServiceImpl messageService;
+//  private SlackMessageService messageService;
 //
 //  @Mock
-//  private SlackServiceImpl slackService;
+//  private SlackMessageServiceImpl slackService;
 //
 //  @InjectMocks
 ////  private JiraEventListener jiraEventListener = new JiraEventListener(messageService, messageConverter, slackService);
@@ -41,7 +41,7 @@
 //  }
 //
 //  @Test
-//  public void handleIssueCreatedAndResolvedEvents() throws VickyException {
+//  public void handle() throws VickyException {
 //    GenericEvent<JiraEventModel> genericEvent = new GenericEvent<>(jiraEventModel);
 ////    jiraEventListener.handleCommentEvent(genericEvent);
 //

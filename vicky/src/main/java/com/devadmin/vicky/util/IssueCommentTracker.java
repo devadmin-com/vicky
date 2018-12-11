@@ -1,7 +1,7 @@
 package com.devadmin.vicky.util;
 
-import com.devadmin.vicky.bot.VickyBot;
-import com.devadmin.vicky.controller.model.jira.JiraEventModel;
+import com.devadmin.vicky.controller.slack.SlackController;
+import com.devadmin.vicky.controller.jira.model.JiraEventModel;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -21,17 +21,17 @@ public class IssueCommentTracker {
 
   private JiraClient jiraClient;
 
-  private VickyBot vickyBot;
+  private SlackController slackController;
 
   private JiraEventModel jiraEventModel;
 
   private String message;
   private String userDisplayName;
 
-  public IssueCommentTracker(JiraEventModel jiraEventModel, String message, JiraClient jiraClient, VickyBot vickyBot,
+  public IssueCommentTracker(JiraEventModel jiraEventModel, String message, JiraClient jiraClient, SlackController slackController,
       String userDisplayName) {
     this.message = message;
-    this.vickyBot = vickyBot;
+    this.slackController = slackController;
     this.jiraEventModel = jiraEventModel;
     this.userDisplayName = userDisplayName;
     this.jiraClient = jiraClient;
@@ -42,9 +42,9 @@ public class IssueCommentTracker {
 
     public void run() {
       try {
-        List<Comment> comments = jiraClient.getIssue(jiraEventModel.getIssue().getId()).getComments();
+        List<Comment> comments = jiraClient.getIssue(jiraEventModel.getTask().getId()).getComments();
         if (comments.size() == 0) {
-          vickyBot.sendDirectMessageToBot(message, userDisplayName);
+          slackController.sendDirectMessageToBot(message, userDisplayName);
         } else {
           timer.cancel();
         }
