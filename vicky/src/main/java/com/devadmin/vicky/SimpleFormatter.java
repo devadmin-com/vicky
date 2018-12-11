@@ -16,7 +16,7 @@ public class SimpleFormatter implements Formatter {
 
   }
 
-  public String format(TaskEventModel event) throws VickyException {
+  public String format(TaskEventModel event) {
   /*  String message = new String();
     String cloudUrl = jiraProperties.getJira().getCloudUrl();
     String issueKey = jiraEventModel.getTask().getKey();

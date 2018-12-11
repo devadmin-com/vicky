@@ -31,8 +31,8 @@ public class AtReferenceListener extends TaskToMessageListener {
                 "(#jiraEventModel.eventModel.webhookEvent.equals('jira:issue_updated') and " +
                 "#jiraEventModel.eventModel.issue.fields.status.name.equals('Resolved 解決済'))"*/
     )
-    public void handle(TaskEvent event) throws VickyException {
-        String message = formatter.format(event.getEventModel());
+    public void onApplicationEvent(TaskEvent event) {
+        //String message = formatter.format(event.getEventModel());
         //String slackMessage = messageServiceImpl.writeMessage(messageEntity, "COMMENT");
         //slackService.sendPrivateMessage(slackMessage, messageEntity.getIssueAssignedTo());
         System.err.print("Got event!" + event);

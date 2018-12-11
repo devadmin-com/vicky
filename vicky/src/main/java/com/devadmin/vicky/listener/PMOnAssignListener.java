@@ -24,14 +24,9 @@ public class PMOnAssignListener extends TaskToMessageListener {
   }
 
   @EventListener(
-      classes = TaskEvent.class/*,
-      condition =
-          "#jiraEventModel.eventModel.changeLog != null and " +
-              "#jiraEventModel.eventModel.webhookEvent.equals('jira:issue_created') or " +
-              "(#jiraEventModel.eventModel.webhookEvent.equals('jira:issue_updated') and " +
-              "#jiraEventModel.eventModel.issue.fields.status.name.equals('Resolved 解決済'))"*/
+      classes = TaskEvent.class
   )
-  public void handle(TaskEvent event) throws VickyException {
+  public void onApplicationEvent(TaskEvent event) {
     System.err.print("Got event!" + event);
   }
 

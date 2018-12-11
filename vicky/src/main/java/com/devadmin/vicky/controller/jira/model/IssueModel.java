@@ -67,4 +67,10 @@ public class IssueModel implements com.devadmin.vicky.Task {
     //@todo implement me
     return null;
   }
+
+  @Override
+  public String getProject() {
+    //@todo implement me
+    return null;
+  }
 }

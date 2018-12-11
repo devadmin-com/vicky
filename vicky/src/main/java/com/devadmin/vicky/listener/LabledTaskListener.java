@@ -32,7 +32,7 @@ public class LabledTaskListener extends TaskToMessageListener {
               "(#jiraEventModel.eventModel.webhookEvent.equals('jira:issue_updated') and " +
               "#jiraEventModel.eventModel.issue.fields.status.name.equals('Resolved 解決済'))"*/
   )
-  public void handle(TaskEvent event) throws VickyException {
+  public void onApplicationEvent(TaskEvent event) {
     System.err.print("Got event!" + event);
   }
 
