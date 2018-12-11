@@ -16,8 +16,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class AtReferenceListener extends TaskToMessageListener {
 
-    public AtReferenceListener(MessageService messageService, Formatter formatter) {
-        super(messageService, formatter);
+    public AtReferenceListener(MessageService messageService) {
+        super(messageService);
     }
 
     @EventListener(

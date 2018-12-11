@@ -4,7 +4,7 @@ package com.devadmin.vicky.listener;
 import com.devadmin.vicky.*;
 import com.devadmin.vicky.event.*;
 
-import org.springframework.context.event.EventListener;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
@@ -17,17 +17,14 @@ import org.springframework.stereotype.Component;
 @Component
 public class ProjectTaskListener extends TaskToMessageListener {
 
-  public ProjectTaskListener(MessageService messageService, Formatter formatter) {
-    super(messageService,formatter);
-
-    System.err.println("CONSTRUCTING ProjectTaskListener"); // @todo remove
+  @Autowired
+  public ProjectTaskListener(MessageService messageService) {
+    super(messageService);
   }
 
   public void onApplicationEvent(TaskEvent event) {
-    System.err.println("Aaaaaaaa handling");
-
     if (/* is create or resolve*/true) {
-      String msg = formatter.format(event.getTaskEventModel());
+      String msg = event.getTaskEventModel().toString();
       String projectId = event.getTaskEventModel().getTask().getProject();
 
       try {

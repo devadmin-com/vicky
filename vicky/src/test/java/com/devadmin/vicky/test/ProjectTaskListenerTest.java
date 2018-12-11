@@ -1,6 +1,7 @@
 package com.devadmin.vicky.test;
 
 import com.devadmin.vicky.MessageService;
+import com.devadmin.vicky.TaskEventModel;
 import com.devadmin.vicky.event.TaskEvent;
 import com.devadmin.vicky.listener.ProjectTaskListener;
 import org.junit.Before;
@@ -24,32 +25,39 @@ import static org.junit.Assert.*;
  *
  */
 public class ProjectTaskListenerTest {
-
+    StaticApplicationContext context;
+    TestOneMessageService messageService;
 
     @Test
     public void handle() throws Exception {
         // check that we get the right MessageService
         String id = "bob";
 
-        // install the listener - This should be done by spring...
-        StaticApplicationContext context = new StaticApplicationContext();
-        ProjectTaskListener listener = new ProjectTaskListener(null,null);
+
+        ProjectTaskListener listener = new ProjectTaskListener(messageService);
         context.addApplicationListener(listener);
         context.refresh();
 
-        // create a test task
         TestTaskEventModel testEventModel = new TestTaskEventModel();
-        TaskEvent event = new TaskEvent(testEventModel);
 
-        // push test task onto bus
-        context.publishEvent(event);
+        publish(testEventModel);
 
         assertTrue("Life is good", true);
     }
 
-    private TestOneMessageService getTestMs() {
-        return (TestOneMessageService) ms;
-        return null;
+
+    void publish(TaskEventModel model) {
+        // create a test task
+        TaskEvent event = new TaskEvent(model);
+
+        // push test task onto bus
+        context.publishEvent(event);
+    }
+    @Before
+    public void setUp() {
+        context = new StaticApplicationContext();
+        messageService = new TestOneMessageService();
+
     }
 }
 

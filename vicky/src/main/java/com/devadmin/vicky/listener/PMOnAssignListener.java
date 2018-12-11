@@ -19,8 +19,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class PMOnAssignListener extends TaskToMessageListener {
 
-  public PMOnAssignListener(MessageService messageService, Formatter formatter) {
-    super(messageService,formatter);
+  public PMOnAssignListener(MessageService messageService) {
+
+    super(messageService);
   }
 
   @EventListener(

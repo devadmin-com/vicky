@@ -17,15 +17,10 @@ public abstract class TaskToMessageListener implements ApplicationListener<TaskE
 
   static final Logger LOGGER = LoggerFactory.getLogger(TaskToMessageListener.class);
 
-  @Autowired
   protected MessageService messageService;
 
-  @Autowired
-  protected Formatter formatter;
-
-  public TaskToMessageListener(MessageService messageService, Formatter formatter) {
+  public TaskToMessageListener(MessageService messageService) {
     this.messageService = messageService;
-    this.formatter = formatter;
   }
 
 }

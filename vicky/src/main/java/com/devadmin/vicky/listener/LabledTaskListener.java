@@ -20,8 +20,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class LabledTaskListener extends TaskToMessageListener {
 
-  public LabledTaskListener(MessageService messageService, Formatter formatter) {
-    super(messageService,formatter);
+  public LabledTaskListener(MessageService messageService) {
+    super(messageService);
   }
 
   @EventListener(
