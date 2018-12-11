@@ -24,12 +24,14 @@ import static org.junit.Assert.*;
  * Test class for {@link com.devadmin.vicky.listener.ProjectTaskListener}
  *
  */
-public class ProjectTaskListenerTest {
-    StaticApplicationContext context;
-    TestOneMessageService messageService;
+public class ProjectTaskListenerTest extends TaskListenerTest {
 
+    /**
+     * tests that the event was sent
+     * @throws Exception
+     */
     @Test
-    public void handle() throws Exception {
+    public void basicTest() throws Exception {
         // check that we get the right MessageService
         String id = "bob";
 
@@ -42,22 +44,9 @@ public class ProjectTaskListenerTest {
 
         publish(testEventModel);
 
-        assertTrue("Life is good", true);
+        assertTrue(messageService.channelMessaged == true); // check that a message was sent to the channel
+        assertFalse(messageService.privateMessaged); // check that a message was NOT sent privately
     }
 
-
-    void publish(TaskEventModel model) {
-        // create a test task
-        TaskEvent event = new TaskEvent(model);
-
-        // push test task onto bus
-        context.publishEvent(event);
-    }
-    @Before
-    public void setUp() {
-        context = new StaticApplicationContext();
-        messageService = new TestOneMessageService();
-
-    }
 }
 

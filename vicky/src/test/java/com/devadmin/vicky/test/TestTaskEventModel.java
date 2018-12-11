@@ -5,6 +5,10 @@ import com.devadmin.vicky.TaskEventModel;
 
 import java.util.Date;
 
+/**
+ * An implementation of TaskEventModel for testing...
+ *
+ */
 public class TestTaskEventModel implements TaskEventModel {
     @Override
     public boolean hasComment() {
