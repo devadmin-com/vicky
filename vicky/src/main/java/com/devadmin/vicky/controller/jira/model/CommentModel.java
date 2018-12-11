@@ -1,8 +1,12 @@
 package com.devadmin.vicky.controller.jira.model;
 
+import com.devadmin.vicky.Comment;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * This is the object contains information related to issue comment
@@ -10,7 +14,7 @@ import java.util.Date;
  */
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class CommentModel {
+public class CommentModel  implements Comment {
   @JsonProperty("self")
   private String self;
   @JsonProperty("id")
@@ -90,5 +94,11 @@ public class CommentModel {
 
   public void setJsdPublic(Boolean jsdPublic) {
     this.jsdPublic = jsdPublic;
+  }
+
+  @Override
+  public List<String> getReferences() {
+    // @ToDo please implement me :) find them from body ;)
+    return new ArrayList<>();
   }
 }

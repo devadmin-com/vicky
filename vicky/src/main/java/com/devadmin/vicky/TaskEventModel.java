@@ -10,6 +10,11 @@ package com.devadmin.vicky;
 public interface TaskEventModel {
 
     /**
+     * @return true if the event has comment
+     */
+    boolean hasComment();
+
+    /**
         @return the task that this event happened on
      */
     Task getTask();

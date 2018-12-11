@@ -32,9 +32,14 @@ public class JiraEventModel implements TaskEventModel {
   private CommentModel comment;
 
 
+  @Override
+  public boolean hasComment() {
+    return this.comment != null;
+  }
+
   /*
-    @return the Task that this event was for
-   */
+      @return the Task that this event was for
+     */
   public IssueModel getTask() {
     return issue;
   }
