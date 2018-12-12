@@ -38,15 +38,12 @@ public class SlackMessageServiceImpl implements MessageService {
    */
   @Override
   public void sendChannelMessage(String message, String channelName) {
+
+
     RestTemplate restTemplate = new RestTemplate();
     RichMessage richMessage = new RichMessage(message);
     Map<String, String> incomingWebhooks = properties.getWebhook().getIncoming();
 
-    try { //@todo what is this doing?
-      LOGGER.debug("Reply (RichMessage): {}", new ObjectMapper().writeValueAsString(richMessage));
-    } catch (JsonProcessingException e) {
-      LOGGER.debug("Error parsing RichMessage: ", e);
-    }
 
     try {
       if (incomingWebhooks.containsKey(channelName)){
@@ -54,16 +51,8 @@ public class SlackMessageServiceImpl implements MessageService {
         restTemplate.postForEntity(incomingWebhookUrl, richMessage, String.class);
       }
 
-      /* @todo what is this?
-      if (labels != null && labels.length > 0){
-        for (String label: labels) {
-          restTemplate.postForEntity(incomingWebhooks.get(label), richMessage, String.class);
-        }
-      }
-      */
     } catch (RestClientException e) {
       LOGGER.error("Error posting to SlackProperties Incoming Webhook: ", e);
-      // @todo should this not be throwing an exception?!
     }
   }
 

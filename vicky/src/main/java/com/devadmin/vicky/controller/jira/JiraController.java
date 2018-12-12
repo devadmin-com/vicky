@@ -31,20 +31,12 @@ public class JiraController {
 
   @PostMapping("/jira")
   public ResponseEntity jiraEvent(@RequestBody JiraEventModel jiraEventModel) {
+
     final TaskEvent event = new TaskEvent(jiraEventModel);
- /*  @todo what is this mystery code trying to do?!
- if (jiraEventModel.getChangeLog() != null){
-      if (jiraEventModel.getChangeLog().getItems() != null){
-        for (ItemModel itemModel : jiraEventModel.getChangeLog().getItems()) {
-          if (itemModel.getField().equals("assignee")) event.setAssignee(true);
-        }
-      }
-    }*/
     applicationEventPublisher.publishEvent(event);
-    if (LOGGER.isDebugEnabled()) {
-      LOGGER.debug("Jira event published");
-    }
+
     return ResponseEntity.ok().build();
+
   }
 
 }

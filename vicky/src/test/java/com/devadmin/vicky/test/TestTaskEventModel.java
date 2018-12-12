@@ -10,6 +10,9 @@ import java.util.Date;
  *
  */
 public class TestTaskEventModel implements TaskEventModel {
+
+    private String type;
+
     @Override
     public boolean hasComment() {
         return false;
@@ -27,6 +30,10 @@ public class TestTaskEventModel implements TaskEventModel {
 
     @Override
     public String getType() {
-        return null;
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

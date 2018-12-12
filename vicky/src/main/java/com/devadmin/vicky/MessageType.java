@@ -6,16 +6,16 @@ package com.devadmin.vicky;
 public enum MessageType {
   ISSUE {
     @Override
-    public String createMessage(Task task) {
+    public String createMessage(TaskEventModel taskEventModel) {
       return String.format("%s <%s | %s> %s: %s @%s\n %s ➠ %s",
-          task.getIssueTypeIcon(),
-          task.getIssueUrl(),
-          task.getIssueKey(),
-          task.getIssueStatus(),
-          task.getIssueSummary(),
-          task.getIssueAssignedTo(),
-          task.getIssueCommenter(),
-          task.getIssueComment());
+          taskEventModel.getTask().getIssueTypeIcon(),
+          taskEventModel.getTask().getIssueUrl(),
+          taskEventModel.getTask().getIssueKey(),
+          taskEventModel.getTask().getIssueStatus(),
+          taskEventModel.getTask().getIssueSummary(),
+          taskEventModel.getTask().getIssueAssignedTo(),
+          taskEventModel.getTask().getIssueCommenter(),
+          taskEventModel.getTask().getIssueComment());
     }
   },
   ASSIGNEE {

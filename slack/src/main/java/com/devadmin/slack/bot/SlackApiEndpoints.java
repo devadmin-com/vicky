@@ -9,7 +9,7 @@ public class SlackApiEndpoints {
     /**
      * Endpoint for Slack Api
      */
-    @Value("${vicky.slack.api-url}")
+    @Value("${slack.api-url}")
     private String slackApi;
 
     /**

@@ -10,18 +10,18 @@ import com.devadmin.vicky.MessageServiceException;
  */
 public class TestOneMessageService implements MessageService {
     String lastMessage; // the last message sent through us
-    String lastChannelId; // the id of the last channel sent to
+    String lastChannelName; // the id of the last channel sent to
     String lastPersonId; // the id of the last person sent to
 
     boolean privateMessaged = false;
     boolean channelMessaged = false;
 
     @Override
-    public void sendChannelMessage(String message, String channelId) throws MessageServiceException {
+    public void sendChannelMessage(String message, String channelName) throws MessageServiceException {
         lastMessage = message;
-        lastChannelId =  channelId;
+        lastChannelName =  channelName;
         channelMessaged = true;
-        System.out.println("sendChannelMessage("+message+","+channelId+")");
+        System.out.println("sendChannelMessage("+message+","+channelName+")");
     }
 
     @Override

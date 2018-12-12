@@ -70,7 +70,6 @@ public class IssueModel implements com.devadmin.vicky.Task {
 
   @Override
   public String getProject() {
-    //@todo implement me
-    return null;
+    return getFields().getProject().getName();
   }
 }

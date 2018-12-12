@@ -21,7 +21,7 @@ public class JiraEventModel implements TaskEventModel {
   @JsonProperty("webhookEvent")
   private String webhookEvent;
   @JsonProperty("issue_event_type_name")
-  private String issueEventTypeName;
+  private String type;
   @JsonProperty("user")
   private UserModel user;
   @JsonProperty("issue")
@@ -62,11 +62,11 @@ public class JiraEventModel implements TaskEventModel {
   }
 
   public String getType() {
-    return issueEventTypeName;
+    return type;
   }
 
-  public void setIssueEventTypeName(String issueEventTypeName) {
-    this.issueEventTypeName = issueEventTypeName;
+  public void setType(String type) {
+    this.type = type;
   }
 
   public UserModel getUser() {
