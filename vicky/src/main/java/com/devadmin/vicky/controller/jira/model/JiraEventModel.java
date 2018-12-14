@@ -13,7 +13,6 @@ import java.util.Date;
  * This is object contains the information received from jira
  *
  */
-
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class JiraEventModel implements TaskEventModel {
   @JsonProperty("timestamp")
@@ -21,7 +20,7 @@ public class JiraEventModel implements TaskEventModel {
   @JsonProperty("webhookEvent")
   private String webhookEvent;
   @JsonProperty("issue_event_type_name")
-  private String type;
+  private String issueEventTypeName;
   @JsonProperty("user")
   private UserModel user;
   @JsonProperty("issue")
@@ -31,23 +30,7 @@ public class JiraEventModel implements TaskEventModel {
   @JsonProperty("comment")
   private CommentModel comment;
 
-
-  @Override
-  public boolean hasComment() {
-    return this.comment != null;
-  }
-
-  /*
-      @return the Task that this event was for
-     */
-  public IssueModel getTask() {
-    return issue;
-  }
-
-
-  public Date getTimeStamp() {
-    return new Date(timeStamp);
-  }
+  private TaskEventModelType type;
 
   public void setTimeStamp(Long timeStamp) {
     this.timeStamp = timeStamp;
@@ -61,12 +44,12 @@ public class JiraEventModel implements TaskEventModel {
     this.webhookEvent = webhookEvent;
   }
 
-  public String getType() {
-    return type;
+  public String getIssueEventTypeName() {
+    return issueEventTypeName;
   }
 
-  public void setType(String type) {
-    this.type = type;
+  public void setIssueEventTypeName(String issueEventTypeName) {
+    this.issueEventTypeName = issueEventTypeName;
   }
 
   public UserModel getUser() {
@@ -77,6 +60,9 @@ public class JiraEventModel implements TaskEventModel {
     this.user = user;
   }
 
+  public IssueModel getIssue() {
+    return issue;
+  }
 
   public void setIssue(IssueModel issue) {
     this.issue = issue;
@@ -96,5 +82,32 @@ public class JiraEventModel implements TaskEventModel {
 
   public void setComment(CommentModel comment) {
     this.comment = comment;
+  }
+
+  @Override
+  public boolean hasComment() {
+    return this.comment != null;
+  }
+
+  /**
+   * @return the Task that this event was for
+   */
+  @Override
+  public IssueModel getTask() {
+    return issue;
+  }
+
+  @Override
+  public Date getTimeStamp() {
+    return new Date(timeStamp);
+  }
+
+  @Override
+  public TaskEventModelType getType() {
+    return type;
+  }
+
+  public void setType(TaskEventModelType type) {
+    this.type = type;
   }
 }

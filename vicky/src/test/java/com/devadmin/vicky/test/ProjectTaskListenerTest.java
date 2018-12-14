@@ -1,24 +1,12 @@
 package com.devadmin.vicky.test;
 
-import com.devadmin.vicky.MessageService;
-import com.devadmin.vicky.TaskEventModel;
-import com.devadmin.vicky.event.TaskEvent;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
+import com.devadmin.vicky.TaskEventModelType;
 import com.devadmin.vicky.listener.ProjectTaskListener;
-import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.context.ApplicationListener;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.support.StaticApplicationContext;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.support.AnnotationConfigContextLoader;
-
-
-import static org.junit.Assert.*;
 
 /**
  * Test class for {@link com.devadmin.vicky.listener.ProjectTaskListener}
@@ -38,9 +26,11 @@ public class ProjectTaskListenerTest extends TaskListenerTest {
         createContext();
 
         TestTaskEventModel testEventModel = new TestTaskEventModel();
+//        testEventModel.setType("issue_created");
+        testEventModel.setType(TaskEventModelType.PROJECT_TASK);
         publish(testEventModel);
 
-        assertTrue(messageService.channelMessaged == true); // check that a message was sent to the channel
+        assertTrue(messageService.channelMessaged); // check that a message was sent to the channel
         assertFalse(messageService.privateMessaged); // check that a message was NOT sent privately
     }
 
@@ -56,11 +46,13 @@ public class ProjectTaskListenerTest extends TaskListenerTest {
         createContext();
 
         TestTaskEventModel testEventModel = new TestTaskEventModel();
-        testEventModel.setType("issue_created");
+//        testEventModel.setType("issue_created");
+        testEventModel.setType(TaskEventModelType.PROJECT_TASK);
         publish(testEventModel);
 
         assertEquals(expectedMessage, messageService.lastMessage);
         assertTrue(messageService.channelMessaged);
+        assertFalse(messageService.privateMessaged);
 
     }
 
@@ -73,25 +65,30 @@ public class ProjectTaskListenerTest extends TaskListenerTest {
         createContext();
 
         TestTaskEventModel testEventModel = new TestTaskEventModel();
-        testEventModel.setType("issue_updated");
+//        testEventModel.setType("issue_updated");
+        testEventModel.setType(TaskEventModelType.LABELED_TASK);
+
         publish(testEventModel);
 
         assertFalse(messageService.channelMessaged);
+        assertFalse(messageService.privateMessaged);
     }
 
     /**
      * Tests that handler will hande the event with correct type
      */
     @Test
-    public void eventShouldNotBeHandledWithCorrectTypeTest(){
+    public void eventShouldBeHandledWithCorrectTypeTest(){
 
         createContext();
 
         TestTaskEventModel testEventModel = new TestTaskEventModel();
-        testEventModel.setType("issue_created");
+//        testEventModel.setType("issue_created");
+        testEventModel.setType(TaskEventModelType.PROJECT_TASK);
         publish(testEventModel);
 
         assertTrue(messageService.channelMessaged);
+        assertFalse(messageService.privateMessaged);
     }
 
 

@@ -105,3 +105,5 @@ Network Trash Folder
 Temporary Items
 .apdisk
 
+# ignore application.yml
+**/application.yml

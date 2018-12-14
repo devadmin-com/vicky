@@ -25,4 +25,9 @@ class TestTask implements Task {
     public String getProject() {
         return TEST_PROJECT_NAME;
     }
+
+    @Override
+    public String[] getLabels() {
+        return new String[]{"testLabel"};
+    }
 }

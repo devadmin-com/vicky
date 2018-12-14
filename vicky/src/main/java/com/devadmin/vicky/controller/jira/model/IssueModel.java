@@ -1,5 +1,6 @@
 package com.devadmin.vicky.controller.jira.model;
 
+import com.devadmin.vicky.Task;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -8,7 +9,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  *
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class IssueModel implements com.devadmin.vicky.Task {
+public class IssueModel implements Task {
   @JsonProperty("id")
   private String id;
   @JsonProperty("self")
@@ -71,5 +72,10 @@ public class IssueModel implements com.devadmin.vicky.Task {
   @Override
   public String getProject() {
     return getFields().getProject().getName();
+  }
+
+  @Override
+  public String[] getLabels() {
+    return getFields().getLabels();
   }
 }

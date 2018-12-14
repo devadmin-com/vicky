@@ -1,17 +1,19 @@
 package com.devadmin.vicky.test;
 
+import com.devadmin.vicky.Changelog;
 import com.devadmin.vicky.Task;
 import com.devadmin.vicky.TaskEventModel;
 
+import com.devadmin.vicky.TaskEventModelType;
 import java.util.Date;
 
 /**
  * An implementation of TaskEventModel for testing...
- *
  */
 public class TestTaskEventModel implements TaskEventModel {
 
-    private String type;
+    private TaskEventModelType type;
+    private TestChangelog changelog;
 
     @Override
     public boolean hasComment() {
@@ -29,11 +31,27 @@ public class TestTaskEventModel implements TaskEventModel {
     }
 
     @Override
-    public String getType() {
+    public TaskEventModelType getType() {
         return type;
     }
 
-    public void setType(String type) {
+    @Override
+    public Changelog getChangeLog() {
+        return changelog;
+    }
+
+    public void setChangelog(TestChangelog changelog) {
+        this.changelog = changelog;
+    }
+
+    public void setType(TaskEventModelType type) {
         this.type = type;
+    }
+
+    @Override
+    public String toString() {
+        return "TestTaskEventModel{" +
+            "type=" + type +
+            '}';
     }
 }

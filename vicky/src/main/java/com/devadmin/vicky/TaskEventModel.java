@@ -1,11 +1,11 @@
 package com.devadmin.vicky;
 
+import java.util.Date;
+
 /**
-    Models an event on a task.
-
-    (this is used to allow listeners to not care what the implementation of the Task looks like)
-
-
+ * Models an event on a task.
+ *
+ * (this is used to allow listeners to not care what the implementation of the Task looks like)
  */
 public interface TaskEventModel {
 
@@ -15,22 +15,24 @@ public interface TaskEventModel {
     boolean hasComment();
 
     /**
-        @return the task that this event happened on
+     * @return the task that this event happened on
      */
     Task getTask();
 
     /**
-        When the event happened (on the server, not when we received it).
-
-        @return when the event happened
+     * When the event happened (on the server, not when we received it).
+     *
+     * @return when the event happened
      */
-    public java.util.Date getTimeStamp();
+    Date getTimeStamp();
 
     /**
      * What kind of event happened?
      *
      * @return the type of the event
      */
-    public String getType();
+    TaskEventModelType getType();
+
+    Changelog getChangeLog();
 
 }

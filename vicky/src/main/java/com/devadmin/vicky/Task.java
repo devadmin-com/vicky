@@ -27,4 +27,6 @@ public interface Task {
      * @return a string identifier of the project this task belongs to.
      */
     String getProject();
+
+    String[] getLabels();
 }

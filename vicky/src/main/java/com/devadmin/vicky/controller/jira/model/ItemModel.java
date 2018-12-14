@@ -1,10 +1,11 @@
 package com.devadmin.vicky.controller.jira.model;
 
+import com.devadmin.vicky.Item;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class ItemModel {
+public class ItemModel implements Item {
   @JsonProperty("field")
   private String field;
   @JsonProperty("fieldtype")
