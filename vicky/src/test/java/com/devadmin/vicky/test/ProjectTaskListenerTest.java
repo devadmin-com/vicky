@@ -25,6 +25,7 @@ public class ProjectTaskListenerTest extends TaskListenerTest {
         createContext();
         TestTaskEventModel testEventModel = new TestTaskEventModel();
         testEventModel.setType(TaskEventModelType.PROJECT_TASK);
+        testEventModel.setTask(new TestTask());
         publish(testEventModel);
 
         assertTrue(messageService.channelMessaged); // check that a message was sent to the channel
@@ -43,6 +44,7 @@ public class ProjectTaskListenerTest extends TaskListenerTest {
 
         TestTaskEventModel testEventModel = new TestTaskEventModel();
         testEventModel.setType(TaskEventModelType.PROJECT_TASK);
+        testEventModel.setTask(new TestTask());
         publish(testEventModel);
 
         assertEquals(expectedMessage, messageService.lastMessage);
@@ -61,7 +63,7 @@ public class ProjectTaskListenerTest extends TaskListenerTest {
 
         TestTaskEventModel testEventModel = new TestTaskEventModel();
         testEventModel.setType(TaskEventModelType.LABELED_TASK);
-
+        testEventModel.setTask(new TestTask());
         publish(testEventModel);
 
         assertFalse(messageService.channelMessaged);
@@ -78,6 +80,7 @@ public class ProjectTaskListenerTest extends TaskListenerTest {
 
         TestTaskEventModel testEventModel = new TestTaskEventModel();
         testEventModel.setType(TaskEventModelType.PROJECT_TASK);
+        testEventModel.setTask(new TestTask());
         publish(testEventModel);
 
         assertTrue(messageService.channelMessaged);
