@@ -12,6 +12,7 @@ import org.springframework.web.client.RestTemplate;
 
 /**
  * Configuration file for Vicky
+ * @todo why do we need this and VickyProperties class both?
  */
 @Configuration
 @EnableConfigurationProperties(VickyProperties.class)

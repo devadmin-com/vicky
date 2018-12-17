@@ -6,6 +6,9 @@ import org.springframework.boot.context.properties.NestedConfigurationProperty;
 
 /**
  * Property class for custom application properties in application.yml file.
+ *
+ * @todo why do we need this and VickyConfiguration class both?
+ * @todo do we really need to merge slack and jira related things here together in one class? can we not keep it separate?
  */
 @ConfigurationProperties(prefix = "vicky")
 public class VickyProperties {

@@ -11,7 +11,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * This class contain issue comment tracker functionality
+ * This class contain issue comment tracker functionality @todo what does that mean? what is a commetn tracker?
+ *
+ *
  */
 public class IssueCommentTracker {
 
@@ -39,7 +41,7 @@ public class IssueCommentTracker {
     timer.scheduleAtFixedRate(new Reminder(), DELAY, PERIOD);
   }
 
-  class Reminder extends TimerTask {
+  class Reminder extends TimerTask { //@todo what is this for?
 
     private final Logger LOGGER = LoggerFactory.getLogger(Reminder.class);
 
