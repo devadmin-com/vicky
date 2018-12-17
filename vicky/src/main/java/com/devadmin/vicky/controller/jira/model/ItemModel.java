@@ -76,4 +76,9 @@ public class ItemModel implements Item {
   public void setToString(String toString) {
     this.toString = toString;
   }
+
+  @Override
+  public boolean hasAssignEventHappen() {
+    return "assignee".equals(field);
+  }
 }

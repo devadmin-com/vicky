@@ -16,17 +16,14 @@ public class ProjectTaskListenerTest extends TaskListenerTest {
 
     /**
      * tests that the event was sent
-     * @throws Exception
      */
     @Test
-    public void basicTest() throws Exception {
+    public void basicTest() {
         // check that we get the right MessageService
         String id = "bob";
 
         createContext();
-
         TestTaskEventModel testEventModel = new TestTaskEventModel();
-//        testEventModel.setType("issue_created");
         testEventModel.setType(TaskEventModelType.PROJECT_TASK);
         publish(testEventModel);
 
@@ -40,13 +37,11 @@ public class ProjectTaskListenerTest extends TaskListenerTest {
      */
     @Test
     public void eventShouldBeHandledByThisHandlerTest(){
-
         String expectedMessage = "This message was sent by supercool Vicky 2.0 from ProjectTaskListener";
 
         createContext();
 
         TestTaskEventModel testEventModel = new TestTaskEventModel();
-//        testEventModel.setType("issue_created");
         testEventModel.setType(TaskEventModelType.PROJECT_TASK);
         publish(testEventModel);
 
@@ -65,7 +60,6 @@ public class ProjectTaskListenerTest extends TaskListenerTest {
         createContext();
 
         TestTaskEventModel testEventModel = new TestTaskEventModel();
-//        testEventModel.setType("issue_updated");
         testEventModel.setType(TaskEventModelType.LABELED_TASK);
 
         publish(testEventModel);
@@ -83,14 +77,12 @@ public class ProjectTaskListenerTest extends TaskListenerTest {
         createContext();
 
         TestTaskEventModel testEventModel = new TestTaskEventModel();
-//        testEventModel.setType("issue_created");
         testEventModel.setType(TaskEventModelType.PROJECT_TASK);
         publish(testEventModel);
 
         assertTrue(messageService.channelMessaged);
         assertFalse(messageService.privateMessaged);
     }
-
 
     // private methods
     private void createContext() {

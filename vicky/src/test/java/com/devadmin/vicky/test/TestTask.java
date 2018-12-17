@@ -1,9 +1,13 @@
 package com.devadmin.vicky.test;
 
 import com.devadmin.vicky.Task;
+import java.util.List;
 
 
 class TestTask implements Task {
+
+    List<String> labels;
+
     final String TEST_PROJECT_NAME = "proj";
 
     @Override
@@ -27,7 +31,11 @@ class TestTask implements Task {
     }
 
     @Override
-    public String[] getLabels() {
-        return new String[]{"testLabel"};
+    public List<String> getLabels() {
+        return labels;
+    }
+
+    public void setLabels(List<String> labels) {
+        this.labels = labels;
     }
 }

@@ -5,19 +5,19 @@ import com.devadmin.vicky.MessageService;
 import com.devadmin.vicky.MessageServiceException;
 import com.devadmin.vicky.TaskEventModelType;
 import com.devadmin.vicky.event.TaskEvent;
+import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
 /**
- * On issue create or resolve, for issues with labels send issue updates to slack channel of that name.
- * TL-127 issue with label create, resolve -> #label slack channel
+ * On issue create or resolve, for issues with labels send issue updates to slack channel of that name. TL-127 issue
+ * with label create, resolve -> #label slack channel
  *
- * If a issue has a label - e.g. server-order - and there is a channel with that name that vicky is part-of (public or private) then issue updates should be sent to this channel.
- * send as:
- * <issue type icon> <Number> (clickable URL) <Status>: <Summary> @<assignee nickname>
- * <commenter name> ➠ <latest comment>
+ * If a issue has a label - e.g. server-order - and there is a channel with that name that vicky is part-of (public or
+ * private) then issue updates should be sent to this channel. send as: <issue type icon> <Number> (clickable URL)
+ * <Status>: <Summary> @<assignee nickname> <commenter name> ➠ <latest comment>
  */
 @Component
 public class LabeledTaskListener extends TaskToMessageListener {
@@ -30,13 +30,14 @@ public class LabeledTaskListener extends TaskToMessageListener {
 
   @EventListener
   public void onApplicationEvent(TaskEvent event) {
-    if (TaskEventModelType.LABELED_TASK.equals(event.getTaskEventModel().getType())){
+    if (TaskEventModelType.LABELED_TASK.equals(event.getTaskEventModel().getType())
+        && event.getTaskEventModel().getTask().getLabels().size() > 0) {
 
       LOGGER.info(event.toString());
 
       String message = "This message was sent by supercool Vicky 2.0 from LabeledTaskListener";
 
-      String[] labels = event.getTaskEventModel().getTask().getLabels();
+      List<String> labels = event.getTaskEventModel().getTask().getLabels();
 
       for (String label : labels) {
         try {

@@ -1,5 +1,7 @@
 package com.devadmin.vicky;
 
+import java.util.List;
+
 /**
     A Generic task in some task tracking system...
 
@@ -28,5 +30,5 @@ public interface Task {
      */
     String getProject();
 
-    String[] getLabels();
+    List<String> getLabels();
 }

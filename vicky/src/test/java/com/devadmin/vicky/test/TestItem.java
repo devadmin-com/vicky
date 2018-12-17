@@ -24,4 +24,9 @@ public class TestItem implements Item {
   public void setTo(String to) {
     this.to = to;
   }
+
+  @Override
+  public boolean hasAssignEventHappen() {
+    return "assignee".equals(field);
+  }
 }

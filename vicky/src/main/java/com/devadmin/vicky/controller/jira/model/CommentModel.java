@@ -3,16 +3,16 @@ package com.devadmin.vicky.controller.jira.model;
 import com.devadmin.vicky.Comment;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * This is the object contains information related to issue comment
  *
  */
-
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class CommentModel  implements Comment {
   @JsonProperty("self")
@@ -96,9 +96,20 @@ public class CommentModel  implements Comment {
     this.jsdPublic = jsdPublic;
   }
 
+  /**
+   * (non-javadoc)
+   *
+   * @see Comment#getReferences()
+   */
   @Override
   public List<String> getReferences() {
-    // @ToDo please implement me :) find them from body ;)
-    return new ArrayList<>();
+    List<String> userNames = new ArrayList<>();
+    Pattern pattern = Pattern.compile("\\[.*?\\]");
+    Matcher matcher = pattern.matcher(body);
+    while (matcher.find()){
+      String uname = matcher.group().trim();
+      userNames.add(uname.substring(2, uname.length()-1));
+    }
+    return userNames;
   }
 }
