@@ -23,15 +23,12 @@ public class ProjectTaskListenerTest extends TaskListenerTest {
         String id = "bob";
 
         createContext();
-        TestTaskEventModel testEventModel = new TestTaskEventModel();
-        testEventModel.setType(TaskEventModelType.PROJECT_TASK);
-        testEventModel.setTask(new TestTask());
+        TestTaskEventModel testEventModel = getTestTaskEventModel(TaskEventModelType.PROJECT_TASK);
         publish(testEventModel);
 
         assertTrue(messageService.channelMessaged); // check that a message was sent to the channel
         assertFalse(messageService.privateMessaged); // check that a message was NOT sent privately
     }
-
 
     /**
      * Tests that handler gets the event and send the right message
@@ -42,9 +39,7 @@ public class ProjectTaskListenerTest extends TaskListenerTest {
 
         createContext();
 
-        TestTaskEventModel testEventModel = new TestTaskEventModel();
-        testEventModel.setType(TaskEventModelType.PROJECT_TASK);
-        testEventModel.setTask(new TestTask());
+        TestTaskEventModel testEventModel = getTestTaskEventModel(TaskEventModelType.PROJECT_TASK);
         publish(testEventModel);
 
         assertEquals(expectedMessage, messageService.lastMessage);
@@ -61,9 +56,7 @@ public class ProjectTaskListenerTest extends TaskListenerTest {
 
         createContext();
 
-        TestTaskEventModel testEventModel = new TestTaskEventModel();
-        testEventModel.setType(TaskEventModelType.LABELED_TASK);
-        testEventModel.setTask(new TestTask());
+        TestTaskEventModel testEventModel = getTestTaskEventModel(TaskEventModelType.LABELED_TASK);
         publish(testEventModel);
 
         assertFalse(messageService.channelMessaged);
@@ -78,9 +71,7 @@ public class ProjectTaskListenerTest extends TaskListenerTest {
 
         createContext();
 
-        TestTaskEventModel testEventModel = new TestTaskEventModel();
-        testEventModel.setType(TaskEventModelType.PROJECT_TASK);
-        testEventModel.setTask(new TestTask());
+        TestTaskEventModel testEventModel = getTestTaskEventModel(TaskEventModelType.PROJECT_TASK);
         publish(testEventModel);
 
         assertTrue(messageService.channelMessaged);
@@ -88,6 +79,14 @@ public class ProjectTaskListenerTest extends TaskListenerTest {
     }
 
     // private methods
+
+    private TestTaskEventModel getTestTaskEventModel(TaskEventModelType projectTask) {
+        TestTaskEventModel testEventModel = new TestTaskEventModel();
+        testEventModel.setType(projectTask);
+        testEventModel.setTask(new TestTask());
+        return testEventModel;
+    }
+
     private void createContext() {
         ProjectTaskListener listener = new ProjectTaskListener(messageService);
         context.addApplicationListener(listener);
