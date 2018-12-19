@@ -23,7 +23,8 @@ public class ProjectTaskListenerTest extends TaskListenerTest {
         String id = "bob";
 
         createContext();
-        TestTaskEventModel testEventModel = getTestTaskEventModel(TaskEventModelType.PROJECT_TASK);
+
+        TestTaskEventModel testEventModel = getTestTaskEventModel(TaskEventModelType.CREATED);
         publish(testEventModel);
 
         assertTrue(messageService.channelMessaged); // check that a message was sent to the channel
@@ -39,7 +40,7 @@ public class ProjectTaskListenerTest extends TaskListenerTest {
 
         createContext();
 
-        TestTaskEventModel testEventModel = getTestTaskEventModel(TaskEventModelType.PROJECT_TASK);
+        TestTaskEventModel testEventModel = getTestTaskEventModel(TaskEventModelType.CREATED);
         publish(testEventModel);
 
         assertEquals(expectedMessage, messageService.lastMessage);
@@ -56,7 +57,7 @@ public class ProjectTaskListenerTest extends TaskListenerTest {
 
         createContext();
 
-        TestTaskEventModel testEventModel = getTestTaskEventModel(TaskEventModelType.LABELED_TASK);
+        TestTaskEventModel testEventModel = getTestTaskEventModel(TaskEventModelType.COMMENT);
         publish(testEventModel);
 
         assertFalse(messageService.channelMessaged);
@@ -71,7 +72,7 @@ public class ProjectTaskListenerTest extends TaskListenerTest {
 
         createContext();
 
-        TestTaskEventModel testEventModel = getTestTaskEventModel(TaskEventModelType.PROJECT_TASK);
+        TestTaskEventModel testEventModel = getTestTaskEventModel(TaskEventModelType.CREATED);
         publish(testEventModel);
 
         assertTrue(messageService.channelMessaged);
@@ -80,9 +81,9 @@ public class ProjectTaskListenerTest extends TaskListenerTest {
 
     // private methods
 
-    private TestTaskEventModel getTestTaskEventModel(TaskEventModelType projectTask) {
+    private TestTaskEventModel getTestTaskEventModel(TaskEventModelType type) {
         TestTaskEventModel testEventModel = new TestTaskEventModel();
-        testEventModel.setType(projectTask);
+        testEventModel.setType(type);
         testEventModel.setTask(new TestTask());
         return testEventModel;
     }

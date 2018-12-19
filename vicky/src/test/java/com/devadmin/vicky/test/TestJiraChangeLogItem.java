@@ -1,8 +1,13 @@
 package com.devadmin.vicky.test;
 
-import com.devadmin.vicky.Item;
+import com.devadmin.vicky.ChangeLogItem;
+import com.devadmin.vicky.controller.jira.model.JiraChangeLogItemModel;
 
-public class TestItem implements Item {
+/**
+ * Test item inside changelog
+ * @see ChangeLogItem
+ */
+public class TestJiraChangeLogItem extends JiraChangeLogItemModel {
 
   private String field;
   private String to;
@@ -26,7 +31,7 @@ public class TestItem implements Item {
   }
 
   @Override
-  public boolean hasAssignEventHappen() {
+  public boolean isAssign() {
     return "assignee".equals(field);
   }
 }

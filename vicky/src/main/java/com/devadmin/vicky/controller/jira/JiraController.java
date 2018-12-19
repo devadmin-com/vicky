@@ -1,5 +1,6 @@
 package com.devadmin.vicky.controller.jira;
 
+import com.devadmin.vicky.TaskEventModelType;
 import com.devadmin.vicky.controller.jira.model.JiraEventModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,6 +32,22 @@ public class JiraController {
 
   @PostMapping("/jira")
   public ResponseEntity jiraEvent(@RequestBody JiraEventModel jiraEventModel) {
+
+    switch(jiraEventModel.getIssueEventTypeName()) {
+
+      case "issue_created" :
+        jiraEventModel.setType(TaskEventModelType.CREATED);
+        break;
+
+      case "issue_updated" :
+        jiraEventModel.setType(TaskEventModelType.UPDATED);
+        break;
+
+      case "comment_created" :
+      case "comment_updated" :
+        jiraEventModel.setType(TaskEventModelType.COMMENT);
+        break;
+    }
 
     final TaskEvent event = new TaskEvent(jiraEventModel);
     applicationEventPublisher.publishEvent(event);

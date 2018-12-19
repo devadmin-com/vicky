@@ -15,6 +15,7 @@ import java.util.Date;
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class JiraEventModel implements TaskEventModel {
+
   @JsonProperty("timestamp")
   private Long timeStamp;
   @JsonProperty("webhookEvent")

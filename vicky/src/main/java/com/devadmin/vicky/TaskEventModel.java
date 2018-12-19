@@ -1,5 +1,7 @@
 package com.devadmin.vicky;
 
+import com.devadmin.vicky.controller.jira.model.ChangeLogModel;
+
 import java.util.Date;
 
 /**
@@ -23,13 +25,22 @@ public interface TaskEventModel {
   Date getTimeStamp();
 
   /**
-   * What kind of event happened?
+   * What type of event happened?
    *
    * @return the type of the event
    */
   TaskEventModelType getType();
 
+  /**
+   *
+   * @return changelog data
+   */
   Changelog getChangeLog();
 
+  /**
+   * @return comment on task
+   */
   Comment getComment();
+
+
 }

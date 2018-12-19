@@ -11,4 +11,9 @@ public interface Comment {
      * @return List of people referenced in this comment
      */
     List<String> getReferences();
+
+    /**
+     * @return true if there is at least one reference to user
+     */
+    boolean hasReferences();
 }

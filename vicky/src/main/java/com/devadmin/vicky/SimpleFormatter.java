@@ -42,7 +42,7 @@ public class SimpleFormatter implements Formatter {
     }
 
     if (jiraEventModel.getChangeLog() != null) {
-      for (ItemModel item : jiraEventModel.getChangeLog().getItems()) {
+      for (JiraChangeLogItemModel item : jiraEventModel.getChangeLog().getItems()) {
         if("assignee".equals(item.getField()) && item.getTo() != null){
           message.setIssueAssignedFrom(item.getTo());
         }

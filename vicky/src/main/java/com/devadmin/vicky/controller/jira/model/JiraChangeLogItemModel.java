@@ -1,11 +1,16 @@
 package com.devadmin.vicky.controller.jira.model;
 
-import com.devadmin.vicky.Item;
+import com.devadmin.vicky.ChangeLogItem;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+/**
+ *
+ * @see ChangeLogItem
+ */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class ItemModel implements Item {
+public class JiraChangeLogItemModel implements ChangeLogItem {
+
   @JsonProperty("field")
   private String field;
   @JsonProperty("fieldtype")
@@ -78,7 +83,7 @@ public class ItemModel implements Item {
   }
 
   @Override
-  public boolean hasAssignEventHappen() {
+  public boolean isAssign() {
     return "assignee".equals(field);
   }
 }

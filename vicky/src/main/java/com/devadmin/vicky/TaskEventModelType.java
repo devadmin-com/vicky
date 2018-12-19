@@ -1,6 +1,9 @@
 package com.devadmin.vicky;
 
+/**
+ * This enum contains all possible types of taskEventModel
+ */
 public enum TaskEventModelType {
-  PROJECT_TASK, LABELED_TASK, PM_ON_ASSIGN, AT_REFERENCE
+  CREATED, UPDATED, COMMENT
 
 }

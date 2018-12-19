@@ -112,4 +112,9 @@ public class CommentModel  implements Comment {
     }
     return userNames;
   }
+
+  @Override
+  public boolean hasReferences() {
+    return getReferences().size() > 0;
+  }
 }

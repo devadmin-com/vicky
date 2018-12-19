@@ -19,7 +19,7 @@ public class TestTaskEventModel implements TaskEventModel {
 
   @Override
   public boolean hasComment() {
-    return false;
+     return getComment() != null;
   }
 
   @Override

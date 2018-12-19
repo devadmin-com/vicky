@@ -1,6 +1,5 @@
 package com.devadmin.vicky;
 
-import com.devadmin.vicky.controller.jira.JiraProperties;
 import com.devadmin.vicky.controller.slack.SlackProperties;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -14,7 +13,7 @@ import org.springframework.web.client.RestTemplate;
  */
 @SpringBootApplication
 @ComponentScan("com.devadmin")
-@EnableConfigurationProperties({JiraProperties.class, SlackProperties.class})
+@EnableConfigurationProperties(SlackProperties.class)
 public class VickyApplication {
 
   @Bean

@@ -31,9 +31,7 @@ public class ProjectTaskListener extends TaskToMessageListener {
     @EventListener
     public void onApplicationEvent(TaskEvent event) {
 
-        if (TaskEventModelType.PROJECT_TASK.equals(event.getTaskEventModel().getType())) {
-
-            LOGGER.info(event.toString());
+        if (event.getTaskEventModel().getType() == TaskEventModelType.CREATED) {
 
             String message = "This message was sent by supercool Vicky 2.0 from ProjectTaskListener";
 
