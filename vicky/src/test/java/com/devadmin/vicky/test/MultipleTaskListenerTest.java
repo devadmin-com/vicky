@@ -33,7 +33,9 @@ public class MultipleTaskListenerTest extends TaskListenerTest {
         TestTaskEventModel testEventModel = getTestTaskEventModel(TaskEventModelType.CREATED);
         publish(testEventModel);
 
-        assertTrue(messageService.channelMessaged);
+        assertTrue(testMessageService.wasChannelMsged());
+        assertTrue(testMessageService.getChannelMsg().size() > 0);
+        assertTrue(testMessageService.wasChannelMsged("proj"));
 
     }
 
@@ -67,10 +69,10 @@ public class MultipleTaskListenerTest extends TaskListenerTest {
     }
 
     private void createContext () {
-        ProjectTaskListener projectTaskListener = new ProjectTaskListener(messageService);
-        PMOnAssignListener pmOnAssignListener = new PMOnAssignListener(messageService);
-        AtReferenceListener atReferenceListener = new AtReferenceListener(messageService);
-        LabeledTaskListener labeledTaskListener = new LabeledTaskListener(messageService);
+        ProjectTaskListener projectTaskListener = new ProjectTaskListener(testMessageService);
+        PMOnAssignListener pmOnAssignListener = new PMOnAssignListener(testMessageService);
+        AtReferenceListener atReferenceListener = new AtReferenceListener(testMessageService);
+        LabeledTaskListener labeledTaskListener = new LabeledTaskListener(testMessageService);
         context.addApplicationListener(projectTaskListener);
         context.addApplicationListener(pmOnAssignListener);
         context.addApplicationListener(atReferenceListener);

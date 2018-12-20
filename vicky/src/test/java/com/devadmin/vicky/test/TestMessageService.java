@@ -16,9 +16,9 @@ import java.util.Map;
  * Just stores the latest message sent
  */
 public class TestMessageService implements MessageService {
-    String lastMessage; // the last message sent through us
-    String lastChannelName; // the id of the last channel sent to
-    String personId; // the id of the last person sent to
+    private String lastMessage; // the last message sent through us
+    private String lastChannelName; // the id of the last channel sent to
+    private String personId; // the id of the last person sent to
 
 
     private List<Message> privateMsg = new ArrayList<Message>();
@@ -26,12 +26,12 @@ public class TestMessageService implements MessageService {
 
     @Override
     public void sendChannelMessage(String message, String channelName) throws MessageServiceException {
-        channelMsg.add(new Message())
+        channelMsg.add(new Message(channelName, message));
     }
 
     @Override
     public void sendPrivateMessage(String message, String personId) throws MessageServiceException {
-        // @todo
+        privateMsg.add(new Message(personId, message));
     }
 
     /**
@@ -45,7 +45,7 @@ public class TestMessageService implements MessageService {
      * @return true if any channel messages were sent
      */
     boolean wasChannelMsged() {
-        return privateMsg.size() > 0;
+        return channelMsg.size() > 0;
     };
 
 
@@ -53,37 +53,86 @@ public class TestMessageService implements MessageService {
      * @return true if there were any messages sent to this person.
      */
     boolean wasPMed(String id){
-       // @todo see if can find id
-    };
+       boolean was = false;
+
+        for (Message message : privateMsg ){
+           if ( id!=null && id.equals(message.getTo()) ){
+               was = true;
+           }
+       }
+       return was;
+    }
 
     boolean wasChannelMsged(String id) {
-        // @todo see if can find id
-    };
+        boolean was = false;
+
+        for (Message message : channelMsg ){
+            if ( id!=null && id.equals(message.getTo()) ){
+                was = true;
+            }
+        }
+        return was;
+    }
+
+    public String getLastMessage() {
+        return lastMessage;
+    }
+
+    public void setLastMessage(String lastMessage) {
+        this.lastMessage = lastMessage;
+    }
+
+    public String getLastChannelName() {
+        return lastChannelName;
+    }
+
+    public void setLastChannelName(String lastChannelName) {
+        this.lastChannelName = lastChannelName;
+    }
+
+    public String getPersonId() {
+        return personId;
+    }
+
+    public void setPersonId(String personId) {
+        this.personId = personId;
+    }
+
+    public List<Message> getPrivateMsg() {
+        return privateMsg;
+    }
+
+    public void setPrivateMsg(List<Message> privateMsg) {
+        this.privateMsg = privateMsg;
+    }
+
+    public List<Message> getChannelMsg() {
+        return channelMsg;
+    }
+
+    public void setChannelMsg(List<Message> channelMsg) {
+        this.channelMsg = channelMsg;
+    }
 }
 
 /**
  * Models one message sent (privately or to a channel)
  */
-public class Message {
+class Message {
 
     private final String to;
     private final String message;
 
-    public Message(String to, String message) {
-        this.left = left;
-        this.right = right;
+    Message(String to, String message) {
+        this.to = to;
+        this.message = message;
     }
 
-
-    @Override
-    public int hashCode() { return left.hashCode() ^ right.hashCode(); }
-
-    @Override
-    public boolean equals(Object o) {
-        if (!(o instanceof Message)) return false;
-        Message pairo = (Message) o;
-        return this.left.equals(pairo.getLeft()) &&
-                this.right.equals(pairo.getRight());
+    String getTo() {
+        return to;
     }
 
+    String getMessage() {
+        return message;
+    }
 }

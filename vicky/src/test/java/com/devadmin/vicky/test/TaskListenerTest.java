@@ -16,6 +16,7 @@ import static org.junit.Assert.assertTrue;
 public class TaskListenerTest {
     StaticApplicationContext context;
     TestOneMessageService messageService;
+    TestMessageService testMessageService;
 
 
     /**
@@ -33,6 +34,7 @@ public class TaskListenerTest {
     public void setUp() {
         context = new StaticApplicationContext();
         messageService = new TestOneMessageService();
+        testMessageService = new TestMessageService();
 
     }
 }

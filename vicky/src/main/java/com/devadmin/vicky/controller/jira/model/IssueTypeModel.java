@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class IssueTypeModel {
+
   @JsonProperty("self")
   private String self;
   @JsonProperty("id")

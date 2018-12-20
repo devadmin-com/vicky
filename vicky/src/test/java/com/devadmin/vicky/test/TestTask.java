@@ -6,9 +6,9 @@ import java.util.List;
 
 class TestTask implements Task {
 
-    List<String> labels;
+    private List<String> labels;
 
-    final String TEST_PROJECT_NAME = "proj";
+    private final String TEST_PROJECT_NAME = "proj";
 
     @Override
     public String getDescription() {

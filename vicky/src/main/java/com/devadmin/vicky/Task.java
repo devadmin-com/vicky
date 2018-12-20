@@ -21,7 +21,7 @@ public interface Task {
     String getPriority();
 
     /**
-     * @return a string describing the type of this task.
+     * @return an string describing the type of this task.
      */
     String getType();
 
@@ -30,5 +30,8 @@ public interface Task {
      */
     String getProject();
 
+    /**
+     * @return the list of labels
+     */
     List<String> getLabels();
 }
