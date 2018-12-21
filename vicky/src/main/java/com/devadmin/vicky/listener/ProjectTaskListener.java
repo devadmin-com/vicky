@@ -3,6 +3,7 @@ package com.devadmin.vicky.listener;
 
 import com.devadmin.vicky.MessageService;
 import com.devadmin.vicky.MessageServiceException;
+import com.devadmin.vicky.TaskEventModel;
 import com.devadmin.vicky.TaskEventModelType;
 import com.devadmin.vicky.event.TaskEvent;
 import org.slf4j.Logger;
@@ -31,7 +32,9 @@ public class ProjectTaskListener extends TaskToMessageListener {
     @EventListener
     public void onApplicationEvent(TaskEvent event) {
 
-        if (event.getTaskEventModel().getType() == TaskEventModelType.CREATED) {
+        TaskEventModel model = event.getTaskEventModel();
+
+        if (model.getType() == TaskEventModelType.CREATED) {
 
             String message = "This message was sent by supercool Vicky 2.0 from ProjectTaskListener";
 

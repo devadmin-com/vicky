@@ -3,6 +3,7 @@ package com.devadmin.vicky.listener;
 
 import com.devadmin.vicky.MessageService;
 import com.devadmin.vicky.MessageServiceException;
+import com.devadmin.vicky.TaskEventModel;
 import com.devadmin.vicky.TaskEventModelType;
 import com.devadmin.vicky.event.TaskEvent;
 
@@ -33,9 +34,11 @@ public class LabeledTaskListener extends TaskToMessageListener {
     @EventListener
     public void onApplicationEvent(TaskEvent event) {
 
+        TaskEventModel model = event.getTaskEventModel();
+
         String message = "This message was sent by supercool Vicky 2.0 from LabeledTaskListener";
 
-        List<String> labels = event.getTaskEventModel().getTask().getLabels();
+        List<String> labels = model.getTask().getLabels();
 
         for (String label : labels) {
             try {
