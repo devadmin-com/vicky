@@ -17,6 +17,6 @@ public class TestAppConfig {
      */
     @Bean
     public MessageService getMessageService() {
-        return new TestOneMessageService();
+        return new TestMessageService();
     }
 }

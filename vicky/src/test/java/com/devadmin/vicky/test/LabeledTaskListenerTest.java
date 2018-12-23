@@ -1,16 +1,14 @@
 package com.devadmin.vicky.test;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
-import com.devadmin.vicky.Task;
 import com.devadmin.vicky.TaskEventModelType;
 import com.devadmin.vicky.listener.LabeledTaskListener;
+import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 /**
  * Test class for {@link com.devadmin.vicky.listener.LabeledTaskListener}
@@ -34,13 +32,40 @@ public class LabeledTaskListenerTest extends TaskListenerTest {
 
     publish(testEventModel);
 
-    assertFalse(messageService.channelMessaged);
-    assertFalse(messageService.privateMessaged);
+    assertFalse(testMessageService.wasChannelMsged());
+    assertFalse(testMessageService.wasPMed());
+  }
+
+  /**
+   * Tests that the message was sent to channel which has the same name as Label
+   */
+  @Test
+  public void shouldSendChannelMessageWithTheNameOfLabelTest(){
+
+    createContext();
+
+    List<String> labels = Arrays.asList("label1", "label2");
+    TestTask task = new TestTask();
+    task.setLabels(labels);
+
+
+    TestTaskEventModel testEventModel = new TestTaskEventModel();
+
+    testEventModel.setType(TaskEventModelType.CREATED);
+    testEventModel.setTask(task);
+
+    publish(testEventModel);
+
+    assertTrue(testMessageService.wasChannelMsged());
+    assertTrue(testMessageService.wasChannelMsged("label1"));
+    assertTrue(testMessageService.wasChannelMsged("label2"));
+    assertEquals(2, testMessageService.getChannelMessageCount()); // should send two messages
+    assertFalse(testMessageService.wasPMed());
   }
 
   // private methods
   private void createContext() {
-    LabeledTaskListener listener = new LabeledTaskListener(messageService);
+    LabeledTaskListener listener = new LabeledTaskListener(testMessageService);
     context.addApplicationListener(listener);
     context.refresh();
   }

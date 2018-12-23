@@ -1,12 +1,11 @@
 package com.devadmin.vicky.test;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
-import com.devadmin.vicky.TaskEventModelType;
 import com.devadmin.vicky.controller.jira.model.CommentModel;
 import com.devadmin.vicky.listener.AtReferenceListener;
 import org.junit.Test;
+
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 
 /**
@@ -30,8 +29,8 @@ public class AtReferenceListenerTest extends TaskListenerTest {
 
     publish(testEventModel);
 
-    assertFalse(messageService.channelMessaged);
-    assertTrue(messageService.privateMessaged);
+    assertFalse(testMessageService.wasChannelMsged());
+    assertTrue(testMessageService.wasPMed());
   }
 
 
@@ -51,13 +50,13 @@ public class AtReferenceListenerTest extends TaskListenerTest {
 
     publish(testEventModel);
 
-    assertFalse(messageService.channelMessaged);
-    assertFalse(messageService.privateMessaged);
+    assertFalse(testMessageService.wasChannelMsged());
+    assertFalse(testMessageService.wasPMed());
   }
 
   // private methods
   private void createContext() {
-    AtReferenceListener listener = new AtReferenceListener(messageService);
+    AtReferenceListener listener = new AtReferenceListener(testMessageService);
     context.addApplicationListener(listener);
     context.refresh();
   }

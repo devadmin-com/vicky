@@ -2,7 +2,6 @@ package com.devadmin.vicky.test;
 
 import com.devadmin.vicky.ChangeLogItem;
 import com.devadmin.vicky.TaskEventModelType;
-import com.devadmin.vicky.controller.jira.model.JiraChangeLogItemModel;
 import com.devadmin.vicky.listener.AtReferenceListener;
 import com.devadmin.vicky.listener.LabeledTaskListener;
 import com.devadmin.vicky.listener.PMOnAssignListener;
@@ -13,8 +12,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -28,14 +26,20 @@ public class MultipleTaskListenerTest extends TaskListenerTest {
     @Test
     public void basicTest() {
 
-     createContext();
+        createContext();
 
         TestTaskEventModel testEventModel = getTestTaskEventModel(TaskEventModelType.CREATED);
         publish(testEventModel);
 
         assertTrue(testMessageService.wasChannelMsged());
+        assertTrue(testMessageService.wasPMed());
+        assertNotNull(testMessageService.getChannelMsg());
+        assertNotNull(testMessageService.getPrivateMsg());
         assertTrue(testMessageService.getChannelMsg().size() > 0);
+        assertTrue(testMessageService.getPrivateMsg().size() > 0);
         assertTrue(testMessageService.wasChannelMsged("proj"));
+        assertTrue(testMessageService.wasChannelMsged("label1"));
+        assertTrue(testMessageService.wasChannelMsged("label2"));
 
     }
 
@@ -68,7 +72,7 @@ public class MultipleTaskListenerTest extends TaskListenerTest {
         return testEventModel;
     }
 
-    private void createContext () {
+    private void createContext() {
         ProjectTaskListener projectTaskListener = new ProjectTaskListener(testMessageService);
         PMOnAssignListener pmOnAssignListener = new PMOnAssignListener(testMessageService);
         AtReferenceListener atReferenceListener = new AtReferenceListener(testMessageService);

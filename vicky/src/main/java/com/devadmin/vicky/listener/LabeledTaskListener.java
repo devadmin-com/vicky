@@ -31,7 +31,6 @@ public class LabeledTaskListener extends TaskToMessageListener {
         super(messageService);
     }
 
-    @EventListener
     public void onApplicationEvent(TaskEvent event) {
 
         TaskEventModel model = event.getTaskEventModel();

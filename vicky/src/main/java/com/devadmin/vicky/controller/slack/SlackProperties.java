@@ -16,8 +16,7 @@ import org.springframework.stereotype.Component;
  *   webhook:
  *     incoming:
  *       directMessage:
- *       white: @todo what is this?
- *       tools: @todo what is this?
+ *       white: the name of the jira project which have to have slack channel with the same name
  */
 @ConfigurationProperties(prefix = "slack")
 public class SlackProperties {

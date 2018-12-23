@@ -44,16 +44,15 @@ public class SlackMessageServiceImpl implements MessageService {
     RichMessage richMessage = new RichMessage(message);
     Map<String, String> incomingWebhooks = properties.getWebhook().getIncoming();
 
-
-    try {
-      if (incomingWebhooks.containsKey(channelName)){
-        String incomingWebhookUrl = incomingWebhooks.get(channelName);
+    if (incomingWebhooks.containsKey(channelName)){
+      String incomingWebhookUrl = incomingWebhooks.get(channelName);
+      try {
         restTemplate.postForEntity(incomingWebhookUrl, richMessage, String.class);
+      } catch (RestClientException e) {
+        LOGGER.error("Error posting to SlackProperties Incoming Webhook: ", e);
       }
-
-    } catch (RestClientException e) {
-      LOGGER.error("Error posting to SlackProperties Incoming Webhook: ", e);
     }
+
   }
 
   @Override
