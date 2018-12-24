@@ -34,4 +34,9 @@ public interface Task {
      * @return the list of labels
      */
     List<String> getLabels();
+
+    /**
+     * @return the status of a Task
+     */
+    String getStatus();
 }

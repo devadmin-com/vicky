@@ -9,7 +9,6 @@ import com.devadmin.vicky.event.TaskEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
 /**
@@ -33,7 +32,7 @@ public class ProjectTaskListener extends TaskToMessageListener {
 
         TaskEventModel model = event.getTaskEventModel();
 
-        if (model.getType() == TaskEventModelType.CREATED) {
+        if (model.getType() == TaskEventModelType.CREATED || (model.getType() == TaskEventModelType.UPDATED && "Resolved 解決済".equals(model.getTask().getType()))) {
 
             String message = "This message was sent by supercool Vicky 2.0 from ProjectTaskListener";
 

@@ -1,6 +1,7 @@
 package com.devadmin.vicky.test;
 
 import com.devadmin.vicky.Task;
+
 import java.util.List;
 
 
@@ -33,6 +34,11 @@ class TestTask implements Task {
     @Override
     public List<String> getLabels() {
         return labels;
+    }
+
+    @Override
+    public String getStatus() {
+        return "Resolved 解決済";
     }
 
     public void setLabels(List<String> labels) {

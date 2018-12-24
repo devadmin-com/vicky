@@ -2,6 +2,7 @@ package com.devadmin.vicky.controller.jira;
 
 import com.devadmin.vicky.TaskEventModelType;
 import com.devadmin.vicky.controller.jira.model.JiraEventModel;
+import com.devadmin.vicky.event.TaskEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +12,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.devadmin.vicky.event.*;
 
 /**
  * This class contain methods which receive events from JIRA
@@ -33,13 +32,13 @@ public class JiraController {
   @PostMapping("/jira")
   public ResponseEntity jiraEvent(@RequestBody JiraEventModel jiraEventModel) {
 
-    switch(jiraEventModel.getIssueEventTypeName()) {
+    switch(jiraEventModel.getWebhookEvent()) {
 
-      case "issue_created" :
+      case "jira:issue_created" :
         jiraEventModel.setType(TaskEventModelType.CREATED);
         break;
 
-      case "issue_updated" :
+      case "jira:issue_updated" :
         jiraEventModel.setType(TaskEventModelType.UPDATED);
         break;
 

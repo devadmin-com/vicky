@@ -3,6 +3,7 @@ package com.devadmin.vicky.controller.jira.model;
 import com.devadmin.vicky.Task;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -80,5 +81,10 @@ public class IssueModel implements Task {
   @Override
   public List<String> getLabels() {
     return new ArrayList<>(Arrays.asList(getFields().getLabels()));
+  }
+
+  @Override
+  public String getStatus() {
+    return this.fields.getStatus().getName();
   }
 }
