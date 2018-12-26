@@ -28,13 +28,12 @@ public class ProjectTaskListener extends TaskToMessageListener {
         super(messageService);
     }
 
-    public void onApplicationEvent(TaskEvent event) {
+  public void onApplicationEvent(TaskEvent event) {
+    TaskEventModel model = event.getTaskEventModel();
 
-        TaskEventModel model = event.getTaskEventModel();
+    if (model.getType() == TaskEventModelType.CREATED) {
 
-        if (model.getType() == TaskEventModelType.CREATED || (model.getType() == TaskEventModelType.UPDATED && "Resolved 解決済".equals(model.getTask().getType()))) {
-
-            String message = "This message was sent by supercool Vicky 2.0 from ProjectTaskListener";
+      String message = "This message was sent by supercool Vicky 2.0 from ProjectTaskListener";
 
             // channel name is the same as jira project name
             String channelName = event.getTask().getProject();

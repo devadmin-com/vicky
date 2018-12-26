@@ -3,40 +3,39 @@ package com.devadmin.vicky;
 import java.util.List;
 
 /**
-    A Generic task in some task tracking system...
-
-    Abstracts away the task tracking system so we can view jira, asana, etc. the same way in our code
-
+ * A Generic task in some task tracking system...
+ *
+ * Abstracts away the task tracking system so we can view jira, asana, etc. the same way in our code
  */
 public interface Task {
 
-    /**
-     * @return this task's description
-     */
-    String getDescription();
+  /**
+   * @return this task's description
+   */
+  String getDescription();
 
-    /**
-     * @return the priority of this task (as a string)
-     */
-    String getPriority();
+  /**
+   * @return the priority of this task (as a string)
+   */
+  String getPriority();
 
-    /**
-     * @return an string describing the type of this task.
-     */
-    String getType();
+  /**
+   * @return an string describing the type of this task.
+   */
+  String getType();
 
-    /**
-     * @return a string identifier of the project this task belongs to.
-     */
-    String getProject();
+  /**
+   * @return a string identifier of the project this task belongs to.
+   */
+  String getProject();
 
-    /**
-     * @return the list of labels
-     */
-    List<String> getLabels();
+  /**
+   * @return the list of labels
+   */
+  List<String> getLabels();
 
-    /**
-     * @return the status of a Task
-     */
-    String getStatus();
+  /**
+   * @return true if task is resolved
+   */
+  Boolean isResolved();
 }
