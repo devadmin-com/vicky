@@ -3,6 +3,7 @@ package com.devadmin.vicky.controller.jira.model;
 import com.devadmin.vicky.Task;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -65,12 +66,6 @@ public class IssueModel implements Task {
   }
 
   @Override
-  public String getType() {
-    //@todo implement me
-    return null;
-  }
-
-  @Override
   public String getProject() {
     return getFields().getProject().getName();
   }
@@ -91,5 +86,10 @@ public class IssueModel implements Task {
   @Override
   public Boolean isResolved() {
     return "Resolved 解決済".equals(this.fields.getStatus().getName());
+  }
+
+  @Override
+  public String getStatus() {
+    return this.fields.getStatus().getName();
   }
 }

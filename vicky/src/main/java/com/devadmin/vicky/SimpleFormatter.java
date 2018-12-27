@@ -105,7 +105,7 @@ public class SimpleFormatter implements Formatter {
     if ("Blocker".equals(task.getPriority())) {
       return ":bangbang:";
     } else {
-      switch (task.getType()) {
+      switch (task.getStatus()) {
         case "Server サーバー":
           return ":hammer_and_wrench:";
         case "Operations 運営":

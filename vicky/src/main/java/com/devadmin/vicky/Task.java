@@ -25,11 +25,6 @@ public interface Task {
   String getPriority();
 
   /**
-   * @return an string describing the type of this task.
-   */
-  String getType();
-
-  /**
    * @return a string identifier of the project this task belongs to.
    */
   String getProject();
@@ -43,4 +38,9 @@ public interface Task {
    * @return true if task is resolved
    */
   Boolean isResolved();
+
+  /**
+   * @return status of task
+   */
+  String getStatus();
 }

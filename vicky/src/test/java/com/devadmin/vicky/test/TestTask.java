@@ -1,6 +1,7 @@
 package com.devadmin.vicky.test;
 
 import com.devadmin.vicky.Task;
+
 import java.util.List;
 
 class TestTask implements Task {
@@ -28,11 +29,6 @@ class TestTask implements Task {
 
   public void setPriority(String priority) {
     this.priority = priority;
-  }
-
-  @Override
-  public String getType() {
-    return null;
   }
 
   @Override
