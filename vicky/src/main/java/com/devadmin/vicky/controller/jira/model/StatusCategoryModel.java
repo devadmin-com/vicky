@@ -3,8 +3,12 @@ package com.devadmin.vicky.controller.jira.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+/**
+ * This is the object which contains the information related category of task status
+ */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class StatusCategoryModel {
+
   @JsonProperty("self")
   private String self;
   @JsonProperty("id")

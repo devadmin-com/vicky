@@ -10,6 +10,11 @@ import java.util.List;
 public interface Task {
 
   /**
+   * @return task ID
+   */
+  String getId();
+
+  /**
    * @return this task's description
    */
   String getDescription();

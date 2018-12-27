@@ -11,10 +11,10 @@ import java.util.regex.Pattern;
 
 /**
  * This is the object contains information related to issue comment
- *
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class CommentModel  implements Comment {
+public class CommentModel implements Comment {
+
   @JsonProperty("self")
   private String self;
   @JsonProperty("id")
@@ -106,9 +106,9 @@ public class CommentModel  implements Comment {
     List<String> userNames = new ArrayList<>();
     Pattern pattern = Pattern.compile("\\[.*?\\]");
     Matcher matcher = pattern.matcher(body);
-    while (matcher.find()){
+    while (matcher.find()) {
       String uname = matcher.group().trim();
-      userNames.add(uname.substring(2, uname.length()-1));
+      userNames.add(uname.substring(2, uname.length() - 1));
     }
     return userNames;
   }

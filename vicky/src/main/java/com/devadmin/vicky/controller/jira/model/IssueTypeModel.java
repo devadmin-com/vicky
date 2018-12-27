@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * This is the object which contains the information related to issue type
- *
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class IssueTypeModel {

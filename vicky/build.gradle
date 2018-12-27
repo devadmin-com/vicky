@@ -32,7 +32,7 @@ repositories {
 
 ext {
     slackIntegrationVersion = '0.0.1.SNAPSHOT'
-    jiraClentVersion = '0.5'
+    jiraIntegrationVersion = '0.0.1.SNAPSHOT'
 
     dozerVersion = '5.5.1'
     lombokVersion = '1.18.4'
@@ -43,13 +43,12 @@ ext {
 }
 
 dependencies {
-    implementation "net.sf.dozer:dozer:${dozerVersion}"
-    implementation'org.springframework.boot:spring-boot-starter-web'
-    implementation'org.springframework.boot:spring-boot-starter'
-    annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
-
-    compile "net.rcarz:jira-client:${jiraClentVersion}"
+    compile "com.devadmin:jira:${jiraIntegrationVersion}"
     compile "com.devadmin:slack:${slackIntegrationVersion}"
+
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter'
+    annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
 
     compile "org.slf4j:slf4j-api:${slf4jVersion}"
     compile "ch.qos.logback:logback-core:${logbackVersion}"

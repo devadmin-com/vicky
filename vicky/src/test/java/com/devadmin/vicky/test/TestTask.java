@@ -5,11 +5,16 @@ import java.util.List;
 
 class TestTask implements Task {
 
+  private final String TEST_PROJECT_NAME = "proj";
   private List<String> labels;
 
   private String status;
+  private String priority;
 
-  private final String TEST_PROJECT_NAME = "proj";
+  @Override
+  public String getId() {
+    return "1";
+  }
 
   @Override
   public String getDescription() {
@@ -18,7 +23,11 @@ class TestTask implements Task {
 
   @Override
   public String getPriority() {
-    return null;
+    return this.priority;
+  }
+
+  public void setPriority(String priority) {
+    this.priority = priority;
   }
 
   @Override
@@ -40,13 +49,14 @@ class TestTask implements Task {
     this.labels = labels;
   }
 
-  public String getStatus(){
+  public String getStatus() {
     return status;
   }
 
   public void setStatus(String status) {
     this.status = status;
   }
+
   /**
    * @return true if task is resolved
    */

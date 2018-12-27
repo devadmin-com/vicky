@@ -1,17 +1,12 @@
-
 package com.devadmin.vicky.listener;
 
 import com.devadmin.vicky.MessageService;
 import com.devadmin.vicky.MessageServiceException;
 import com.devadmin.vicky.TaskEventModel;
-import com.devadmin.vicky.TaskEventModelType;
 import com.devadmin.vicky.event.TaskEvent;
-
 import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
 /**
@@ -25,27 +20,27 @@ import org.springframework.stereotype.Component;
 @Component
 public class LabeledTaskListener extends TaskToMessageListener {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(LabeledTaskListener.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(LabeledTaskListener.class);
 
-    public LabeledTaskListener(MessageService messageService) {
-        super(messageService);
+  public LabeledTaskListener(MessageService messageService) {
+    super(messageService);
+  }
+
+  public void onApplicationEvent(TaskEvent event) {
+
+    TaskEventModel model = event.getTaskEventModel();
+
+    String message = "This message was sent by supercool Vicky 2.0 from LabeledTaskListener";
+
+    List<String> labels = model.getTask().getLabels();
+
+    for (String label : labels) {
+      try {
+        messageService.sendChannelMessage(label, message);
+      } catch (MessageServiceException e) {
+        LOGGER.error(e.getMessage());
+      }
     }
-
-    public void onApplicationEvent(TaskEvent event) {
-
-        TaskEventModel model = event.getTaskEventModel();
-
-        String message = "This message was sent by supercool Vicky 2.0 from LabeledTaskListener";
-
-        List<String> labels = model.getTask().getLabels();
-
-        for (String label : labels) {
-            try {
-                messageService.sendChannelMessage(message, label);
-            } catch (MessageServiceException e) {
-                LOGGER.error(e.getMessage());
-            }
-        }
-    }
+  }
 
 }

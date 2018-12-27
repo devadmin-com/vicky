@@ -4,14 +4,12 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.TimeZone;
 
-
 /**
  * This is the object which contains the information related to Author (issue author, comment author, etc.)
- *
  */
-
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class AuthorModel {
+
   @JsonProperty("self")
   private String self;
 

@@ -9,10 +9,10 @@ import java.util.List;
 
 /**
  * This is the object which contains the information about jira issue
- *
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class IssueModel implements Task {
+
   @JsonProperty("id")
   private String id;
   @JsonProperty("self")
@@ -54,7 +54,6 @@ public class IssueModel implements Task {
     this.fields = fields;
   }
 
-
   @Override
   public String getDescription() {
     return fields.getStatus().getDescription();
@@ -62,8 +61,7 @@ public class IssueModel implements Task {
 
   @Override
   public String getPriority() {
-    //@todo implement me
-    return null;
+    return this.fields.getPriority().getName();
   }
 
   @Override
@@ -79,7 +77,12 @@ public class IssueModel implements Task {
 
   @Override
   public List<String> getLabels() {
-    return new ArrayList<>(Arrays.asList(getFields().getLabels()));
+    ArrayList<String> labels = new ArrayList<>();
+    if (getFields().getLabels() == null) {
+      return labels;
+    } else {
+      return Arrays.asList(getFields().getLabels());
+    }
   }
 
   /**

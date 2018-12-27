@@ -1,17 +1,15 @@
 package com.devadmin.vicky.controller.jira.model;
 
-import com.devadmin.vicky.*;
+import com.devadmin.vicky.TaskEventModel;
+import com.devadmin.vicky.TaskEventModelType;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.util.Date;
-
 
 /**
  * Implements a JIRA Event based on JSON from JIRA webhook
  *
  * This is object contains the information received from jira
- *
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class JiraEventModel implements TaskEventModel {
@@ -32,10 +30,6 @@ public class JiraEventModel implements TaskEventModel {
   private CommentModel comment;
 
   private TaskEventModelType type;
-
-  public void setTimeStamp(Long timeStamp) {
-    this.timeStamp = timeStamp;
-  }
 
   public String getWebhookEvent() {
     return webhookEvent;
@@ -101,6 +95,10 @@ public class JiraEventModel implements TaskEventModel {
   @Override
   public Date getTimeStamp() {
     return new Date(timeStamp);
+  }
+
+  public void setTimeStamp(Long timeStamp) {
+    this.timeStamp = timeStamp;
   }
 
   @Override

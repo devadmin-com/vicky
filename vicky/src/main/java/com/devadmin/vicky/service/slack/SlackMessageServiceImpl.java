@@ -1,11 +1,12 @@
 package com.devadmin.vicky.service.slack;
 
+import com.devadmin.slack.bot.SlackApiEndpoints;
+import com.devadmin.slack.bot.models.Event;
 import com.devadmin.slack.bot.models.RichMessage;
+import com.devadmin.slack.bot.models.User;
 import com.devadmin.vicky.MessageService;
-import com.devadmin.vicky.controller.slack.SlackController;
+import com.devadmin.vicky.MessageServiceException;
 import com.devadmin.vicky.controller.slack.SlackProperties;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,42 +24,59 @@ public class SlackMessageServiceImpl implements MessageService {
 
   private final SlackProperties properties;
 
-  private final SlackController slackController;
+  private final SlackApiEndpoints slackApiEndpoints;
 
-  public SlackMessageServiceImpl(SlackProperties properties, SlackController slackController) {
+  private final RestTemplate restTemplate;
+
+  public SlackMessageServiceImpl(SlackProperties properties, RestTemplate restTemplate,
+      SlackApiEndpoints slackApiEndpoints) {
     this.properties = properties;
-    this.slackController = slackController;
+    this.restTemplate = restTemplate;
+    this.slackApiEndpoints = slackApiEndpoints;
   }
 
   /**
-   * Make a POST call to the incoming webhook url.
+   * (non-javadoc)
    *
-   * @param message should be
-   * @param channelName The project name which contains Jira issue
+   * @see MessageService#sendChannelMessage(String, String)
    */
   @Override
-  public void sendChannelMessage(String message, String channelName) {
-
-
-    RestTemplate restTemplate = new RestTemplate();
+  public void sendChannelMessage(String channelName, String message) throws MessageServiceException {
     RichMessage richMessage = new RichMessage(message);
     Map<String, String> incomingWebhooks = properties.getWebhook().getIncoming();
-
-    if (incomingWebhooks.containsKey(channelName)){
+    if (incomingWebhooks.containsKey(channelName)) {
       String incomingWebhookUrl = incomingWebhooks.get(channelName);
       try {
         restTemplate.postForEntity(incomingWebhookUrl, richMessage, String.class);
       } catch (RestClientException e) {
-        LOGGER.error("Error posting to SlackProperties Incoming Webhook: ", e);
+        LOGGER.error("Unable to posting IncomingWebhookURL given from Slack Properties: {}", e);
+        throw new MessageServiceException(e.getMessage(), e);
       }
     }
 
   }
 
+  /**
+   * (non-javadoc)
+   *
+   * @see MessageService#sendPrivateMessage(String, String)
+   */
   @Override
-  public void sendPrivateMessage(String slackMessage, String username) {
-    if (username != null && !username.equals("Unassigned")){
-      slackController.sendDirectMessageToBot(slackMessage, username);
+  public void sendPrivateMessage(String personName, String message) throws MessageServiceException {
+    Event event = restTemplate
+        .postForEntity(slackApiEndpoints.getUserListApi(), null, Event.class, properties.getToken().getBot()).getBody();
+    if (event != null) {
+      for (User person : event.getMembers()) {
+        if (personName.equals(person.getName())) {
+          try {
+            restTemplate.postForEntity(slackApiEndpoints.getChatPostMessageApi(), null, String.class,
+                properties.getToken().getBot(), person.getId(), message);
+          } catch (RestClientException e) {
+            LOGGER.error("Unable posting to given person Id: {}", e);
+            throw new MessageServiceException(e.getMessage(), e);
+          }
+        }
+      }
     }
   }
 }

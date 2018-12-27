@@ -3,8 +3,12 @@ package com.devadmin.vicky.controller.jira.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+/**
+ * This is the object which contains the information related to User avatar
+ */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class AvatarUrlModel {
+
   @JsonProperty("48x48")
   private String avatarUrl48x48;
   @JsonProperty("32x32")

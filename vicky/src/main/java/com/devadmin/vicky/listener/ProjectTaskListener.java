@@ -1,4 +1,3 @@
-
 package com.devadmin.vicky.listener;
 
 import com.devadmin.vicky.MessageService;
@@ -12,21 +11,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
- * On issue create or resolve send update to project's channel (if one exists)
- * <p>
- * If no channel exists for project nothing is done.
- * <p>
+ * <p>On issue create or resolve send update to project's channel (if one exists).</p>
+ * <p>If no channel exists for project nothing is done.</p>
  * Implements Story: TL-99 issue create, resolve -> project channel
  */
 @Component
 public class ProjectTaskListener extends TaskToMessageListener {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ProjectTaskListener.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(ProjectTaskListener.class);
 
-    @Autowired
-    public ProjectTaskListener(MessageService messageService) {
-        super(messageService);
-    }
+  @Autowired
+  public ProjectTaskListener(MessageService messageService) {
+    super(messageService);
+  }
 
   public void onApplicationEvent(TaskEvent event) {
     TaskEventModel model = event.getTaskEventModel();
@@ -35,19 +32,14 @@ public class ProjectTaskListener extends TaskToMessageListener {
 
       String message = "This message was sent by supercool Vicky 2.0 from ProjectTaskListener";
 
-            // channel name is the same as jira project name
-            String channelName = event.getTask().getProject();
+      // channel name is the same as jira project name
+      String channelName = event.getTask().getProject();
 
-
-            try {
-                messageService.sendChannelMessage(message, channelName);
-
-            } catch (MessageServiceException e) {
-                LOGGER.error(e.getMessage());
-
-            }
-        }
-
+      try {
+        messageService.sendChannelMessage(channelName, message);
+      } catch (MessageServiceException e) {
+        LOGGER.error(e.getMessage());
+      }
     }
-
+  }
 }

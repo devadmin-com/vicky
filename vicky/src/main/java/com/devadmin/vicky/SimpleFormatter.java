@@ -1,11 +1,10 @@
 package com.devadmin.vicky;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
+ *
  */
 @Component
 public class SimpleFormatter implements Formatter {
@@ -64,7 +63,7 @@ public class SimpleFormatter implements Formatter {
         message.setIssueCommenter(comments.get(comments.size() - 1).getAuthor().getDisplayName());
         message.setIssueComment(comments.get(comments.size() - 1).getBody());
       } else {
-//        new IssueCommentTracker(eventDto, message, jiraClient, vickyBot, username);
+//        new BlockerTaskTracker(eventDto, message, jiraClient, vickyBot, username);
       }
     } else {
       message.setIssueCommenter(jiraEventModel.getComment().getAuthor().getDisplayName());
@@ -99,9 +98,8 @@ public class SimpleFormatter implements Formatter {
   }
 
   /**
-   * @todo this mapping should be in application.yml
-   *
    * @return the icon to use when displyaing this task
+   * @todo this mapping should be in application.yml
    */
   private String getIcon(Task task) {
     if ("Blocker".equals(task.getPriority())) {
