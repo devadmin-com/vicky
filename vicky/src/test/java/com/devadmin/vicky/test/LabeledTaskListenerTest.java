@@ -1,6 +1,6 @@
 package com.devadmin.vicky.test;
 
-import com.devadmin.vicky.TaskEventModelType;
+import com.devadmin.vicky.TaskEventType;
 import com.devadmin.vicky.listener.LabeledTaskListener;
 import org.junit.Test;
 
@@ -27,7 +27,7 @@ public class LabeledTaskListenerTest extends TaskListenerTest {
     TestTask testTask = new TestTask();
     testTask.setLabels(new ArrayList<>());
     TestTaskEventModel testEventModel = new TestTaskEventModel();
-    testEventModel.setType(TaskEventModelType.CREATED);
+    testEventModel.setType(TaskEventType.CREATED);
     testEventModel.setTask(testTask);
 
     publish(testEventModel);
@@ -51,7 +51,7 @@ public class LabeledTaskListenerTest extends TaskListenerTest {
 
     TestTaskEventModel testEventModel = new TestTaskEventModel();
 
-    testEventModel.setType(TaskEventModelType.CREATED);
+    testEventModel.setType(TaskEventType.CREATED);
     testEventModel.setTask(task);
 
     publish(testEventModel);

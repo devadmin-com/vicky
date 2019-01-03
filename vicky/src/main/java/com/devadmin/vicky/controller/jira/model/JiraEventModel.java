@@ -1,7 +1,7 @@
 package com.devadmin.vicky.controller.jira.model;
 
-import com.devadmin.vicky.TaskEventModel;
-import com.devadmin.vicky.TaskEventModelType;
+import com.devadmin.vicky.TaskEvent;
+import com.devadmin.vicky.TaskEventType;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Date;
@@ -12,7 +12,7 @@ import java.util.Date;
  * This is object contains the information received from jira
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class JiraEventModel implements TaskEventModel {
+public class JiraEventModel implements TaskEvent {
 
   @JsonProperty("timestamp")
   private Long timeStamp;
@@ -29,7 +29,7 @@ public class JiraEventModel implements TaskEventModel {
   @JsonProperty("comment")
   private CommentModel comment;
 
-  private TaskEventModelType type;
+  private TaskEventType type;
 
   public String getWebhookEvent() {
     return webhookEvent;
@@ -102,11 +102,11 @@ public class JiraEventModel implements TaskEventModel {
   }
 
   @Override
-  public TaskEventModelType getType() {
+  public TaskEventType getType() {
     return type;
   }
 
-  public void setType(TaskEventModelType type) {
+  public void setType(TaskEventType type) {
     this.type = type;
   }
 }

@@ -5,9 +5,9 @@ import com.devadmin.vicky.*;
 /**
     An event happened on a {@link Task}...
  */
-public class TaskEvent extends GenericEvent<TaskEventModel> {
+public class TaskEvent extends GenericEvent<com.devadmin.vicky.TaskEvent> {
 
-    public TaskEvent(TaskEventModel model){
+    public TaskEvent(com.devadmin.vicky.TaskEvent model){
         super(model);
     }
 
@@ -15,7 +15,7 @@ public class TaskEvent extends GenericEvent<TaskEventModel> {
     /**
      * @return the event model itself (same as getEventModel but returning concrete class)
      */
-    public TaskEventModel getTaskEventModel() {
+    public com.devadmin.vicky.TaskEvent getTaskEventModel() {
         return getEventModel();
     }
 

@@ -1,6 +1,6 @@
 package com.devadmin.vicky.controller.jira;
 
-import com.devadmin.vicky.TaskEventModelType;
+import com.devadmin.vicky.TaskEventType;
 import com.devadmin.vicky.controller.jira.model.JiraEventModel;
 import com.devadmin.vicky.event.TaskEvent;
 import org.slf4j.Logger;
@@ -35,16 +35,16 @@ public class JiraController {
     switch(jiraEventModel.getWebhookEvent()) {
 
       case "jira:issue_created" :
-        jiraEventModel.setType(TaskEventModelType.CREATED);
+        jiraEventModel.setType(TaskEventType.CREATED);
         break;
 
       case "jira:issue_updated" :
-        jiraEventModel.setType(TaskEventModelType.UPDATED);
+        jiraEventModel.setType(TaskEventType.UPDATED);
         break;
 
       case "comment_created" :
       case "comment_updated" :
-        jiraEventModel.setType(TaskEventModelType.COMMENT);
+        jiraEventModel.setType(TaskEventType.COMMENT);
         break;
     }
 

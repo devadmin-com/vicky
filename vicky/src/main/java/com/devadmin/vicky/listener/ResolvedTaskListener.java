@@ -3,8 +3,7 @@ package com.devadmin.vicky.listener;
 
 import com.devadmin.vicky.MessageService;
 import com.devadmin.vicky.MessageServiceException;
-import com.devadmin.vicky.TaskEventModel;
-import com.devadmin.vicky.event.TaskEvent;
+import com.devadmin.vicky.TaskEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,8 +23,8 @@ public class ResolvedTaskListener extends TaskToMessageListener {
     super(messageService);
   }
 
-  public void onApplicationEvent(TaskEvent event) {
-    TaskEventModel model = event.getTaskEventModel();
+  public void onApplicationEvent(com.devadmin.vicky.event.TaskEvent event) {
+    TaskEvent model = event.getTaskEventModel();
 
     if (model.getTask().isResolved()) {
 

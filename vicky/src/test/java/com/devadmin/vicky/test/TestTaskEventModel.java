@@ -3,16 +3,16 @@ package com.devadmin.vicky.test;
 import com.devadmin.vicky.Changelog;
 import com.devadmin.vicky.Comment;
 import com.devadmin.vicky.Task;
-import com.devadmin.vicky.TaskEventModel;
-import com.devadmin.vicky.TaskEventModelType;
+import com.devadmin.vicky.TaskEvent;
+import com.devadmin.vicky.TaskEventType;
 import java.util.Date;
 
 /**
- * An implementation of TaskEventModel for testing...
+ * An implementation of TaskEvent for testing...
  */
-public class TestTaskEventModel implements TaskEventModel {
+public class TestTaskEventModel implements TaskEvent {
 
-  private TaskEventModelType type;
+  private TaskEventType type;
   private TestChangelog changelog;
   private Comment comment;
   private Task task;
@@ -37,7 +37,7 @@ public class TestTaskEventModel implements TaskEventModel {
   }
 
   @Override
-  public TaskEventModelType getType() {
+  public TaskEventType getType() {
     return type;
   }
 
@@ -50,7 +50,7 @@ public class TestTaskEventModel implements TaskEventModel {
     this.changelog = changelog;
   }
 
-  public void setType(TaskEventModelType type) {
+  public void setType(TaskEventType type) {
     this.type = type;
   }
 

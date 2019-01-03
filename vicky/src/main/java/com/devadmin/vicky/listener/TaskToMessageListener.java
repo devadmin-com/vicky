@@ -1,4 +1,8 @@
-
+/*
+ * Copyright (c) http://devadmin.com
+ *
+ * License: https://github.com/devadmin-com/vicky/blob/master/LICENSE
+ */
 package com.devadmin.vicky.listener;
 
 import com.devadmin.vicky.MessageService;
@@ -15,6 +19,7 @@ import org.springframework.context.ApplicationListener;
  */
 public abstract class TaskToMessageListener implements ApplicationListener<TaskEvent> {
 
+  // TODO this should be protected and used in sub-classes?!
   static final Logger LOGGER = LoggerFactory.getLogger(TaskToMessageListener.class);
 
   protected MessageService messageService;

@@ -1,11 +1,15 @@
+/*
+ * Copyright (c) http://devadmin.com
+ *
+ * License: https://github.com/devadmin-com/vicky/blob/master/LICENSE
+ */
 package com.devadmin.vicky.listener;
 
 import com.devadmin.jira.JiraClient;
 import com.devadmin.vicky.ChangeLogItem;
 import com.devadmin.vicky.MessageService;
 import com.devadmin.vicky.MessageServiceException;
-import com.devadmin.vicky.TaskEventModel;
-import com.devadmin.vicky.event.TaskEvent;
+import com.devadmin.vicky.TaskEvent;
 import com.devadmin.vicky.util.BlockerTaskTracker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,8 +27,10 @@ public class PMOnAssignListener extends TaskToMessageListener {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(PMOnAssignListener.class);
 
+  //TODO AAAAAA WHAT IS THIS???? WHY IS IT HERE?!?!?!?  😱⚡☠💩
   private static final String PRIORITYBLOCKER = "Blocker";
 
+  //TODO AAAAAA 😱⚡☠💩 this is fundamentally breaking the abstraction let's discuss ASAP!!!!
   @Autowired
   private JiraClient jiraClient;
 
@@ -33,9 +39,9 @@ public class PMOnAssignListener extends TaskToMessageListener {
     super(messageService);
   }
 
-  public void onApplicationEvent(TaskEvent event) {
+  public void onApplicationEvent(com.devadmin.vicky.event.TaskEvent event) {
 
-    TaskEventModel model = event.getTaskEventModel();
+    TaskEvent model = event.getTaskEventModel();
 
     if (model.getChangeLog() != null) {
 
@@ -50,6 +56,7 @@ public class PMOnAssignListener extends TaskToMessageListener {
 
             String blockerMessage = "This message was sent by supercool Vicky 2.0 from Blocker";
 
+            // TODO why is this here? needs docs...
             BlockerTaskTracker tracker = new BlockerTaskTracker(model, blockerMessage, jiraClient, messageService,
                 assignedTo);
             tracker.startTracking();

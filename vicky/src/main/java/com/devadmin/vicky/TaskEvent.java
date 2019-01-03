@@ -1,15 +1,18 @@
+/*
+ * Copyright (c) http://devadmin.com
+ *
+ * License: https://github.com/devadmin-com/vicky/blob/master/LICENSE
+ */
 package com.devadmin.vicky;
-
-import com.devadmin.vicky.controller.jira.model.ChangeLogModel;
 
 import java.util.Date;
 
 /**
- * Models an event on a task.
+ * Models an event happening on a task.
  *
  * <p>(this is used to allow listeners to not care what the implementation of the Task looks like)
  */
-public interface TaskEventModel {
+public interface TaskEvent {
 
   /** @return true if the event has comment */
   boolean hasComment();
@@ -29,11 +32,11 @@ public interface TaskEventModel {
    *
    * @return the type of the event
    */
-  TaskEventModelType getType();
+  TaskEventType getType();
 
   /**
    *
-   * @return changelog data
+   * @return the set of changeschangelog data
    */
   Changelog getChangeLog();
 

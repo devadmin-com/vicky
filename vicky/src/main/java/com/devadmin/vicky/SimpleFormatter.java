@@ -15,7 +15,7 @@ public class SimpleFormatter implements Formatter {
 
   }
 
-  public String format(TaskEventModel event) {
+  public String format(TaskEvent event) {
   /*  String message = new String();
     String cloudUrl = jiraProperties.getJira().getCloudUrl();
     String issueKey = jiraEventModel.getTask().getKey();
@@ -99,7 +99,6 @@ public class SimpleFormatter implements Formatter {
 
   /**
    * @return the icon to use when displyaing this task
-   * @todo this mapping should be in application.yml
    */
   private String getIcon(Task task) {
     if ("Blocker".equals(task.getPriority())) {

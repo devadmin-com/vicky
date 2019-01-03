@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) http://devadmin.com
+ *
+ * License: https://github.com/devadmin-com/vicky/blob/master/LICENSE
+ */
 package com.devadmin.vicky;
 
 import java.util.List;
@@ -10,6 +15,7 @@ import java.util.List;
 public interface Task {
 
   /**
+   * TODO what is a task ID is it "unique identifier of this task within it's task tracking system"?
    * @return task ID
    */
   String getId();
@@ -20,6 +26,7 @@ public interface Task {
   String getDescription();
 
   /**
+   * TODO what is this string? how does it abstract between task systems?
    * @return the priority of this task (as a string)
    */
   String getPriority();
@@ -40,6 +47,7 @@ public interface Task {
   Boolean isResolved();
 
   /**
+   * TODO what is this string status? how does it abstract between task systems?
    * @return status of task
    */
   String getStatus();

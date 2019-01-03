@@ -1,9 +1,14 @@
+/*
+ * Copyright (c) http://devadmin.com
+ *
+ * License: https://github.com/devadmin-com/vicky/blob/master/LICENSE
+ */
 package com.devadmin.vicky.listener;
 
 import com.devadmin.vicky.MessageService;
 import com.devadmin.vicky.MessageServiceException;
-import com.devadmin.vicky.TaskEventModel;
-import com.devadmin.vicky.event.TaskEvent;
+import com.devadmin.vicky.TaskEvent;
+
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,15 +25,16 @@ import org.springframework.stereotype.Component;
 @Component
 public class LabeledTaskListener extends TaskToMessageListener {
 
+  //TODO the super class has a LOGGER, why not use it in the sub-classes also?
   private static final Logger LOGGER = LoggerFactory.getLogger(LabeledTaskListener.class);
 
   public LabeledTaskListener(MessageService messageService) {
     super(messageService);
   }
 
-  public void onApplicationEvent(TaskEvent event) {
+  public void onApplicationEvent(com.devadmin.vicky.event.TaskEvent event) {
 
-    TaskEventModel model = event.getTaskEventModel();
+    TaskEvent model = event.getTaskEventModel();
 
     String message = "This message was sent by supercool Vicky 2.0 from LabeledTaskListener";
 

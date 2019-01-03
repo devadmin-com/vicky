@@ -1,6 +1,6 @@
 package com.devadmin.vicky.test;
 
-import com.devadmin.vicky.TaskEventModelType;
+import com.devadmin.vicky.TaskEventType;
 import com.devadmin.vicky.listener.ProjectTaskListener;
 import org.junit.Test;
 
@@ -21,7 +21,7 @@ public class ProjectTaskListenerTest extends TaskListenerTest {
 
         createContext();
 
-        TestTaskEventModel testEventModel = getTestTaskEventModel(TaskEventModelType.CREATED);
+        TestTaskEventModel testEventModel = getTestTaskEventModel(TaskEventType.CREATED);
         publish(testEventModel);
 
         assertEquals(1, testMessageService.getChannelMessageCount()); // should call the method just 1 time
@@ -38,7 +38,7 @@ public class ProjectTaskListenerTest extends TaskListenerTest {
 
         createContext();
 
-        TestTaskEventModel testEventModel = getTestTaskEventModel(TaskEventModelType.CREATED);
+        TestTaskEventModel testEventModel = getTestTaskEventModel(TaskEventType.CREATED);
         publish(testEventModel);
 
         assertEquals(expectedMessage, testMessageService.getLastMessage());
@@ -55,7 +55,7 @@ public class ProjectTaskListenerTest extends TaskListenerTest {
 
         createContext();
 
-        TestTaskEventModel testEventModel = getTestTaskEventModel(TaskEventModelType.COMMENT);
+        TestTaskEventModel testEventModel = getTestTaskEventModel(TaskEventType.COMMENT);
         publish(testEventModel);
 
         assertFalse(testMessageService.wasChannelMsged());
@@ -70,7 +70,7 @@ public class ProjectTaskListenerTest extends TaskListenerTest {
 
         createContext();
 
-        TestTaskEventModel testEventModel = getTestTaskEventModel(TaskEventModelType.CREATED);
+        TestTaskEventModel testEventModel = getTestTaskEventModel(TaskEventType.CREATED);
         publish(testEventModel);
 
         assertTrue(testMessageService.wasChannelMsged());
@@ -79,7 +79,7 @@ public class ProjectTaskListenerTest extends TaskListenerTest {
 
     // private methods
 
-    private TestTaskEventModel getTestTaskEventModel(TaskEventModelType type) {
+    private TestTaskEventModel getTestTaskEventModel(TaskEventType type) {
         TestTaskEventModel testEventModel = new TestTaskEventModel();
         testEventModel.setType(type);
         testEventModel.setTask(new TestTask());

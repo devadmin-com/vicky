@@ -1,12 +1,18 @@
+/*
+ * Copyright (c) http://devadmin.com
+ *
+ * License: https://github.com/devadmin-com/vicky/blob/master/LICENSE
+ */
 package com.devadmin.vicky;
 
 /**
+ * TODO what is this?
  * This enum contain the type of Slack messages
  *
 public enum MessageType {
   ISSUE {
     @Override
-    public String createMessage(TaskEventModel taskEventModel) {
+    public String createMessage(TaskEvent taskEventModel) {
       return String.format("%s <%s | %s> %s: %s @%s\n %s ➠ %s",
           taskEventModel.getTask().getIssueTypeIcon(),
           taskEventModel.getTask().getIssueUrl(),

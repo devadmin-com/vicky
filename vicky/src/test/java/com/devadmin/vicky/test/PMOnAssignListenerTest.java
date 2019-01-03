@@ -5,7 +5,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import com.devadmin.vicky.ChangeLogItem;
-import com.devadmin.vicky.TaskEventModelType;
+import com.devadmin.vicky.TaskEventType;
 import com.devadmin.vicky.listener.PMOnAssignListener;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +37,7 @@ public class PMOnAssignListenerTest extends TaskListenerTest {
     TestTask testTask = new TestTask();
     testEventModel.setTask(testTask);
     testEventModel.setChangelog(testChangelog);
-    testEventModel.setType(TaskEventModelType.UPDATED);
+    testEventModel.setType(TaskEventType.UPDATED);
     publish(testEventModel);
 
     assertFalse(testMessageService.wasChannelMsged());
@@ -64,7 +64,7 @@ public class PMOnAssignListenerTest extends TaskListenerTest {
     TestChangelog testChangelog = new TestChangelog();
     testChangelog.setItems(itemList);
     testEventModel.setChangelog(testChangelog);
-    testEventModel.setType(TaskEventModelType.UPDATED);
+    testEventModel.setType(TaskEventType.UPDATED);
     publish(testEventModel);
 
     assertFalse(testMessageService.wasChannelMsged());

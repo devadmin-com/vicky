@@ -1,9 +1,12 @@
+/*
+ * Copyright (c) http://devadmin.com
+ *
+ * License: https://github.com/devadmin-com/vicky/blob/master/LICENSE
+ */
 package com.devadmin.vicky.listener;
 
-import com.devadmin.vicky.MessageService;
-import com.devadmin.vicky.MessageServiceException;
-import com.devadmin.vicky.TaskEventModel;
-import com.devadmin.vicky.event.TaskEvent;
+import com.devadmin.vicky.*;
+
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,14 +20,15 @@ import org.springframework.stereotype.Component;
 @Component
 public class AtReferenceListener extends TaskToMessageListener {
 
+  //TODO the super class has a LOGGER, why not use it in the sub-classes also?
   private static final Logger LOGGER = LoggerFactory.getLogger(AtReferenceListener.class);
 
   public AtReferenceListener(MessageService messageService) {
     super(messageService);
   }
 
-  public void onApplicationEvent(TaskEvent event) {
-    TaskEventModel model = event.getTaskEventModel();
+  public void onApplicationEvent(com.devadmin.vicky.event.TaskEvent event) {
+    TaskEvent model = event.getTaskEventModel();
     if (model.hasComment()) {
 
       String message = "This message was sent by supercool Vicky 2.0 from AtReferenceListener";

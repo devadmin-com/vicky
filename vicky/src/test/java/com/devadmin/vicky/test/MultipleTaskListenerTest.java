@@ -1,7 +1,7 @@
 package com.devadmin.vicky.test;
 
 import com.devadmin.vicky.ChangeLogItem;
-import com.devadmin.vicky.TaskEventModelType;
+import com.devadmin.vicky.TaskEventType;
 import com.devadmin.vicky.listener.AtReferenceListener;
 import com.devadmin.vicky.listener.LabeledTaskListener;
 import com.devadmin.vicky.listener.PMOnAssignListener;
@@ -28,7 +28,7 @@ public class MultipleTaskListenerTest extends TaskListenerTest {
 
         createContext();
 
-        TestTaskEventModel testEventModel = getTestTaskEventModel(TaskEventModelType.CREATED);
+        TestTaskEventModel testEventModel = getTestTaskEventModel(TaskEventType.CREATED);
         publish(testEventModel);
 
         assertTrue(testMessageService.wasChannelMsged());
@@ -45,7 +45,7 @@ public class MultipleTaskListenerTest extends TaskListenerTest {
 
     // private methods
 
-    private TestTaskEventModel getTestTaskEventModel(TaskEventModelType type) {
+    private TestTaskEventModel getTestTaskEventModel(TaskEventType type) {
 
         TestTaskEventModel testEventModel = new TestTaskEventModel();
         testEventModel.setType(type);
