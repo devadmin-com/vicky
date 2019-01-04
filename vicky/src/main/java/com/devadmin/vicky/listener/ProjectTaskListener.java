@@ -28,15 +28,13 @@ public class ProjectTaskListener extends TaskToMessageListener {
   public void onApplicationEvent(TaskEventModelWrapper eventWrapper) {
     TaskEvent event = eventWrapper.getTaskEventModel();
 
-    if (event.getType() == TaskEventType.CREATED) {
+    if (event.getType() == TaskEventType.CREATED) { // TODO what about resolved - see story definition
 
-      String message = "This message was sent by supercool Vicky 2.0 from ProjectTaskListener";
-
-      // channel name is the same as jira project name
+      // send to the channel name which is the same as the jira project name
       String channelName = event.getTask().getProject();
 
       try {
-        messageService.sendChannelMessage(channelName, message);
+        messageService.sendChannelMessage(channelName, formatter.format(event));
       } catch (MessageServiceException e) {
         LOGGER.error(e.getMessage());
       }
