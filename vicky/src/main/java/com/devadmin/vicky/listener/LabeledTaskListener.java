@@ -37,9 +37,7 @@ public class LabeledTaskListener extends TaskToMessageListener {
   public void onApplicationEvent(TaskEventModelWrapper eventWrapper) {
     TaskEvent event = eventWrapper.getTaskEventModel();
 
-    List<String> labels = event.getTask().getLabels();
-
-    for (String label : labels) {
+    for (String label : event.getTask().getLabels()) {
       try {
         messageService.sendChannelMessage(label, formatter.format(event));
       } catch (MessageServiceException e) {
