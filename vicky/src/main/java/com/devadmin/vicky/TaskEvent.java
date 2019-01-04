@@ -45,5 +45,8 @@ public interface TaskEvent {
    */
   Comment getComment();
 
-
+  /**
+   * @return the user who performed the action which caused this event
+   */
+  String getActor();
 }

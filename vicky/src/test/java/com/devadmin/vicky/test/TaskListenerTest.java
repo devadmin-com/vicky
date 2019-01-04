@@ -1,6 +1,7 @@
 package com.devadmin.vicky.test;
 
 import com.devadmin.vicky.TaskEvent;
+import com.devadmin.vicky.event.TaskEventModelWrapper;
 import org.junit.Before;
 import org.springframework.context.support.StaticApplicationContext;
 
@@ -16,11 +17,11 @@ public class TaskListenerTest {
 
 
     /**
-     * Publishes the event as a TaskEvent to the testing event bus.
+     * Publishes the event as a TaskEventModelWrapper to the testing event bus.
      */
     void publish(TaskEvent model) {
         // create a test task
-        com.devadmin.vicky.event.TaskEvent event = new com.devadmin.vicky.event.TaskEvent(model);
+        TaskEventModelWrapper event = new TaskEventModelWrapper(model);
 
         // push test task onto bus
         context.publishEvent(event);

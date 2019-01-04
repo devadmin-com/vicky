@@ -12,7 +12,7 @@ package com.devadmin.vicky;
 public enum MessageType {
   ISSUE {
     @Override
-    public String createMessage(TaskEvent taskEventModel) {
+    public String createMessage(TaskEventModelWrapper taskEventModel) {
       return String.format("%s <%s | %s> %s: %s @%s\n %s ➠ %s",
           taskEventModel.getTask().getIssueTypeIcon(),
           taskEventModel.getTask().getIssueUrl(),

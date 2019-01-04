@@ -1,26 +1,36 @@
-package com.devadmin.vicky;
+package com.devadmin.vicky.format;
 
+import com.devadmin.vicky.TaskEventFormatter;
+import com.devadmin.vicky.Task;
+import com.devadmin.vicky.TaskEvent;
+import com.devadmin.vicky.TaskPriority;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
+ * Implements basic formatting of @TaskEventModelWrapper for sending to a @MessageService
  *
  */
 @Component
-public class SimpleFormatter implements Formatter {
+public class SimpleTaskEventFormatter implements TaskEventFormatter {
 
 
   @Autowired
-  public SimpleFormatter() {
+  public SimpleTaskEventFormatter() {
 
   }
 
   public String format(TaskEvent event) {
-  /*  String message = new String();
-    String cloudUrl = jiraProperties.getJira().getCloudUrl();
-    String issueKey = jiraEventModel.getTask().getKey();
-    String issueType = issueFields.getIssueType().getName();
-    String issuePriority = issueFields.getPriority().getName();
+    Task task = event.getTask();
+
+    StringBuffer message = new StringBuffer(128);
+
+
+    /* TODO old stuff - remove me!!!!
+implement:
+ * formats as:
+ * <issue type icon> <issue id> (clickable issue URL) <Status>: <Summary> @<assignee nickname>
+ * <commenter name> ➠ <latest comment>
 
     message.setIssueType(issueType);
     message.setIssueKey(issueKey);
@@ -62,17 +72,14 @@ public class SimpleFormatter implements Formatter {
       if (comments.size() > 0){
         message.setIssueCommenter(comments.get(comments.size() - 1).getAuthor().getDisplayName());
         message.setIssueComment(comments.get(comments.size() - 1).getBody());
-      } else {
-//        new BlockerTaskTracker(eventDto, message, jiraClient, vickyBot, username);
       }
     } else {
       message.setIssueCommenter(jiraEventModel.getComment().getAuthor().getDisplayName());
       message.setIssueComment(jiraEventModel.getComment().getBody());
-    }
+    }*/
 
-    return message;*/
+    return message.toString();
 
-    return event.toString();
   }
 
   /**
@@ -98,19 +105,17 @@ public class SimpleFormatter implements Formatter {
   }
 
   /**
-   * @return the icon to use when displyaing this task
+   * @return the icon to use when displaying this task
    */
   private String getIcon(Task task) {
-    if ("Blocker".equals(task.getPriority())) {
-      return ":bangbang:";
+    if (task.getPriority() == TaskPriority.BLOCKER) {
+      return "‼️";
     } else {
       switch (task.getStatus()) {
-        case "Server サーバー":
-          return ":hammer_and_wrench:";
         case "Operations 運営":
-          return ":gear:";
+          return "⚙";
         case "Urgent Bug 緊急バグ":
-          return ":zap:";
+          return "⚡";
         default:
           return ":rocket:";
       }

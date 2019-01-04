@@ -4,6 +4,7 @@ import com.devadmin.vicky.MessageService;
 import com.devadmin.vicky.MessageServiceException;
 import com.devadmin.vicky.TaskEvent;
 import com.devadmin.vicky.TaskEventType;
+import com.devadmin.vicky.event.TaskEventModelWrapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,13 +22,13 @@ public class ProjectTaskListener extends TaskToMessageListener {
 
   @Autowired
   public ProjectTaskListener(MessageService messageService) {
-    super(messageService);
+    super(messageService, taskEventFormatter);
   }
 
-  public void onApplicationEvent(com.devadmin.vicky.event.TaskEvent event) {
-    TaskEvent model = event.getTaskEventModel();
+  public void onApplicationEvent(TaskEventModelWrapper eventWrapper) {
+    TaskEvent event = eventWrapper.getTaskEventModel();
 
-    if (model.getType() == TaskEventType.CREATED) {
+    if (event.getType() == TaskEventType.CREATED) {
 
       String message = "This message was sent by supercool Vicky 2.0 from ProjectTaskListener";
 

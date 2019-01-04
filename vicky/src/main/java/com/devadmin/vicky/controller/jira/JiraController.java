@@ -2,7 +2,7 @@ package com.devadmin.vicky.controller.jira;
 
 import com.devadmin.vicky.TaskEventType;
 import com.devadmin.vicky.controller.jira.model.JiraEventModel;
-import com.devadmin.vicky.event.TaskEvent;
+import com.devadmin.vicky.event.TaskEventModelWrapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,7 +48,7 @@ public class JiraController {
         break;
     }
 
-    final TaskEvent event = new TaskEvent(jiraEventModel);
+    final TaskEventModelWrapper event = new TaskEventModelWrapper(jiraEventModel);
     applicationEventPublisher.publishEvent(event);
 
     return ResponseEntity.ok().build();

@@ -10,6 +10,8 @@ import com.devadmin.vicky.MessageServiceException;
 import com.devadmin.vicky.TaskEvent;
 
 import java.util.List;
+
+import com.devadmin.vicky.event.TaskEventModelWrapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -29,20 +31,17 @@ public class LabeledTaskListener extends TaskToMessageListener {
   private static final Logger LOGGER = LoggerFactory.getLogger(LabeledTaskListener.class);
 
   public LabeledTaskListener(MessageService messageService) {
-    super(messageService);
+    super(messageService, taskEventFormatter);
   }
 
-  public void onApplicationEvent(com.devadmin.vicky.event.TaskEvent event) {
+  public void onApplicationEvent(TaskEventModelWrapper eventWrapper) {
+    TaskEvent event = eventWrapper.getTaskEventModel();
 
-    TaskEvent model = event.getTaskEventModel();
-
-    String message = "This message was sent by supercool Vicky 2.0 from LabeledTaskListener";
-
-    List<String> labels = model.getTask().getLabels();
+    List<String> labels = event.getTask().getLabels();
 
     for (String label : labels) {
       try {
-        messageService.sendChannelMessage(label, message);
+        messageService.sendChannelMessage(label, formatter.format(event));
       } catch (MessageServiceException e) {
         LOGGER.error(e.getMessage());
       }

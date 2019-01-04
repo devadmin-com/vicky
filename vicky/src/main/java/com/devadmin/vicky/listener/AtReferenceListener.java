@@ -8,6 +8,8 @@ package com.devadmin.vicky.listener;
 import com.devadmin.vicky.*;
 
 import java.util.List;
+
+import com.devadmin.vicky.event.TaskEventModelWrapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -24,24 +26,20 @@ public class AtReferenceListener extends TaskToMessageListener {
   private static final Logger LOGGER = LoggerFactory.getLogger(AtReferenceListener.class);
 
   public AtReferenceListener(MessageService messageService) {
-    super(messageService);
+    super(messageService, taskEventFormatter);
   }
 
-  public void onApplicationEvent(com.devadmin.vicky.event.TaskEvent event) {
-    TaskEvent model = event.getTaskEventModel();
-    if (model.hasComment()) {
+  public void onApplicationEvent(TaskEventModelWrapper eventWrapper) {
+    TaskEvent event = eventWrapper.getTaskEventModel();
 
-      String message = "This message was sent by supercool Vicky 2.0 from AtReferenceListener";
-
-      List<String> atReferences = model.getComment().getReferences();
+      List<String> atReferences = event.getComment().getReferences();
 
       for (String atReference : atReferences) {
         try {
-          messageService.sendPrivateMessage(atReference, message);
+          messageService.sendPrivateMessage(atReference, formatter.format(event));
         } catch (MessageServiceException e) {
           LOGGER.error(e.getMessage());
         }
       }
     }
-  }
 }

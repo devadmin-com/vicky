@@ -8,7 +8,7 @@ import com.devadmin.vicky.TaskEventType;
 import java.util.Date;
 
 /**
- * An implementation of TaskEvent for testing...
+ * An implementation of TaskEventModelWrapper for testing...
  */
 public class TestTaskEventModel implements TaskEvent {
 

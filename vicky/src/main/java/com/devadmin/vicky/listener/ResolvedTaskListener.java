@@ -3,7 +3,9 @@ package com.devadmin.vicky.listener;
 
 import com.devadmin.vicky.MessageService;
 import com.devadmin.vicky.MessageServiceException;
+import com.devadmin.vicky.Task;
 import com.devadmin.vicky.TaskEvent;
+import com.devadmin.vicky.event.TaskEventModelWrapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,21 +22,20 @@ public class ResolvedTaskListener extends TaskToMessageListener {
 
   @Autowired
   public ResolvedTaskListener(MessageService messageService) {
-    super(messageService);
+    super(messageService, taskEventFormatter);
   }
 
-  public void onApplicationEvent(com.devadmin.vicky.event.TaskEvent event) {
-    TaskEvent model = event.getTaskEventModel();
+  public void onApplicationEvent(TaskEventModelWrapper eventWrapper) {
+    TaskEvent event = eventWrapper.getTaskEventModel();
 
-    if (model.getTask().isResolved()) {
-
-      String message = "This message was sent by supercool Vicky 2.0 from ResolvedTaskListener";
+    Task task = event.getTask();
+    if (task.isResolved()) {
 
       // channel name is the same as jira project name
-      String channelName = model.getTask().getProject();
+      String channelName = task.getProject();
 
       try {
-        messageService.sendChannelMessage(channelName, message);
+        messageService.sendChannelMessage(channelName, formatter.format(event));
       } catch (MessageServiceException e) {
         LOGGER.error(e.getMessage());
       }

@@ -8,11 +8,11 @@ import org.springframework.context.ApplicationEvent;
  * This allows listeners to not care about the implementation of the event model.
  *
  */
-public abstract class GenericEvent<T> extends ApplicationEvent {
+public abstract class EventModelWrapper<T> extends ApplicationEvent {
   private T eventModel;
   private boolean assignee = false;
 
-  public GenericEvent(T eventModel) {
+  public EventModelWrapper(T eventModel) {
     super(eventModel);
     this.eventModel = eventModel;
   }

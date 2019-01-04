@@ -6,26 +6,28 @@
 package com.devadmin.vicky.listener;
 
 import com.devadmin.vicky.MessageService;
-import com.devadmin.vicky.Formatter;
-import com.devadmin.vicky.event.TaskEvent;
+import com.devadmin.vicky.TaskEventFormatter;
+import com.devadmin.vicky.event.TaskEventModelWrapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 
 /**
- * Base class for any listener which takes {@link TaskEvent}s and sends messages to a {@link MessageService}.
+ * Base class for any listener which takes {@link TaskEventModelWrapper}s and sends messages to a {@link MessageService}.
  *
  */
-public abstract class TaskToMessageListener implements ApplicationListener<TaskEvent> {
+public abstract class TaskToMessageListener implements ApplicationListener<TaskEventModelWrapper> {
 
   // TODO this should be protected and used in sub-classes?!
   static final Logger LOGGER = LoggerFactory.getLogger(TaskToMessageListener.class);
 
-  protected MessageService messageService;
+  protected MessageService messageService; // where we write to
 
-  public TaskToMessageListener(MessageService messageService) {
+  protected final TaskEventFormatter formatter; // what we use to format tasks
+
+  public TaskToMessageListener(MessageService messageService, TaskEventFormatter taskEventFormatter) {
     this.messageService = messageService;
+    this.formatter = taskEventFormatter;
   }
 
 }

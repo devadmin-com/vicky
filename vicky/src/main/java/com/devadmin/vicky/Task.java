@@ -26,15 +26,19 @@ public interface Task {
   String getDescription();
 
   /**
-   * TODO what is this string? how does it abstract between task systems?
-   * @return the priority of this task (as a string)
+   * @return the priority of this task
    */
-  String getPriority();
+  TaskPriority getPriority();
 
   /**
    * @return a string identifier of the project this task belongs to.
    */
   String getProject();
+
+  /**
+   * @return the URL of this task if they have appropriate permissions a user can view the task at this URL in it's system
+   */
+  String getUrl();
 
   /**
    * @return the list of labels
@@ -47,8 +51,7 @@ public interface Task {
   Boolean isResolved();
 
   /**
-   * TODO what is this string status? how does it abstract between task systems?
-   * @return status of task
+   * @return the type of this task
    */
-  String getStatus();
+  TaskType getType();
 }

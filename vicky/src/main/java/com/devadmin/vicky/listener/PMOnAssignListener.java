@@ -6,10 +6,8 @@
 package com.devadmin.vicky.listener;
 
 import com.devadmin.jira.JiraClient;
-import com.devadmin.vicky.ChangeLogItem;
-import com.devadmin.vicky.MessageService;
-import com.devadmin.vicky.MessageServiceException;
-import com.devadmin.vicky.TaskEvent;
+import com.devadmin.vicky.*;
+import com.devadmin.vicky.event.TaskEventModelWrapper;
 import com.devadmin.vicky.util.BlockerTaskTracker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,34 +34,33 @@ public class PMOnAssignListener extends TaskToMessageListener {
 
   @Autowired
   public PMOnAssignListener(MessageService messageService) {
-    super(messageService);
+    super(messageService, taskEventFormatter);
   }
 
-  public void onApplicationEvent(com.devadmin.vicky.event.TaskEvent event) {
+  public void onApplicationEvent(TaskEventModelWrapper eventWrapper) {
+    TaskEvent event = eventWrapper.getTaskEventModel();
+    Task task = event.getTask();
 
-    TaskEvent model = event.getTaskEventModel();
+    if (event.getChangeLog() != null) {
 
-    if (model.getChangeLog() != null) {
-
-      for (ChangeLogItem changeLogItem : model.getChangeLog().getItems()) {
+      for (ChangeLogItem changeLogItem : event.getChangeLog().getItems()) {
         if (changeLogItem.isAssign() && changeLogItem.getTo() != null) {
-
-          String message = "This message was sent by supercool Vicky 2.0 from PMOnAssignListener";
 
           String assignedTo = changeLogItem.getTo();
 
-          if (model.getTask().getPriority() != null && PRIORITYBLOCKER.equals(model.getTask().getPriority())) {
+          if (task.getPriority() !=  TaskPriority.BLOCKER) {
 
             String blockerMessage = "This message was sent by supercool Vicky 2.0 from Blocker";
 
             // TODO why is this here? needs docs...
+            // TODO why is this not in it's own listener? Why specifically assign events?
             BlockerTaskTracker tracker = new BlockerTaskTracker(model, blockerMessage, jiraClient, messageService,
                 assignedTo);
             tracker.startTracking();
           }
 
           try {
-            messageService.sendPrivateMessage(assignedTo, message);
+            messageService.sendPrivateMessage(assignedTo, formatter.format(event));
           } catch (MessageServiceException e) {
             LOGGER.error(e.getMessage());
           }
