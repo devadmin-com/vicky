@@ -54,4 +54,9 @@ public interface Task {
    * @return the type of this task
    */
   TaskType getType();
+
+  /**
+   * @return status of task
+   */
+  String getStatus();
 }

@@ -1,15 +1,14 @@
 package com.devadmin.vicky.test;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-
 import com.devadmin.vicky.ChangeLogItem;
 import com.devadmin.vicky.TaskEventType;
 import com.devadmin.vicky.listener.PMOnAssignListener;
+import org.junit.Test;
+
 import java.util.ArrayList;
 import java.util.List;
-import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 /**
  * Test class for {@link com.devadmin.vicky.listener.PMOnAssignListener}
@@ -73,7 +72,7 @@ public class PMOnAssignListenerTest extends TaskListenerTest {
 
   // private methods
   private void createContext() {
-    PMOnAssignListener listener = new PMOnAssignListener(testMessageService);
+    PMOnAssignListener listener = new PMOnAssignListener(testMessageService, taskEventFormatter);
     context.addApplicationListener(listener);
     context.refresh();
   }

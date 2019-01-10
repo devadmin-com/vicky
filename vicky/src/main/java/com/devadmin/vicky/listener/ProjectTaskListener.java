@@ -1,13 +1,11 @@
 package com.devadmin.vicky.listener;
 
-import com.devadmin.vicky.MessageService;
-import com.devadmin.vicky.MessageServiceException;
-import com.devadmin.vicky.TaskEvent;
-import com.devadmin.vicky.TaskEventType;
+import com.devadmin.vicky.*;
 import com.devadmin.vicky.event.TaskEventModelWrapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 /**
@@ -21,7 +19,7 @@ public class ProjectTaskListener extends TaskToMessageListener {
   private static final Logger LOGGER = LoggerFactory.getLogger(ProjectTaskListener.class);
 
   @Autowired
-  public ProjectTaskListener(MessageService messageService) {
+  public ProjectTaskListener(MessageService messageService, @Qualifier("SimpleFormatter") TaskEventFormatter taskEventFormatter) {
     super(messageService, taskEventFormatter);
   }
 

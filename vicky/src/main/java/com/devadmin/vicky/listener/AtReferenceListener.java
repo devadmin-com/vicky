@@ -5,14 +5,17 @@
  */
 package com.devadmin.vicky.listener;
 
-import com.devadmin.vicky.*;
-
-import java.util.List;
-
+import com.devadmin.vicky.MessageService;
+import com.devadmin.vicky.MessageServiceException;
+import com.devadmin.vicky.TaskEvent;
+import com.devadmin.vicky.TaskEventFormatter;
 import com.devadmin.vicky.event.TaskEventModelWrapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 /**
  * When a user is referenced in a comment send them a private message
@@ -22,10 +25,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class AtReferenceListener extends TaskToMessageListener {
 
-  //TODO the super class has a LOGGER, why not use it in the sub-classes also?
   private static final Logger LOGGER = LoggerFactory.getLogger(AtReferenceListener.class);
 
-  public AtReferenceListener(MessageService messageService) {
+
+  public AtReferenceListener(MessageService messageService, @Qualifier("SimpleFormatter")  TaskEventFormatter taskEventFormatter) {
     super(messageService, taskEventFormatter);
   }
 

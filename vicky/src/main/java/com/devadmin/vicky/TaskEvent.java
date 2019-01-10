@@ -36,7 +36,7 @@ public interface TaskEvent {
 
   /**
    *
-   * @return the set of changeschangelog data
+   * @return the set of changes changelog data
    */
   Changelog getChangeLog();
 
@@ -46,6 +46,7 @@ public interface TaskEvent {
   Comment getComment();
 
   /**
+   *  TODO ask Victor why we need this, and how to get this?
    * @return the user who performed the action which caused this event
    */
   String getActor();

@@ -19,11 +19,11 @@ import java.util.TimerTask;
  */
 public class BlockerTaskTracker {
 
-    //TODO commented out code - BAD BAD BAD, commented out code WITHOUT a TODO - FAIL FAIL FAIL
+    // TODO remove it after testing the functionality
 //  private static final long DELAY = 1000L * 60L; // 1m
 //  private static final long PERIOD = 1000L * 60L * 2L; //2m
 
-  private static final long DELAY = 1000L * 60L * 60L * 24L; // 24 h
+  private static final long DELAY = 1000L * 60L * 60L * 24L; // 24h
   private static final long PERIOD = 1000L * 60L * 60L * 6L; // 6h
 
   private Date startTrackingDate;

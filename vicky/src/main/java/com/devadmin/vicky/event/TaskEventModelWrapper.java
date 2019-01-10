@@ -1,11 +1,12 @@
 package com.devadmin.vicky.event;
 
-import com.devadmin.vicky.*;
+import com.devadmin.vicky.Task;
+import com.devadmin.vicky.TaskEvent;
 
 /**
     An event happened on a {@link Task}...
  */
-public class TaskEventModelWrapper extends EventModelWrapper<com.devadmin.vicky.TaskEvent> {
+public class TaskEventModelWrapper extends EventModelWrapper<TaskEvent> {
 
     public TaskEventModelWrapper(com.devadmin.vicky.TaskEvent model){
         super(model);

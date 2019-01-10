@@ -13,8 +13,7 @@ import java.util.List;
 public interface Comment {
 
     /**
-     * TODO what is the String returned? name? email? some other identifier?
-     * @return List of people referenced in this comment
+     * @return List of usernames who was referenced in comment
      */
     List<String> getReferences();
 

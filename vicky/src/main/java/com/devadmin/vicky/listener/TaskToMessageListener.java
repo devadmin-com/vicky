@@ -18,7 +18,6 @@ import org.springframework.context.ApplicationListener;
  */
 public abstract class TaskToMessageListener implements ApplicationListener<TaskEventModelWrapper> {
 
-  // TODO this should be protected and used in sub-classes?!
   static final Logger LOGGER = LoggerFactory.getLogger(TaskToMessageListener.class);
 
   protected MessageService messageService; // where we write to

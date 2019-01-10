@@ -1,6 +1,8 @@
 package com.devadmin.vicky.controller.jira.model;
 
 import com.devadmin.vicky.Task;
+import com.devadmin.vicky.TaskPriority;
+import com.devadmin.vicky.TaskType;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -61,13 +63,18 @@ public class IssueModel implements Task {
   }
 
   @Override
-  public String getPriority() {
-    return this.fields.getPriority().getName();
+  public TaskPriority getPriority() {
+    return TaskPriority.valueOf(fields.getPriority().getName());
   }
 
   @Override
   public String getProject() {
     return getFields().getProject().getName();
+  }
+
+  @Override
+  public String getUrl() {
+    return null;
   }
 
   @Override
@@ -86,6 +93,11 @@ public class IssueModel implements Task {
   @Override
   public Boolean isResolved() {
     return "Resolved 解決済".equals(this.fields.getStatus().getName());
+  }
+
+  @Override
+  public TaskType getType() {
+    return null;
   }
 
   @Override

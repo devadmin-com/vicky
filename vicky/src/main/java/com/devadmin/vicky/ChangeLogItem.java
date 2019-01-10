@@ -11,7 +11,9 @@ package com.devadmin.vicky;
  */
 public interface ChangeLogItem {
 
-  //TODO javadoc
+  /**
+   * @return what kind of change happened (ex: priority, reporter, status, etc.)
+   */
   String getField();
 
   /**

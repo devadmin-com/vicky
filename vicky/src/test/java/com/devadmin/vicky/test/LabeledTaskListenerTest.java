@@ -65,7 +65,7 @@ public class LabeledTaskListenerTest extends TaskListenerTest {
 
   // private methods
   private void createContext() {
-    LabeledTaskListener listener = new LabeledTaskListener(testMessageService);
+    LabeledTaskListener listener = new LabeledTaskListener(testMessageService, taskEventFormatter);
     context.addApplicationListener(listener);
     context.refresh();
   }

@@ -87,7 +87,7 @@ public class ProjectTaskListenerTest extends TaskListenerTest {
     }
 
     private void createContext() {
-        ProjectTaskListener listener = new ProjectTaskListener(testMessageService);
+        ProjectTaskListener listener = new ProjectTaskListener(testMessageService, taskEventFormatter);
         context.addApplicationListener(listener);
         context.refresh();
     }

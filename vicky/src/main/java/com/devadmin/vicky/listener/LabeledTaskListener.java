@@ -8,12 +8,11 @@ package com.devadmin.vicky.listener;
 import com.devadmin.vicky.MessageService;
 import com.devadmin.vicky.MessageServiceException;
 import com.devadmin.vicky.TaskEvent;
-
-import java.util.List;
-
+import com.devadmin.vicky.TaskEventFormatter;
 import com.devadmin.vicky.event.TaskEventModelWrapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 /**
@@ -27,10 +26,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class LabeledTaskListener extends TaskToMessageListener {
 
-  //TODO the super class has a LOGGER, why not use it in the sub-classes also?
   private static final Logger LOGGER = LoggerFactory.getLogger(LabeledTaskListener.class);
 
-  public LabeledTaskListener(MessageService messageService) {
+  public LabeledTaskListener(MessageService messageService, @Qualifier("SimpleFormatter") TaskEventFormatter taskEventFormatter) {
     super(messageService, taskEventFormatter);
   }
 

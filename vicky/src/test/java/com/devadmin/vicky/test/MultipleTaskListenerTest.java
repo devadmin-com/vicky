@@ -73,10 +73,10 @@ public class MultipleTaskListenerTest extends TaskListenerTest {
     }
 
     private void createContext() {
-        ProjectTaskListener projectTaskListener = new ProjectTaskListener(testMessageService);
-        PMOnAssignListener pmOnAssignListener = new PMOnAssignListener(testMessageService);
-        AtReferenceListener atReferenceListener = new AtReferenceListener(testMessageService);
-        LabeledTaskListener labeledTaskListener = new LabeledTaskListener(testMessageService);
+        ProjectTaskListener projectTaskListener = new ProjectTaskListener(testMessageService, taskEventFormatter);
+        PMOnAssignListener pmOnAssignListener = new PMOnAssignListener(testMessageService, taskEventFormatter);
+        AtReferenceListener atReferenceListener = new AtReferenceListener(testMessageService, taskEventFormatter);
+        LabeledTaskListener labeledTaskListener = new LabeledTaskListener(testMessageService, taskEventFormatter);
         context.addApplicationListener(projectTaskListener);
         context.addApplicationListener(pmOnAssignListener);
         context.addApplicationListener(atReferenceListener);

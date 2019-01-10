@@ -1,10 +1,7 @@
 package com.devadmin.vicky.test;
 
-import com.devadmin.vicky.Changelog;
-import com.devadmin.vicky.Comment;
-import com.devadmin.vicky.Task;
-import com.devadmin.vicky.TaskEvent;
-import com.devadmin.vicky.TaskEventType;
+import com.devadmin.vicky.*;
+
 import java.util.Date;
 
 /**
@@ -57,6 +54,12 @@ public class TestTaskEventModel implements TaskEvent {
   @Override
   public Comment getComment() {
     return comment;
+  }
+
+  // Todo implement somehow
+  @Override
+  public String getActor() {
+    return null;
   }
 
   public void setComment(Comment comment) {
