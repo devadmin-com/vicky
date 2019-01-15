@@ -4,7 +4,6 @@ import com.devadmin.vicky.TaskEvent;
 import com.devadmin.vicky.TaskEventType;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.util.Date;
 
 /**
@@ -78,7 +77,7 @@ public class JiraEventModel implements TaskEvent {
 
   @Override
   public String getActor() {
-    return null;
+    return this.user.getName();
   }
 
   public void setComment(CommentModel comment) {

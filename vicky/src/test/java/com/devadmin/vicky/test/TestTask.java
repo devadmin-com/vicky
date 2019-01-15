@@ -1,7 +1,8 @@
 package com.devadmin.vicky.test;
 
 import com.devadmin.vicky.Task;
-
+import com.devadmin.vicky.TaskPriority;
+import com.devadmin.vicky.TaskType;
 import java.util.List;
 
 class TestTask implements Task {
@@ -10,7 +11,7 @@ class TestTask implements Task {
   private List<String> labels;
 
   private String status;
-  private String priority;
+  private TaskPriority priority;
 
   @Override
   public String getId() {
@@ -23,11 +24,11 @@ class TestTask implements Task {
   }
 
   @Override
-  public String getPriority() {
+  public TaskPriority getPriority() {
     return this.priority;
   }
 
-  public void setPriority(String priority) {
+  public void setPriority(TaskPriority priority) {
     this.priority = priority;
   }
 
@@ -59,5 +60,30 @@ class TestTask implements Task {
   @Override
   public Boolean isResolved() {
     return "Resolved 解決済".equals(status);
+  }
+
+  @Override
+  public String getAssignee() {
+    return "Test User";
+  }
+
+  @Override
+  public String getUrl() {
+    return "https://devadmin.atlassian.net/browse/TL-000";
+  }
+
+  @Override
+  public String getSummary() {
+    return "Test Task";
+  }
+
+  @Override
+  public String getKey() {
+    return "TL-000";
+  }
+
+  @Override
+  public TaskType getType() {
+    return null;
   }
 }

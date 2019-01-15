@@ -1,11 +1,11 @@
 package com.devadmin.vicky.test;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 import com.devadmin.vicky.controller.jira.model.CommentModel;
 import com.devadmin.vicky.listener.AtReferenceListener;
 import org.junit.Test;
-
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 
 
 /**
@@ -56,7 +56,7 @@ public class AtReferenceListenerTest extends TaskListenerTest {
 
   // private methods
   private void createContext() {
-    AtReferenceListener listener = new AtReferenceListener(testMessageService);
+    AtReferenceListener listener = new AtReferenceListener(testMessageService, taskEventFormatter);
     context.addApplicationListener(listener);
     context.refresh();
   }

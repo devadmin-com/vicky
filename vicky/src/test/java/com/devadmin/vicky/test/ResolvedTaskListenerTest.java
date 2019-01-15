@@ -52,7 +52,7 @@ public class ResolvedTaskListenerTest extends TaskListenerTest {
 
   // private methods
   private void createContext() {
-    ResolvedTaskListener listener = new ResolvedTaskListener(testMessageService);
+    ResolvedTaskListener listener = new ResolvedTaskListener(testMessageService, taskEventFormatter);
     context.addApplicationListener(listener);
     context.refresh();
   }

@@ -1,20 +1,26 @@
 package com.devadmin.vicky.controller.jira.model;
 
+import com.devadmin.jira.JiraClient;
 import com.devadmin.vicky.Task;
 import com.devadmin.vicky.TaskPriority;
 import com.devadmin.vicky.TaskType;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 
 /**
  * This is the object which contains the information about jira issue
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class IssueModel implements Task {
+
+  private static final Logger LOGGER = LoggerFactory.getLogger(IssueModel.class);
 
   @JsonProperty("id")
   private String id;
@@ -24,6 +30,12 @@ public class IssueModel implements Task {
   private String key;
   @JsonProperty("fields")
   private FieldModel fields;
+
+  @Value("jira:cloud-url")
+  private String cloudUrl;
+
+  @Autowired
+  private JiraClient jiraClient;
 
   public String getId() {
     return id;
@@ -41,6 +53,7 @@ public class IssueModel implements Task {
     this.self = self;
   }
 
+  @Override
   public String getKey() {
     return key;
   }
@@ -73,11 +86,6 @@ public class IssueModel implements Task {
   }
 
   @Override
-  public String getUrl() {
-    return null;
-  }
-
-  @Override
   public List<String> getLabels() {
     ArrayList<String> labels = new ArrayList<>();
     if (getFields().getLabels() == null) {
@@ -103,5 +111,20 @@ public class IssueModel implements Task {
   @Override
   public String getStatus() {
     return this.fields.getStatus().getName();
+  }
+
+  @Override
+  public String getAssignee() {
+    return this.fields.getAssignee().getName();
+  }
+
+  @Override
+  public String getUrl() {
+    return String.format("https://devadmin.atlassian.net/browse/%s", this.key);
+  }
+
+  @Override
+  public String getSummary() {
+    return this.fields.getSummary();
   }
 }

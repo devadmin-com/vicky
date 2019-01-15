@@ -8,20 +8,22 @@ import org.springframework.stereotype.Component;
  * Implements formatting of assign @TaskEventModelWrapper for sending to a @MessageService
  *
  */
-@Component("AssignFormatter")
-public class AssignTaskEventFormatter extends SimpleTaskEventFormatter {
+@Component("SummaryFormatter")
+public class SummaryTaskEventFormatter extends SimpleTaskEventFormatter {
 
 
   @Autowired
-  public AssignTaskEventFormatter() {
+  public SummaryTaskEventFormatter() {
 
   }
 
   public String format(TaskEvent event) {
     StringBuffer message = new StringBuffer(128);
-    message.append(event.getActor());
-    message.append(" assigned to you: ");
-    message.append(super.format(event));
+    message.append(super.formatBase(event));
+    message.append(super.getShortDescription(event.getTask()));
+    message.append(super.getLastCommenter(event.getTask().getId()));
+    message.append(" ➠ ");
+    message.append(super.getLastComment(event.getTask().getId()));
     return message.toString();
   }
 

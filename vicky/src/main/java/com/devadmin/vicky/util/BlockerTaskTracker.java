@@ -6,11 +6,11 @@ import com.devadmin.jira.JiraException;
 import com.devadmin.vicky.MessageService;
 import com.devadmin.vicky.MessageServiceException;
 import com.devadmin.vicky.TaskEvent;
-
 import java.util.Date;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * This class contain issue comment tracker functionality
@@ -30,7 +30,14 @@ public class BlockerTaskTracker {
 
   private Timer timer = new Timer();
 
-  //TODO !!! why does this reach into the JIRA client? can it not work on Tasks only? Do we have to couple it to JIRA?
+  /**
+   * Here we need jiraClient because when we received a task event from Jira, this task contains no comments.
+   * and using task id via jiraClient we are receiving all comments of the task.
+   *
+   * Here we must know that the assigned person has added a comment in the task during the last 24 hours,
+   * if does not add, we must continue to track every 6 hours.
+   */
+  @Autowired
   private JiraClient jiraClient;
 
   private MessageService messageService;
@@ -40,9 +47,7 @@ public class BlockerTaskTracker {
   private String message;
   private String personName;
 
-  public BlockerTaskTracker(TaskEvent taskEvent, String message, JiraClient jiraClient,
-                            MessageService messageService, String personName) {
-    this.jiraClient = jiraClient;
+  public BlockerTaskTracker(TaskEvent taskEvent, String message, MessageService messageService, String personName) {
     this.messageService = messageService;
     this.taskEvent = taskEvent;
     this.message = message;

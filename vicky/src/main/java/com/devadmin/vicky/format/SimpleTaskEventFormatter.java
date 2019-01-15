@@ -1,9 +1,15 @@
 package com.devadmin.vicky.format;
 
+import com.devadmin.jira.Comment;
+import com.devadmin.jira.JiraClient;
+import com.devadmin.jira.JiraException;
 import com.devadmin.vicky.Task;
 import com.devadmin.vicky.TaskEvent;
 import com.devadmin.vicky.TaskEventFormatter;
 import com.devadmin.vicky.TaskPriority;
+import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -14,72 +20,59 @@ import org.springframework.stereotype.Component;
 @Component("SimpleFormatter")
 public class SimpleTaskEventFormatter implements TaskEventFormatter {
 
+  private static final Logger LOGGER = LoggerFactory.getLogger(SimpleTaskEventFormatter.class);
 
   @Autowired
-  public SimpleTaskEventFormatter() {
+  private JiraClient jiraClient;
 
+  @Autowired
+  public SimpleTaskEventFormatter(){}
+
+  protected String formatBase(TaskEvent event) {
+    Task task = event.getTask();
+    StringBuffer message = new StringBuffer(128);
+    message.append(getIcon(task));
+    message.append(" <");
+    message.append(task.getUrl());
+    message.append(" | ");
+    message.append(task.getKey());
+    message.append("> ");
+    message.append(task.getStatus());
+    message.append(": ");
+    message.append(task.getSummary());
+    message.append(" @");
+    message.append(task.getAssignee());
+    return message.toString();
+
+//    return String.format("%s <%s | %s> %s: %s @%s",
+//        getIcon(task),
+//        task.getUrl(),
+//        task.getKey(),
+//        task.getStatus(),
+//        task.getSummary(),
+//        task.getAssignee());
   }
 
   public String format(TaskEvent event) {
     Task task = event.getTask();
 
     StringBuffer message = new StringBuffer(128);
-
-
-    /* TODO old stuff - remove me!!!!
-implement:
- * formats as:
- * <issue type icon> <issue id> (clickable issue URL) <Status>: <Summary> @<assignee nickname>
- * <commenter name> ➠ <latest comment>
-
-    message.setIssueType(issueType);
-    message.setIssueKey(issueKey);
-    message.setIssueUrl(String.format("%s/browse/%s", cloudUrl, issueKey));
-    message.setIssueStatus(issueFields.getStatus().getName());
-    message.setIssueSummary(issueFields.getSummary());
-    if (jiraEventModel.getUser() != null)
-      message.setIssueCreator(jiraEventModel.getUser().getName());
-    message.setIssueProject(issueFields.getProject().getName());
-    message.setIssuePriority(issuePriority);
-    message.setIssueTypeIcon(getIcon(issuePriority, issueType));
-    message.setIssueLabels(issueFields.getLabels());
-
-    if (issueFields.getAssignee() == null){
-      message.setIssueAssignedTo("Unassigned");
-    } else {
-      message.setIssueAssignedTo(issueFields.getAssignee().getName());
-    }
-
-    if (jiraEventModel.getChangeLog() != null) {
-      for (JiraChangeLogItemModel item : jiraEventModel.getChangeLog().getItems()) {
-        if("assignee".equals(item.getField()) && item.getTo() != null){
-          message.setIssueAssignedFrom(item.getTo());
-        }
-      }
-    }
-
-    message.setIssueDescription(getIssueDescription(issueFields));
-
-    List<Comment> comments;
-    String issueId = jiraEventModel.getTask().getId();
-    try {
-      comments = jiraClient.getIssue(issueId).getComments();
-    } catch (JiraException e) {
-      throw new VickyException("Failed to retrieve issue by issueId: " + issueId, e);
-    }
-
-    if (jiraEventModel.getComment() == null) {
-      if (comments.size() > 0){
-        message.setIssueCommenter(comments.get(comments.size() - 1).getAuthor().getDisplayName());
-        message.setIssueComment(comments.get(comments.size() - 1).getBody());
-      }
-    } else {
-      message.setIssueCommenter(jiraEventModel.getComment().getAuthor().getDisplayName());
-      message.setIssueComment(jiraEventModel.getComment().getBody());
-    }*/
-
+    message.append(formatBase(event));
+    message.append("\n");
+    message.append(getLastCommenter(task.getId()));
+    message.append(" ➠ ");
+    message.append(getLastComment(task.getId()));
     return message.toString();
 
+//    return String.format("%s <%s | %s> %s: %s @%s\n %s ➠ %s",
+//        getIcon(task),
+//        task.getUrl(),
+//        task.getKey(),
+//        task.getStatus(),
+//        task.getSummary(),
+//        task.getAssignee(),
+//        getLastCommenter(task.getId()),
+//        getLastComment(task.getId()));
   }
 
   /**
@@ -88,7 +81,7 @@ implement:
    * @param task the task who's description we want to shorten...
    * @return a shortened version of the task's description
    */
-  private String getShortDescription(Task task) {
+  protected String getShortDescription(Task task) {
     StringBuilder stb = new StringBuilder();
     String[] descriptionLines = task.getDescription().split("\r\n|\r|\n");
 
@@ -108,7 +101,7 @@ implement:
    * @return the icon to use when displaying this task
    */
   private String getIcon(Task task) {
-    if (task.getPriority() == TaskPriority.BLOCKER) {
+    if (task.getPriority() == TaskPriority.Blocker) {
       return "‼️";
     } else {
       switch (task.getStatus()) {
@@ -120,6 +113,34 @@ implement:
           return ":rocket:";
       }
     }
+  }
+
+  protected String getLastCommenter(String issueId) {
+    List<Comment> comments = getComments(issueId);
+    String commenter = null;
+    if (comments.size() > 0){
+      commenter = comments.get(comments.size() - 1).getAuthor().getDisplayName();
+    }
+    return commenter == null? "Vicky" : commenter;
+  }
+
+  protected String getLastComment(String issueId) {
+    List<Comment> comments = getComments(issueId);
+    String lastComment = null;
+    if (comments.size() > 0){
+      lastComment = comments.get(comments.size() - 1).getBody();
+    }
+    return lastComment == null ? "This task do not contain comment" : lastComment;
+  }
+
+  private List<Comment> getComments(String issueId) {
+    List<Comment> comments = null;
+    try {
+      comments = jiraClient.getIssue(issueId).getComments();
+    } catch (JiraException e) {
+      LOGGER.error("Failed to retrieve issue by issueId: " + issueId, e);
+    }
+    return comments;
   }
 
 }

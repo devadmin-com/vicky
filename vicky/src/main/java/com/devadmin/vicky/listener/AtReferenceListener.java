@@ -10,12 +10,11 @@ import com.devadmin.vicky.MessageServiceException;
 import com.devadmin.vicky.TaskEvent;
 import com.devadmin.vicky.TaskEventFormatter;
 import com.devadmin.vicky.event.TaskEventModelWrapper;
+import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 /**
  * When a user is referenced in a comment send them a private message
@@ -28,13 +27,15 @@ public class AtReferenceListener extends TaskToMessageListener {
   private static final Logger LOGGER = LoggerFactory.getLogger(AtReferenceListener.class);
 
 
-  public AtReferenceListener(MessageService messageService, @Qualifier("SimpleFormatter")  TaskEventFormatter taskEventFormatter) {
+  public AtReferenceListener(MessageService messageService,
+      @Qualifier("SimpleFormatter") TaskEventFormatter taskEventFormatter) {
     super(messageService, taskEventFormatter);
   }
 
   public void onApplicationEvent(TaskEventModelWrapper eventWrapper) {
     TaskEvent event = eventWrapper.getTaskEventModel();
 
+    if (event.getComment() != null) {
       List<String> atReferences = event.getComment().getReferences();
 
       for (String atReference : atReferences) {
@@ -45,4 +46,5 @@ public class AtReferenceListener extends TaskToMessageListener {
         }
       }
     }
+  }
 }

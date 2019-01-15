@@ -5,8 +5,11 @@ package com.devadmin.vicky;
  */
 public enum TaskPriority {
 
-
-  NORMAL("NORMAL"), BLOCKER("BLOCKER");
+  Trivial("Trivial"),
+  Minor("Minor"),
+  Major("Major"),
+  Critical("Critical"),
+  Blocker("Blocker");
 
   String priority;
 

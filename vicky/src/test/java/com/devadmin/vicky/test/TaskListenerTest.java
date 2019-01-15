@@ -14,6 +14,7 @@ import org.springframework.context.support.StaticApplicationContext;
 public class TaskListenerTest {
     StaticApplicationContext context;
     TestMessageService testMessageService;
+
     @Qualifier("SimpleFormatter")
     TaskEventFormatter taskEventFormatter;
 

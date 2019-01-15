@@ -59,4 +59,19 @@ public interface Task {
    * @return status of task
    */
   String getStatus();
+
+  /**
+   * @return the username who assignee this task
+   */
+  String getAssignee();
+
+  /**
+   * @return IssueKey which is consist of project key and issue number
+   */
+  String getKey();
+
+  /**
+   * @return Issue summery
+   */
+  String getSummary();
 }
