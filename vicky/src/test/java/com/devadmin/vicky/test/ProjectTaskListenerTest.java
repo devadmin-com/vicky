@@ -1,15 +1,25 @@
 package com.devadmin.vicky.test;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
+import com.devadmin.vicky.TaskEventFormatter;
 import com.devadmin.vicky.TaskEventType;
+import com.devadmin.vicky.TaskPriority;
+import com.devadmin.vicky.format.SimpleTaskEventFormatter;
 import com.devadmin.vicky.listener.ProjectTaskListener;
 import org.junit.Test;
-
-import static org.junit.Assert.*;
 
 /**
  * Test class for {@link com.devadmin.vicky.listener.ProjectTaskListener}
  */
 public class ProjectTaskListenerTest extends TaskListenerTest {
+
+    @Override
+    TaskEventFormatter getTaskEventFormatter() {
+        return new SimpleTaskEventFormatter();
+    }
 
     /**
      * tests that the event was sent
@@ -82,7 +92,10 @@ public class ProjectTaskListenerTest extends TaskListenerTest {
     private TestTaskEventModel getTestTaskEventModel(TaskEventType type) {
         TestTaskEventModel testEventModel = new TestTaskEventModel();
         testEventModel.setType(type);
-        testEventModel.setTask(new TestTask());
+        TestTask testTask = new TestTask();
+        testTask.setPriority(TaskPriority.Minor);
+        testTask.setStatus("Backlog");
+        testEventModel.setTask(testTask);
         return testEventModel;
     }
 

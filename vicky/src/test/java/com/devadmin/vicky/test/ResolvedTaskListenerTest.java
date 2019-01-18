@@ -3,6 +3,8 @@ package com.devadmin.vicky.test;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import com.devadmin.vicky.TaskEventFormatter;
+import com.devadmin.vicky.format.SimpleTaskEventFormatter;
 import com.devadmin.vicky.listener.ResolvedTaskListener;
 import org.junit.Test;
 
@@ -11,6 +13,11 @@ import org.junit.Test;
  *
  */
 public class ResolvedTaskListenerTest extends TaskListenerTest {
+
+  @Override
+  TaskEventFormatter getTaskEventFormatter() {
+    return new SimpleTaskEventFormatter();
+  }
 
   /**
    * Tests that the event was not handled if task isn't resolved

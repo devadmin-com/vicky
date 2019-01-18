@@ -3,7 +3,10 @@ package com.devadmin.vicky.test;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import com.devadmin.vicky.TaskEventFormatter;
+import com.devadmin.vicky.TaskPriority;
 import com.devadmin.vicky.controller.jira.model.CommentModel;
+import com.devadmin.vicky.format.SimpleTaskEventFormatter;
 import com.devadmin.vicky.listener.AtReferenceListener;
 import org.junit.Test;
 
@@ -13,6 +16,11 @@ import org.junit.Test;
  *
  */
 public class AtReferenceListenerTest extends TaskListenerTest {
+
+  @Override
+  TaskEventFormatter getTaskEventFormatter() {
+    return new SimpleTaskEventFormatter();
+  }
 
   /**
    * tests that the event was sent
@@ -24,8 +32,13 @@ public class AtReferenceListenerTest extends TaskListenerTest {
     CommentModel comment = new CommentModel();
     comment.setBody("What is it [~serpento] ?");
 
+    TestTask testTask = new TestTask();
+    testTask.setStatus("Backlog");
+    testTask.setPriority(TaskPriority.Major);
+
     TestTaskEventModel testEventModel = new TestTaskEventModel();
     testEventModel.setComment(comment);
+    testEventModel.setTask(testTask);
 
     publish(testEventModel);
 
@@ -45,8 +58,13 @@ public class AtReferenceListenerTest extends TaskListenerTest {
     CommentModel comment = new CommentModel();
     comment.setBody("Hello world!");
 
+    TestTask testTask = new TestTask();
+    testTask.setStatus("Backlog");
+    testTask.setPriority(TaskPriority.Major);
+
     TestTaskEventModel testEventModel = new TestTaskEventModel();
     testEventModel.setComment(comment);
+    testEventModel.setTask(testTask);
 
     publish(testEventModel);
 

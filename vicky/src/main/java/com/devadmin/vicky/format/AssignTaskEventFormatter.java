@@ -1,7 +1,6 @@
 package com.devadmin.vicky.format;
 
 import com.devadmin.vicky.TaskEvent;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
@@ -10,12 +9,6 @@ import org.springframework.stereotype.Component;
  */
 @Component("AssignFormatter")
 public class AssignTaskEventFormatter extends SimpleTaskEventFormatter {
-
-
-  @Autowired
-  public AssignTaskEventFormatter() {
-
-  }
 
   public String format(TaskEvent event) {
     StringBuffer message = new StringBuffer(128);

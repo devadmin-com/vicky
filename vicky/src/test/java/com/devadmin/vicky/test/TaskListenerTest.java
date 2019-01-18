@@ -3,8 +3,8 @@ package com.devadmin.vicky.test;
 import com.devadmin.vicky.TaskEvent;
 import com.devadmin.vicky.TaskEventFormatter;
 import com.devadmin.vicky.event.TaskEventModelWrapper;
+import com.devadmin.vicky.format.SimpleTaskEventFormatter;
 import org.junit.Before;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.support.StaticApplicationContext;
 
 /**
@@ -15,9 +15,7 @@ public class TaskListenerTest {
     StaticApplicationContext context;
     TestMessageService testMessageService;
 
-    @Qualifier("SimpleFormatter")
     TaskEventFormatter taskEventFormatter;
-
 
     /**
      * Publishes the event as a TaskEventModelWrapper to the testing event bus.
@@ -30,11 +28,15 @@ public class TaskListenerTest {
         context.publishEvent(event);
     }
 
+    TaskEventFormatter getTaskEventFormatter(){
+        return new SimpleTaskEventFormatter();
+    }
+
     @Before
     public void setUp() {
         context = new StaticApplicationContext();
         testMessageService = new TestMessageService();
-
+        taskEventFormatter = getTaskEventFormatter();
     }
 }
 

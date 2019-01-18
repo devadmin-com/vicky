@@ -25,9 +25,6 @@ public class SimpleTaskEventFormatter implements TaskEventFormatter {
   @Autowired
   private JiraClient jiraClient;
 
-  @Autowired
-  public SimpleTaskEventFormatter(){}
-
   protected String formatBase(TaskEvent event) {
     Task task = event.getTask();
     StringBuffer message = new StringBuffer(128);

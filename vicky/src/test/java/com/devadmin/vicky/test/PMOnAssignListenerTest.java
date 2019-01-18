@@ -1,19 +1,28 @@
 package com.devadmin.vicky.test;
 
-import com.devadmin.vicky.ChangeLogItem;
-import com.devadmin.vicky.TaskEventType;
-import com.devadmin.vicky.listener.PMOnAssignListener;
-import org.junit.Test;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
+import com.devadmin.vicky.ChangeLogItem;
+import com.devadmin.vicky.TaskEventFormatter;
+import com.devadmin.vicky.TaskEventType;
+import com.devadmin.vicky.TaskPriority;
+import com.devadmin.vicky.format.AssignTaskEventFormatter;
+import com.devadmin.vicky.listener.PMOnAssignListener;
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.junit.Assert.*;
+import org.junit.Test;
 
 /**
  * Test class for {@link com.devadmin.vicky.listener.PMOnAssignListener}
  */
 public class PMOnAssignListenerTest extends TaskListenerTest {
+
+  @Override
+  TaskEventFormatter getTaskEventFormatter() {
+    return new AssignTaskEventFormatter();
+  }
 
   /**
    * Tests that handler gets the event and send the right message
@@ -34,6 +43,8 @@ public class PMOnAssignListenerTest extends TaskListenerTest {
     TestChangelog testChangelog = new TestChangelog();
     testChangelog.setItems(itemList);
     TestTask testTask = new TestTask();
+    testTask.setPriority(TaskPriority.Minor);
+    testTask.setStatus("Backlog");
     testEventModel.setTask(testTask);
     testEventModel.setChangelog(testChangelog);
     testEventModel.setType(TaskEventType.UPDATED);
@@ -55,6 +66,12 @@ public class PMOnAssignListenerTest extends TaskListenerTest {
     createContext();
 
     TestTaskEventModel testEventModel = new TestTaskEventModel();
+
+    TestTask testTask = new TestTask();
+    testTask.setPriority(TaskPriority.Minor);
+    testTask.setStatus("Backlog");
+    testEventModel.setTask(testTask);
+
     TestJiraChangeLogItem item = new TestJiraChangeLogItem();
 
     List<ChangeLogItem> itemList = new ArrayList<>();
