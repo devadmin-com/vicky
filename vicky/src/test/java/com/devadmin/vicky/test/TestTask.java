@@ -1,8 +1,10 @@
 package com.devadmin.vicky.test;
 
+import com.devadmin.jira.Comment;
 import com.devadmin.vicky.Task;
 import com.devadmin.vicky.TaskPriority;
 import com.devadmin.vicky.TaskType;
+
 import java.util.List;
 
 class TestTask implements Task {
@@ -75,6 +77,12 @@ class TestTask implements Task {
   @Override
   public String getSummary() {
     return "Test Task";
+  }
+
+  @Override
+  public Comment getLastComment() {
+    // todo implement me
+    return null;
   }
 
   @Override

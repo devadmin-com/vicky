@@ -6,11 +6,11 @@ import com.devadmin.jira.JiraException;
 import com.devadmin.vicky.MessageService;
 import com.devadmin.vicky.MessageServiceException;
 import com.devadmin.vicky.TaskEvent;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import java.util.Date;
 import java.util.List;
-import java.util.Timer;
 import java.util.TimerTask;
-import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * This class contain issue comment tracker functionality
@@ -28,7 +28,7 @@ public class BlockerTaskTracker {
 
   private Date startTrackingDate;
 
-  private Timer timer = new Timer();
+  private java.util.Timer timer = new java.util.Timer();
 
   /**
    * Here we need jiraClient because when we received a task event from Jira, this task contains no comments.
@@ -54,14 +54,20 @@ public class BlockerTaskTracker {
     this.personName = personName;
   }
 
-  //TODO javadoc
+
+  /**
+   * Start tracking once found task with Blocker priority
+   */
   public void startTracking() {
     startTrackingDate = new Date();
-    timer.schedule(new Reminder(), DELAY, PERIOD);
+    timer.schedule(new Timer(), DELAY, PERIOD);
   }
 
-  //TODO javadoc
-  class Reminder extends TimerTask {
+
+  /**
+   *  calls run method every time after delay
+   */
+  class Timer extends TimerTask {
       //TODO how will this work when vicky is re-started? i.e. all the timers are lost...
 
     public void run() {

@@ -14,7 +14,7 @@ public class AssignTaskEventFormatter extends SimpleTaskEventFormatter {
     StringBuffer message = new StringBuffer(128);
     message.append(event.getActor());
     message.append(" assigned to you: ");
-    message.append(super.format(event));
+    message.append(this.format(event));
     return message.toString();
   }
 
