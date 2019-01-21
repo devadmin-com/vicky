@@ -38,7 +38,7 @@ public interface TaskEvent {
    *
    * @return the set of changes changelog data
    */
-  Changelog getChangeLog();
+  ChangeLog getChangeLog();
 
   /**
    * @return comment on task

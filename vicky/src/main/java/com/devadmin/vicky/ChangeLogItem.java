@@ -7,23 +7,15 @@ package com.devadmin.vicky;
 
 /**
  * ChangeLogItem inside changelog
- * TODO needs more descriptive comment
+ * describes changes done on event (ex: priority change, status change etc.)
  */
 public interface ChangeLogItem {
 
   /**
+   * ToDo have to return enum, have to be called getChangeType or smth like that ChangeType is enum
    * @return what kind of change happened (ex: priority, reporter, status, etc.)
    */
-  String getField();
+  ChangeType getChangeType();
 
-  /**
-   * TODO unclear what does "person interaction" mean?
-   * @return the username of the person interaction
-   */
-  String getTo();
 
-  /**
-   * @return true if the changelog is a task assignment (could be first assignment or reassignment)
-   */
-  boolean isAssign();
 }

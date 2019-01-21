@@ -13,15 +13,10 @@ import java.util.List;
 import java.util.TimerTask;
 
 /**
- * This class contain issue comment tracker functionality
- * TODO what does this mean? I don't understand
- * TODO does this class deserve it's own package? it's just one class... why doesn't it live in vicky.listener where it's used?
+ * This class periodically checks if Blocker task contains comments for last 6 hours
  */
 public class BlockerTaskTracker {
 
-    // TODO remove it after testing the functionality
-//  private static final long DELAY = 1000L * 60L; // 1m
-//  private static final long PERIOD = 1000L * 60L * 2L; //2m
 
   private static final long DELAY = 1000L * 60L * 60L * 24L; // 24h
   private static final long PERIOD = 1000L * 60L * 60L * 6L; // 6h
@@ -68,7 +63,7 @@ public class BlockerTaskTracker {
    *  calls run method every time after delay
    */
   class Timer extends TimerTask {
-      //TODO how will this work when vicky is re-started? i.e. all the timers are lost...
+    // TODO everytime we restart check last comment time etc...
 
     public void run() {
       try {

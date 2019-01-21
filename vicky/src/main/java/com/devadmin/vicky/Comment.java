@@ -6,6 +6,7 @@
 package com.devadmin.vicky;
 
 import com.devadmin.vicky.controller.jira.model.AuthorModel;
+
 import java.util.List;
 
 /**
@@ -18,12 +19,6 @@ public interface Comment {
    */
   List<String> getReferences();
 
-  /**
-   * TODO this is unused?
-   *
-   * @return true if there is at least one reference to user i.e. list returned by @getReferences is not-empty
-   */
-  boolean hasReferences();
 
   /**
    * @return comment author model

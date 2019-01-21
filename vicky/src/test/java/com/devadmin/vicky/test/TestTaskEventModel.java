@@ -10,7 +10,7 @@ import java.util.Date;
 public class TestTaskEventModel implements TaskEvent {
 
   private TaskEventType type;
-  private TestChangelog changelog;
+  private TestChangeLog changelog;
   private Comment comment;
   private Task task;
 
@@ -39,11 +39,11 @@ public class TestTaskEventModel implements TaskEvent {
   }
 
   @Override
-  public Changelog getChangeLog() {
+  public ChangeLog getChangeLog() {
     return changelog;
   }
 
-  public void setChangelog(TestChangelog changelog) {
+  public void setChangelog(TestChangeLog changelog) {
     this.changelog = changelog;
   }
 
@@ -56,10 +56,9 @@ public class TestTaskEventModel implements TaskEvent {
     return comment;
   }
 
-  // Todo implement somehow
   @Override
   public String getActor() {
-    return null;
+    return "serpento";
   }
 
   public void setComment(Comment comment) {

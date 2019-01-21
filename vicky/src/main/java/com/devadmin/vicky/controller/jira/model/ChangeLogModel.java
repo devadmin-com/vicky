@@ -1,9 +1,10 @@
 package com.devadmin.vicky.controller.jira.model;
 
+import com.devadmin.vicky.ChangeLog;
 import com.devadmin.vicky.ChangeLogItem;
-import com.devadmin.vicky.Changelog;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,7 +12,7 @@ import java.util.List;
  * This class contains information about what changes occurred  in the task.
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class ChangeLogModel implements Changelog {
+public class ChangeLogModel implements ChangeLog {
 
   @JsonProperty("id")
   private String id;

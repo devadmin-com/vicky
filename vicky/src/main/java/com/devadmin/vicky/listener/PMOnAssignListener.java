@@ -5,12 +5,7 @@
  */
 package com.devadmin.vicky.listener;
 
-import com.devadmin.vicky.ChangeLogItem;
-import com.devadmin.vicky.MessageService;
-import com.devadmin.vicky.MessageServiceException;
-import com.devadmin.vicky.Task;
-import com.devadmin.vicky.TaskEvent;
-import com.devadmin.vicky.TaskEventFormatter;
+import com.devadmin.vicky.*;
 import com.devadmin.vicky.event.TaskEventModelWrapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,12 +32,14 @@ public class PMOnAssignListener extends TaskToMessageListener {
   public void onApplicationEvent(TaskEventModelWrapper eventWrapper) {
 
     TaskEvent event = eventWrapper.getTaskEventModel();
-    Task task = event.getTask();
 
     if (event.getChangeLog() != null) {
       for (ChangeLogItem changeLogItem : event.getChangeLog().getItems()) {
-        if (changeLogItem.isAssign() && changeLogItem.getTo() != null) {
-          String assignedTo = changeLogItem.getTo();
+        if (changeLogItem.getChangeType() == ChangeType.ASSIGN ) {
+
+          AssignChangeLogItem assignChangeLogItem = (AssignChangeLogItem) changeLogItem;
+          String assignedTo = assignChangeLogItem.getAssignedTo();
+
           try {
             messageService.sendPrivateMessage(assignedTo, formatter.format(event));
           } catch (MessageServiceException e) {

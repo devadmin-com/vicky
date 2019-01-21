@@ -1,12 +1,11 @@
 package com.devadmin.vicky.test;
 
+import com.devadmin.vicky.ChangeLog;
 import com.devadmin.vicky.ChangeLogItem;
-import com.devadmin.vicky.Changelog;
-import com.devadmin.vicky.controller.jira.model.JiraChangeLogItemModel;
 
 import java.util.List;
 
-public class TestChangelog implements Changelog {
+public class TestChangeLog implements ChangeLog {
 
   private List<ChangeLogItem> items;
 

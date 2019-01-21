@@ -1,8 +1,5 @@
 package com.devadmin.vicky.test;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-
 import com.devadmin.vicky.ChangeLogItem;
 import com.devadmin.vicky.TaskEventType;
 import com.devadmin.vicky.TaskPriority;
@@ -12,10 +9,14 @@ import com.devadmin.vicky.listener.AtReferenceListener;
 import com.devadmin.vicky.listener.LabeledTaskListener;
 import com.devadmin.vicky.listener.PMOnAssignListener;
 import com.devadmin.vicky.listener.ProjectTaskListener;
+import org.junit.Test;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import org.junit.Test;
+
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Test class for {@link ProjectTaskListener}
@@ -61,7 +62,7 @@ public class MultipleTaskListenerTest extends TaskListenerTest {
         List<ChangeLogItem> itemList = new ArrayList<>();
         itemList.add(item);
 
-        TestChangelog testChangelog = new TestChangelog();
+        TestChangeLog testChangelog = new TestChangeLog();
         testChangelog.setItems(itemList);
         testEventModel.setChangelog(testChangelog);
 

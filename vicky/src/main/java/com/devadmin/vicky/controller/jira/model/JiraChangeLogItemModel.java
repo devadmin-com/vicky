@@ -1,6 +1,8 @@
 package com.devadmin.vicky.controller.jira.model;
 
+import com.devadmin.vicky.AssignChangeLogItem;
 import com.devadmin.vicky.ChangeLogItem;
+import com.devadmin.vicky.ChangeType;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -8,7 +10,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * @see ChangeLogItem
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class JiraChangeLogItemModel implements ChangeLogItem {
+public class JiraChangeLogItemModel implements AssignChangeLogItem {
 
   @JsonProperty("field")
   private String field;
@@ -81,8 +83,18 @@ public class JiraChangeLogItemModel implements ChangeLogItem {
     this.toString = toString;
   }
 
+
   @Override
-  public boolean isAssign() {
-    return "assignee".equals(field);
+  public String getAssignedTo() {
+    if (field is assign)
+    return to;
+    else "";
+  }
+
+  @Override
+  public ChangeType getChangeType() {
+    if(field is assign)
+    return ChangeType.ASSIGN;
+    else "";
   }
 }

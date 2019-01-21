@@ -26,7 +26,7 @@ public class ProjectTaskListener extends TaskToMessageListener {
   public void onApplicationEvent(TaskEventModelWrapper eventWrapper) {
     TaskEvent event = eventWrapper.getTaskEventModel();
 
-    if (event.getType() == TaskEventType.CREATED) { // TODO what about resolved - see story definition
+    if (event.getType() == TaskEventType.CREATED) {
 
       // send to the channel name which is the same as the jira project name
       String channelName = event.getTask().getProject();

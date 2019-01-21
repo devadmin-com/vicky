@@ -1,5 +1,6 @@
 /**
- * This package contain vicky app services
- * TODO more info - what's a vicky app service? what services are here?
+ * This package contain vicky app services layer
+ * which contains the logic of vicky's features
+ *
  */
 package com.devadmin.vicky.service;

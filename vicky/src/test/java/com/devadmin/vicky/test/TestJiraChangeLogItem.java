@@ -30,7 +30,6 @@ public class TestJiraChangeLogItem extends JiraChangeLogItemModel {
     this.to = to;
   }
 
-  @Override
   public boolean isAssign() {
     return "assignee".equals(field);
   }

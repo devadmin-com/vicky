@@ -9,7 +9,6 @@ import com.devadmin.vicky.controller.jira.model.CommentModel;
 import com.devadmin.vicky.controller.jira.model.IssueModel;
 import com.devadmin.vicky.controller.jira.model.JiraEventModel;
 import com.devadmin.vicky.event.TaskEventModelWrapper;
-import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +18,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /**
  * This class contain methods which receive events from JIRA
@@ -67,6 +68,9 @@ public class JiraController {
 
   }
 
+  /**
+   * set last comment to jiraEventModel (which doesn't contain it by default)
+   */
   private void setLastComment(JiraEventModel jiraEventModel) {
     List<Comment> comments = null;
     IssueModel task = jiraEventModel.getTask();
@@ -84,13 +88,16 @@ public class JiraController {
     }
   }
 
+  /**
+   * @return default message if there is no comment
+   */
   private CommentModel getDefaultCommentModel() {
     CommentModel commentModel = new CommentModel();
     AuthorModel authorModel = new AuthorModel();
 
     authorModel.setDisplayName("Vicky");
     commentModel.setAuthor(authorModel);
-    commentModel.setBody("This task did not contain comment");
+    commentModel.setBody("This task does not contain comment");
     return commentModel;
   }
 

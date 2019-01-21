@@ -7,8 +7,7 @@ package com.devadmin.vicky;
 
 import java.util.List;
 
-// TODO make l capital (if we keep the interface)
-public interface Changelog {
+public interface ChangeLog {
 
   List<ChangeLogItem> getItems();
 }
