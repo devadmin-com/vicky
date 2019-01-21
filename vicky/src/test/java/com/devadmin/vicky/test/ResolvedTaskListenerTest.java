@@ -4,6 +4,8 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import com.devadmin.vicky.TaskEventFormatter;
+import com.devadmin.vicky.controller.jira.model.AuthorModel;
+import com.devadmin.vicky.controller.jira.model.CommentModel;
 import com.devadmin.vicky.format.SimpleTaskEventFormatter;
 import com.devadmin.vicky.listener.ResolvedTaskListener;
 import org.junit.Test;
@@ -46,8 +48,16 @@ public class ResolvedTaskListenerTest extends TaskListenerTest {
 
     createContext();
 
+    CommentModel commentModel = new CommentModel();
+    commentModel.setBody("Some Test Comment");
+    AuthorModel authorModel = new AuthorModel();
+    authorModel.setDisplayName("serpento");
+    commentModel.setAuthor(authorModel);
+
     TestTask testTask = new TestTask();
     testTask.setStatus("Resolved 解決済");
+    testTask.setLastComment(commentModel);
+
     TestTaskEventModel testEventModel = new TestTaskEventModel();
     testEventModel.setTask(testTask);
 

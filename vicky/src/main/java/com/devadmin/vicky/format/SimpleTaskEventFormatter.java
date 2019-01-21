@@ -1,12 +1,11 @@
 package com.devadmin.vicky.format;
 
-import com.devadmin.jira.Comment;
+
+import com.devadmin.vicky.Comment;
 import com.devadmin.vicky.Task;
 import com.devadmin.vicky.TaskEvent;
 import com.devadmin.vicky.TaskEventFormatter;
 import com.devadmin.vicky.TaskPriority;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 /**
@@ -16,9 +15,7 @@ import org.springframework.stereotype.Component;
 @Component("SimpleFormatter")
 public class SimpleTaskEventFormatter implements TaskEventFormatter {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(SimpleTaskEventFormatter.class);
-
-  protected String formatBase(TaskEvent event) {
+  String formatBase(TaskEvent event) {
     Task task = event.getTask();
 
     return String.format("%s <%s | %s> %s: %s @%s",
@@ -33,15 +30,27 @@ public class SimpleTaskEventFormatter implements TaskEventFormatter {
   public String format(TaskEvent event) {
     Task task = event.getTask();
 
-    return String.format("%s <%s | %s> %s: %s @%s\n %s ➠ %s",
-        getIcon(task),
-        task.getUrl(),
-        task.getKey(),
-        task.getStatus(),
-        task.getSummary(),
-        task.getAssignee(),
-        getLastCommenter(task),
-        getLastComment(task));
+    if (event.getComment() == null){
+      return String.format("%s <%s | %s> %s: %s @%s\n %s ➠ %s",
+          getIcon(task),
+          task.getUrl(),
+          task.getKey(),
+          task.getStatus(),
+          task.getSummary(),
+          task.getAssignee(),
+          getLastCommenter(task),
+          getLastComment(task));
+    } else {
+      return String.format("%s <%s | %s> %s: %s @%s\n %s ➠ %s",
+          getIcon(task),
+          task.getUrl(),
+          task.getKey(),
+          task.getStatus(),
+          task.getSummary(),
+          task.getAssignee(),
+          event.getComment().getAuthor().getDisplayName(),
+          event.getComment().getBody());
+    }
   }
 
   /**
@@ -84,17 +93,20 @@ public class SimpleTaskEventFormatter implements TaskEventFormatter {
     }
   }
 
-  protected String getLastCommenter(Task task) {
+  String getLastCommenter(Task task) {
+
     Comment comment = task.getLastComment();
     String commenter = comment.getAuthor().getDisplayName();
 
     return commenter == null ? "Vicky" : commenter;
   }
 
-  protected String getLastComment(Task task) {
-    Comment comment = task.getLastComment();
+  String getLastComment(Task task) {
 
-    return comment.getBody() == null ? "This task does not contain comment" : comment.getBody();
+    Comment comment = task.getLastComment();
+    String commentBody = comment.getBody();
+
+    return commentBody == null ? "This task does not contain comment" : commentBody;
   }
 
 }

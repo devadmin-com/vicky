@@ -1,21 +1,18 @@
 package com.devadmin.vicky.controller.jira.model;
 
-import com.devadmin.jira.Comment;
 import com.devadmin.jira.JiraClient;
-import com.devadmin.jira.JiraException;
 import com.devadmin.vicky.Task;
 import com.devadmin.vicky.TaskPriority;
 import com.devadmin.vicky.TaskType;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * This is the object which contains the information about jira issue
@@ -39,6 +36,7 @@ public class IssueModel implements Task {
 
     @Autowired
     private JiraClient jiraClient;
+    private CommentModel comment;
 
     public String getId() {
         return id;
@@ -118,7 +116,11 @@ public class IssueModel implements Task {
 
     @Override
     public String getAssignee() {
-        return this.fields.getAssignee().getName();
+        if (this.fields.getAssignee() != null) {
+            return this.fields.getAssignee().getName();
+        } else {
+            return "Unassigned";
+        }
     }
 
     @Override
@@ -132,19 +134,12 @@ public class IssueModel implements Task {
     }
 
     @Override
-    public Comment getLastComment() {
-        List<Comment> comments = null;
-        try {
-            comments = jiraClient.getIssue(id).getComments();
-        } catch (JiraException e) {
-            LOGGER.error("Failed to retrieve issue by issueId: " + id, e);
-        }
-        Comment lastComment = null;
-        if (comments.size() > 0) {
-            lastComment = comments.get(comments.size() - 1);
-        }
+    public CommentModel getLastComment() {
+        return comment;
+    }
 
-        return lastComment;
+    public void setLastComment(CommentModel comment) {
+        this.comment = comment;
     }
 
 }

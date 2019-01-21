@@ -8,6 +8,8 @@ import com.devadmin.vicky.ChangeLogItem;
 import com.devadmin.vicky.TaskEventFormatter;
 import com.devadmin.vicky.TaskEventType;
 import com.devadmin.vicky.TaskPriority;
+import com.devadmin.vicky.controller.jira.model.AuthorModel;
+import com.devadmin.vicky.controller.jira.model.CommentModel;
 import com.devadmin.vicky.format.AssignTaskEventFormatter;
 import com.devadmin.vicky.listener.PMOnAssignListener;
 import java.util.ArrayList;
@@ -42,9 +44,18 @@ public class PMOnAssignListenerTest extends TaskListenerTest {
 
     TestChangelog testChangelog = new TestChangelog();
     testChangelog.setItems(itemList);
+
+    CommentModel commentModel = new CommentModel();
+    commentModel.setBody("Some Test Comment");
+    AuthorModel authorModel = new AuthorModel();
+    authorModel.setDisplayName("serpento");
+    commentModel.setAuthor(authorModel);
+
     TestTask testTask = new TestTask();
     testTask.setPriority(TaskPriority.Minor);
     testTask.setStatus("Backlog");
+    testTask.setLastComment(commentModel);
+
     testEventModel.setTask(testTask);
     testEventModel.setChangelog(testChangelog);
     testEventModel.setType(TaskEventType.UPDATED);

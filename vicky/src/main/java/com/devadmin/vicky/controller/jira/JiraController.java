@@ -1,8 +1,15 @@
 package com.devadmin.vicky.controller.jira;
 
+import com.devadmin.jira.Comment;
+import com.devadmin.jira.JiraClient;
+import com.devadmin.jira.JiraException;
 import com.devadmin.vicky.TaskEventType;
+import com.devadmin.vicky.controller.jira.model.AuthorModel;
+import com.devadmin.vicky.controller.jira.model.CommentModel;
+import com.devadmin.vicky.controller.jira.model.IssueModel;
 import com.devadmin.vicky.controller.jira.model.JiraEventModel;
 import com.devadmin.vicky.event.TaskEventModelWrapper;
+import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,12 +32,17 @@ public class JiraController {
   private final ApplicationEventPublisher applicationEventPublisher;
 
   @Autowired
+  private JiraClient jiraClient;
+
+  @Autowired
   public JiraController(ApplicationEventPublisher applicationEventPublisher) {
     this.applicationEventPublisher = applicationEventPublisher;
   }
 
   @PostMapping("/jira")
   public ResponseEntity jiraEvent(@RequestBody JiraEventModel jiraEventModel) {
+
+    setLastComment(jiraEventModel);
 
     switch(jiraEventModel.getWebhookEvent()) {
 
@@ -55,4 +67,40 @@ public class JiraController {
 
   }
 
+  private void setLastComment(JiraEventModel jiraEventModel) {
+    List<Comment> comments = null;
+    IssueModel task = jiraEventModel.getTask();
+    try {
+      comments = jiraClient.getIssue(task.getId()).getComments();
+      if (comments.size() > 0){
+        Comment comment = comments.get(comments.size() - 1);
+        CommentModel lastComment = convertCommentToCommentModel(comment);
+        task.setLastComment(lastComment);
+      } else {
+        task.setLastComment(getDefaultCommentModel());
+      }
+    } catch (JiraException e) {
+      LOGGER.error("Failed to retrieve issue by issueId: " + task.getId(), e);
+    }
+  }
+
+  private CommentModel getDefaultCommentModel() {
+    CommentModel commentModel = new CommentModel();
+    AuthorModel authorModel = new AuthorModel();
+
+    authorModel.setDisplayName("Vicky");
+    commentModel.setAuthor(authorModel);
+    commentModel.setBody("This task did not contain comment");
+    return commentModel;
+  }
+
+  private CommentModel convertCommentToCommentModel(Comment comment) {
+    CommentModel commentModel = new CommentModel();
+    AuthorModel authorModel = new AuthorModel();
+
+    authorModel.setDisplayName(comment.getAuthor().getDisplayName());
+    commentModel.setAuthor(authorModel);
+    commentModel.setBody(comment.getBody());
+    return commentModel;
+  }
 }

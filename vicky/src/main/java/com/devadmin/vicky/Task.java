@@ -5,7 +5,6 @@
  */
 package com.devadmin.vicky;
 
-import com.devadmin.jira.Comment;
 
 import java.util.List;
 

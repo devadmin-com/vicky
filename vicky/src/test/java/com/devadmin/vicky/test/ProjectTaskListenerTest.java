@@ -7,6 +7,8 @@ import static org.junit.Assert.assertTrue;
 import com.devadmin.vicky.TaskEventFormatter;
 import com.devadmin.vicky.TaskEventType;
 import com.devadmin.vicky.TaskPriority;
+import com.devadmin.vicky.controller.jira.model.AuthorModel;
+import com.devadmin.vicky.controller.jira.model.CommentModel;
 import com.devadmin.vicky.format.SimpleTaskEventFormatter;
 import com.devadmin.vicky.listener.ProjectTaskListener;
 import org.junit.Test;
@@ -44,14 +46,11 @@ public class ProjectTaskListenerTest extends TaskListenerTest {
      */
     @Test
     public void eventShouldBeHandledByThisHandlerTest() {
-        String expectedMessage = "This message was sent by supercool Vicky 2.0 from ProjectTaskListener";
-
         createContext();
 
         TestTaskEventModel testEventModel = getTestTaskEventModel(TaskEventType.CREATED);
         publish(testEventModel);
 
-        assertEquals(expectedMessage, testMessageService.getLastMessage());
         assertTrue(testMessageService.wasChannelMsged());
         assertFalse(testMessageService.wasPMed());
 
@@ -92,9 +91,17 @@ public class ProjectTaskListenerTest extends TaskListenerTest {
     private TestTaskEventModel getTestTaskEventModel(TaskEventType type) {
         TestTaskEventModel testEventModel = new TestTaskEventModel();
         testEventModel.setType(type);
+
+        CommentModel commentModel = new CommentModel();
+        commentModel.setBody("Some Test Comment");
+        AuthorModel authorModel = new AuthorModel();
+        authorModel.setDisplayName("serpento");
+        commentModel.setAuthor(authorModel);
+
         TestTask testTask = new TestTask();
         testTask.setPriority(TaskPriority.Minor);
         testTask.setStatus("Backlog");
+        testTask.setLastComment(commentModel);
         testEventModel.setTask(testTask);
         return testEventModel;
     }

@@ -7,6 +7,8 @@ import static org.junit.Assert.assertTrue;
 import com.devadmin.vicky.TaskEventFormatter;
 import com.devadmin.vicky.TaskEventType;
 import com.devadmin.vicky.TaskPriority;
+import com.devadmin.vicky.controller.jira.model.AuthorModel;
+import com.devadmin.vicky.controller.jira.model.CommentModel;
 import com.devadmin.vicky.format.SimpleTaskEventFormatter;
 import com.devadmin.vicky.listener.LabeledTaskListener;
 import java.util.ArrayList;
@@ -56,10 +58,18 @@ public class LabeledTaskListenerTest extends TaskListenerTest {
     createContext();
 
     List<String> labels = Arrays.asList("label1", "label2");
+
+    CommentModel commentModel = new CommentModel();
+    commentModel.setBody("Some Test Comment");
+    AuthorModel authorModel = new AuthorModel();
+    authorModel.setDisplayName("serpento");
+    commentModel.setAuthor(authorModel);
+
     TestTask testTask = new TestTask();
     testTask.setLabels(labels);
     testTask.setPriority(TaskPriority.Minor);
     testTask.setStatus("Backlog");
+    testTask.setLastComment(commentModel);
 
     TestTaskEventModel testEventModel = new TestTaskEventModel();
 

@@ -12,11 +12,11 @@ public class SummaryTaskEventFormatter extends SimpleTaskEventFormatter {
 
   public String format(TaskEvent event) {
     StringBuffer message = new StringBuffer(128);
-    message.append(this.formatBase(event));
-    message.append(this.getShortDescription(event.getTask()));
-    message.append(this.getLastCommenter(event.getTask()));
+    message.append(super.formatBase(event));
+    message.append(super.getShortDescription(event.getTask()));
+    message.append(super.getLastCommenter(event.getTask()));
     message.append(" ➠ ");
-    message.append(this.getLastComment(event.getTask()));
+    message.append(super.getLastComment(event.getTask()));
     return message.toString();
   }
 

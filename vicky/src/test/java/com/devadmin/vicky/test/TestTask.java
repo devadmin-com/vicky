@@ -1,10 +1,9 @@
 package com.devadmin.vicky.test;
 
-import com.devadmin.jira.Comment;
 import com.devadmin.vicky.Task;
 import com.devadmin.vicky.TaskPriority;
 import com.devadmin.vicky.TaskType;
-
+import com.devadmin.vicky.controller.jira.model.CommentModel;
 import java.util.List;
 
 class TestTask implements Task {
@@ -14,6 +13,7 @@ class TestTask implements Task {
 
   private String status;
   private TaskPriority priority;
+  private CommentModel lastComment;
 
   @Override
   public String getId() {
@@ -80,12 +80,6 @@ class TestTask implements Task {
   }
 
   @Override
-  public Comment getLastComment() {
-    // todo implement me
-    return null;
-  }
-
-  @Override
   public String getKey() {
     return "TL-000";
   }
@@ -93,5 +87,14 @@ class TestTask implements Task {
   @Override
   public TaskType getType() {
     return null;
+  }
+
+  public void setLastComment(CommentModel lastComment) {
+    this.lastComment = lastComment;
+  }
+
+  @Override
+  public CommentModel getLastComment() {
+    return lastComment;
   }
 }

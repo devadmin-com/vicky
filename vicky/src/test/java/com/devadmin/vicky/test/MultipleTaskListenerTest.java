@@ -6,6 +6,8 @@ import static org.junit.Assert.assertTrue;
 import com.devadmin.vicky.ChangeLogItem;
 import com.devadmin.vicky.TaskEventType;
 import com.devadmin.vicky.TaskPriority;
+import com.devadmin.vicky.controller.jira.model.AuthorModel;
+import com.devadmin.vicky.controller.jira.model.CommentModel;
 import com.devadmin.vicky.listener.AtReferenceListener;
 import com.devadmin.vicky.listener.LabeledTaskListener;
 import com.devadmin.vicky.listener.PMOnAssignListener;
@@ -63,12 +65,19 @@ public class MultipleTaskListenerTest extends TaskListenerTest {
         testChangelog.setItems(itemList);
         testEventModel.setChangelog(testChangelog);
 
+        CommentModel commentModel = new CommentModel();
+        commentModel.setBody("Some Test Comment");
+        AuthorModel authorModel = new AuthorModel();
+        authorModel.setDisplayName("serpento");
+        commentModel.setAuthor(authorModel);
+
         // from labeled
         List<String> labels = Arrays.asList("label1", "label2");
         TestTask testTask = new TestTask();
         testTask.setLabels(labels);
         testTask.setPriority(TaskPriority.Minor);
         testTask.setStatus("Backlog");
+        testTask.setLastComment(commentModel);
         testEventModel.setTask(testTask);
 
         return testEventModel;
