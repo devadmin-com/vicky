@@ -43,6 +43,7 @@ public class ProjectTaskListenerTest extends TaskListenerTest {
 
     /**
      * Tests that handler gets the event and send the right message
+     * TODO: bad test name
      */
     @Test
     public void eventShouldBeHandledByThisHandlerTest() {
@@ -58,6 +59,7 @@ public class ProjectTaskListenerTest extends TaskListenerTest {
 
     /**
      * Tests that handler will not get the event with wrong type
+     * TODO: bad test name
      */
     @Test
     public void eventShouldNotBeHandledWithWrongTypeTest() {
@@ -73,6 +75,7 @@ public class ProjectTaskListenerTest extends TaskListenerTest {
 
     /**
      * Tests that handler will handle the event with correct type
+     * TODO: bad test name
      */
     @Test
     public void eventShouldBeHandledWithCorrectTypeTest() {
