@@ -1,18 +1,18 @@
 package com.devadmin.vicky.test;
 
+import com.devadmin.vicky.AssignChangeLogItem;
 import com.devadmin.vicky.ChangeLogItem;
-import com.devadmin.vicky.controller.jira.model.JiraChangeLogItemModel;
+import com.devadmin.vicky.ChangeType;
 
 /**
  * Test item inside changelog
  * @see ChangeLogItem
  */
-public class TestJiraChangeLogItem extends JiraChangeLogItemModel {
+public class TestJiraChangeLogItem implements AssignChangeLogItem {
 
   private String field;
   private String to;
 
-  @Override
   public String getField() {
     return field;
   }
@@ -21,7 +21,6 @@ public class TestJiraChangeLogItem extends JiraChangeLogItemModel {
     this.field = field;
   }
 
-  @Override
   public String getTo() {
     return to;
   }
@@ -30,7 +29,13 @@ public class TestJiraChangeLogItem extends JiraChangeLogItemModel {
     this.to = to;
   }
 
-  public boolean isAssign() {
-    return "assignee".equals(field);
+  @Override
+  public String getAssignedTo() {
+    return to;
+  }
+
+  @Override
+  public ChangeType getChangeType() {
+    return "assignee".equals(field) ? ChangeType.ASSIGN : ChangeType.DEFAULT;
   }
 }

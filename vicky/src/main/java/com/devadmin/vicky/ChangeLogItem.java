@@ -12,10 +12,7 @@ package com.devadmin.vicky;
 public interface ChangeLogItem {
 
   /**
-   * ToDo have to return enum, have to be called getChangeType or smth like that ChangeType is enum
    * @return what kind of change happened (ex: priority, reporter, status, etc.)
    */
   ChangeType getChangeType();
-
-
 }

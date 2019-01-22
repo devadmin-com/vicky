@@ -1,14 +1,18 @@
 package com.devadmin.vicky;
 
+/**
+ * Type of change happened on task
+ */
 public enum ChangeType {
-    ASSIGN("ASSIGN"), DEFAULT("")
+    ASSIGN("assignee"), DEFAULT("");
 
     private String changeType;
 
-    // TODO implement me
-    ChangeType() {
+    ChangeType(String changeType) {
+        this.changeType = changeType;
     }
 
-
-
+    public String getChangeType() {
+        return changeType;
+    }
 }

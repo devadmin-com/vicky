@@ -83,18 +83,19 @@ public class JiraChangeLogItemModel implements AssignChangeLogItem {
     this.toString = toString;
   }
 
-
+  /**
+   * @return username of assignee
+   */
   @Override
   public String getAssignedTo() {
-    if (field is assign)
-    return to;
-    else "";
+    return "assignee".equals(field) ? this.to : "";
   }
 
+  /**
+   * @return what kind of change happened (ex: priority, reporter, status, etc.)
+   */
   @Override
   public ChangeType getChangeType() {
-    if(field is assign)
-    return ChangeType.ASSIGN;
-    else "";
+    return "assignee".equals(field) ? ChangeType.ASSIGN : ChangeType.DEFAULT;
   }
 }
