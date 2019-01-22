@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 /**
+ * TODO: is the comment below correct? looks like same as PMOnAssignListener?
  * When a blocker task is assigned to a user, send them a private message. (Implements Story TL-105 issue assigned ->
  * slack private message)
  * <p>

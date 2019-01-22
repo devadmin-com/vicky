@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * This is the object which contains the information about user (issue creator)
  */
-@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonIgnoreProperties(ignoreUnknown = true) //TODO: why?
 public class UserModel {
 
   @JsonProperty("self")

@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) http://devadmin.com
+ *
+ * License: https://github.com/devadmin-com/vicky/blob/master/LICENSE
+ */
 package com.devadmin.vicky.format;
 
 
@@ -15,6 +20,7 @@ import org.springframework.stereotype.Component;
 @Component("SimpleFormatter")
 public class SimpleTaskEventFormatter implements TaskEventFormatter {
 
+  // TODO: javadoc, why is this method package visibility?
   String formatBase(TaskEvent event) {
     Task task = event.getTask();
 
@@ -27,10 +33,11 @@ public class SimpleTaskEventFormatter implements TaskEventFormatter {
         task.getAssignee());
   }
 
+  //TODO: javadoc
   public String format(TaskEvent event) {
     Task task = event.getTask();
 
-    if (event.getComment() == null){
+    if (event.getComment() == null){ // TODO: why? need one line javadoc why it's doing this check here... also format seems same - so could refactor putting commenter & comment into variable... but why doesn't getLastComment just do that, return the right person?!
       return String.format("%s <%s | %s> %s: %s @%s\n %s ➠ %s",
           getIcon(task),
           task.getUrl(),
@@ -48,7 +55,7 @@ public class SimpleTaskEventFormatter implements TaskEventFormatter {
           task.getStatus(),
           task.getSummary(),
           task.getAssignee(),
-          event.getComment().getAuthor().getDisplayName(),
+          event.getComment().getAuthor().getDisplayName(), //TODO - question why does getLastCommenter() not return the same thing?
           event.getComment().getBody());
     }
   }
@@ -93,6 +100,7 @@ public class SimpleTaskEventFormatter implements TaskEventFormatter {
     }
   }
 
+  //TODO: javadoc, why package visibility not protected?
   String getLastCommenter(Task task) {
 
     Comment comment = task.getLastComment();
@@ -101,6 +109,7 @@ public class SimpleTaskEventFormatter implements TaskEventFormatter {
     return commenter == null ? "Vicky" : commenter;
   }
 
+  //TODO: javadoc, why package visibility not protected?
   String getLastComment(Task task) {
 
     Comment comment = task.getLastComment();

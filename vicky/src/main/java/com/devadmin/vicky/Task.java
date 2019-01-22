@@ -54,6 +54,7 @@ public interface Task {
 
     /**
      * @return the type of this task
+     * TODO: never used?
      */
     TaskType getType();
 

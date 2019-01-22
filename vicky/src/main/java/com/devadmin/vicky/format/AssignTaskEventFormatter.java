@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) http://devadmin.com
+ *
+ * License: https://github.com/devadmin-com/vicky/blob/master/LICENSE
+ */
 package com.devadmin.vicky.format;
 
 import com.devadmin.vicky.TaskEvent;
@@ -11,6 +16,8 @@ import org.springframework.stereotype.Component;
 public class AssignTaskEventFormatter extends SimpleTaskEventFormatter {
 
   public String format(TaskEvent event) {
+    //TODO why not use string.format like everywhere else?
+
     StringBuffer message = new StringBuffer(128);
     message.append(event.getActor());
     message.append(" assigned to you: ");

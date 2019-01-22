@@ -21,7 +21,7 @@ public interface MessageService {
   /**
    * Sends a direct private message to a person
    *
-   * @param personName the name (identifier) of the private channel to send the message to
+   * @param personName the name (identifier) of the person to send the message to
    * @param message the message to send
    */
   void sendPrivateMessage(String personName, String message) throws MessageServiceException;

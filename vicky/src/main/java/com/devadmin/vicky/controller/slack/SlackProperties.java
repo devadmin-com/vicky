@@ -17,6 +17,7 @@ import org.springframework.stereotype.Component;
  *     incoming:
  *       directMessage:
  *       white: the name of the jira project which have to have slack channel with the same name
+ *       TODO: I don't understand above? have to pre-define all channels that vicky works on? I am pretty sure we don't do that in current implementation
  */
 @ConfigurationProperties(prefix = "slack")
 public class SlackProperties {

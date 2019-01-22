@@ -59,6 +59,7 @@ public class JiraController {
       case "comment_updated" :
         jiraEventModel.setType(TaskEventType.COMMENT);
         break;
+        //TODO what if it's something else? should check and throw exception...
     }
 
     final TaskEventModelWrapper event = new TaskEventModelWrapper(jiraEventModel);
@@ -70,6 +71,7 @@ public class JiraController {
 
   /**
    * set last comment to jiraEventModel (which doesn't contain it by default)
+   * TODO: why?
    */
   private void setLastComment(JiraEventModel jiraEventModel) {
     List<Comment> comments = null;

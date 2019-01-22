@@ -14,10 +14,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 /**
- * When a task is assigned to a user, send them a private message. (Implements Story TL-105 issue assigned -> slack
- * private message)
- * <p>
- * don't send notification if creator = assignee editor = assignee commenter = assignee mention in comment = assignee
+ * When a task is assigned to a user, send them a private message.
+ * Story TL-105
  */
 @Component
 public class PMOnAssignListener extends TaskToMessageListener {

@@ -40,21 +40,18 @@ public class SlackMessageServiceImpl implements MessageService {
     this.slackApiEndpoints = slackApiEndpoints;
   }
 
-  /**
-   * (non-javadoc)
-   *
-   * @see MessageService#sendChannelMessage(String, String)
+  /** @see MessageService#sendChannelMessage(String, String)
    */
   @Override
   public void sendChannelMessage(String channelName, String message) throws MessageServiceException {
     RichMessage richMessage = new RichMessage(message);
-    Map<String, String> incomingWebhooks = properties.getWebhook().getIncoming();
+    Map<String, String> incomingWebhooks = properties.getWebhook().getIncoming(); //TODO: would like one line comment here what this means...
     if (incomingWebhooks.containsKey(channelName)) {
       String incomingWebhookUrl = incomingWebhooks.get(channelName);
       try {
         restTemplate.postForEntity(incomingWebhookUrl, richMessage, String.class);
       } catch (RestClientException e) {
-        LOGGER.error("Unable to posting IncomingWebhookURL given from Slack Properties: {}", e);
+        LOGGER.error("Unable to post IncomingWebhookURL given from Slack Properties: {}", e);
         throw new MessageServiceException(e.getMessage(), e);
       }
     }
@@ -62,22 +59,21 @@ public class SlackMessageServiceImpl implements MessageService {
   }
 
   /**
-   * (non-javadoc)
-   *
    * @see MessageService#sendPrivateMessage(String, String)
    */
   @Override
   public void sendPrivateMessage(String personName, String message) throws MessageServiceException {
+    //TODO: would like one line comment here what this means...
     Event event = restTemplate
         .postForEntity(slackApiEndpoints.getUserListApi(), null, Event.class, properties.getToken().getBot()).getBody();
-    if (event != null) {
-      for (User person : event.getMembers()) {
+    if (event != null) { //TODO: and if it is null? what does that mean?
+      for (User person : event.getMembers()) { //TODO: what is this doing? one line comment?
         if (personName.equals(person.getName())) {
           try {
             restTemplate.postForEntity(slackApiEndpoints.getChatPostMessageApi(), null, String.class,
                 properties.getToken().getBot(), person.getId(), message);
           } catch (RestClientException e) {
-            LOGGER.error("Unable posting to given person Id: {}", e);
+            LOGGER.error("Unable to post to given person Id: {}", e);
             throw new MessageServiceException(e.getMessage(), e);
           }
         }

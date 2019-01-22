@@ -13,6 +13,7 @@ import org.springframework.web.socket.WebSocketSession;
 
 /**
  * Vicky slack bot.
+ * TODO: javadoc, what is this class for?
  */
 @SlackBot
 public class SlackController extends AbstractBot {

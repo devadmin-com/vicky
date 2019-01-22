@@ -9,9 +9,7 @@ import java.util.Date;
 
 /**
  * Models an event happening on a task.
- *
- * <p>(this is used to allow listeners to not care what the implementation of the Task looks like)
- */
+ **/
 public interface TaskEvent {
 
   /** @return true if the event has comment */

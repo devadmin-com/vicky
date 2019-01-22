@@ -31,6 +31,7 @@ public class BlockerTaskTracker {
    *
    * Here we must know that the assigned person has added a comment in the task during the last 24 hours,
    * if does not add, we must continue to track every 6 hours.
+   * TODO we've talked about this... if it's JIRA specific should be in a JIRA packa, but I think can do without having jira specific stuff here, pleasea refactor so no jira stuff here.
    */
   @Autowired
   private JiraClient jiraClient;

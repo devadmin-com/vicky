@@ -18,9 +18,9 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 /**
- * When a user is referenced in a comment send them a private message
+ * If a user is referenced in a comment send them a private message
  *
- * <p>Implements story: TL-106 @reference in comment -> slack private message</p>
+ * Sory: TL-106
  */
 @Component
 public class AtReferenceListener extends TaskToMessageListener {

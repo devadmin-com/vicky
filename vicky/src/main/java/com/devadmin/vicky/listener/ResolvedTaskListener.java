@@ -12,6 +12,8 @@ import org.springframework.stereotype.Component;
 /**
  * <p>On issue resolve send update to project's channel (if one exists).</p>
  * <p>If no channel exists for project nothing is done.</p>
+ * TODO: what's the story?
+ * TODO: how different from ProjectTaskListener?
  */
 @Component
 public class ResolvedTaskListener extends TaskToMessageListener {

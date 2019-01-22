@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 /**
  * <p>On issue create or resolve send update to project's channel (if one exists).</p>
  * <p>If no channel exists for project nothing is done.</p>
- * Implements Story: TL-99 issue create, resolve -> project channel
+ * Story: TL-99
  */
 @Component
 public class ProjectTaskListener extends TaskToMessageListener {
