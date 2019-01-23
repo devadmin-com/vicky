@@ -60,6 +60,7 @@ public class JiraController {
         jiraEventModel.setType(TaskEventType.COMMENT);
         break;
         //TODO what if it's something else? should check and throw exception...
+        // TODO why to have default method and type on TaskEventType
     }
 
     final TaskEventModelWrapper event = new TaskEventModelWrapper(jiraEventModel);
@@ -71,7 +72,7 @@ public class JiraController {
 
   /**
    * set last comment to jiraEventModel (which doesn't contain it by default)
-   * TODO: why?
+   * TODO: write clear description?
    */
   private void setLastComment(JiraEventModel jiraEventModel) {
     List<Comment> comments = null;

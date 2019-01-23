@@ -5,11 +5,7 @@
  */
 package com.devadmin.vicky.listener;
 
-import com.devadmin.vicky.MessageService;
-import com.devadmin.vicky.Task;
-import com.devadmin.vicky.TaskEvent;
-import com.devadmin.vicky.TaskEventFormatter;
-import com.devadmin.vicky.TaskPriority;
+import com.devadmin.vicky.*;
 import com.devadmin.vicky.event.TaskEventModelWrapper;
 import com.devadmin.vicky.util.BlockerTaskTracker;
 import org.slf4j.Logger;
@@ -32,7 +28,7 @@ public class BlockerTaskListener extends TaskToMessageListener {
 
   @Autowired
   public BlockerTaskListener(MessageService messageService,
-      @Qualifier("SimpleFormatter") TaskEventFormatter taskEventFormatter) {
+      @Qualifier("AssignFormatter") TaskEventFormatter taskEventFormatter) {
     super(messageService, taskEventFormatter);
   }
 
@@ -44,7 +40,7 @@ public class BlockerTaskListener extends TaskToMessageListener {
 
       String assignedTo = task.getAssignee();
 
-      String blockerMessage = "This ticket did not comment more than 24 hours";
+      String blockerMessage = "This ticket has not been commented more than 24 hours";
 
       BlockerTaskTracker tracker = new BlockerTaskTracker(event, blockerMessage, messageService, assignedTo);
       tracker.startTracking();

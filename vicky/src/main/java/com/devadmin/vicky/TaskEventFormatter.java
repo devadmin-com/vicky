@@ -5,5 +5,10 @@ package com.devadmin.vicky;
  */
 public interface TaskEventFormatter {
   //TODO javadoc - every interface class should have javadoc for sure.
-  String format(TaskEvent task);
+
+  /**
+   * @param taskEvent
+   * composes message which have to be send to slack
+   */
+  String format(TaskEvent taskEvent);
 }
