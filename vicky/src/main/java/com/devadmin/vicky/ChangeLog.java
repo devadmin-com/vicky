@@ -10,7 +10,6 @@ import java.util.List;
 /**
  * Describes all changes done on task
  */
-//TODO: javadoc
 public interface ChangeLog {
 
   List<ChangeLogItem> getItems();

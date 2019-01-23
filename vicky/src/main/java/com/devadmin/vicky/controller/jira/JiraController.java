@@ -28,89 +28,91 @@ import java.util.List;
 @RequestMapping("event")
 public class JiraController {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(JiraController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(JiraController.class);
 
-  private final ApplicationEventPublisher applicationEventPublisher;
+    private final ApplicationEventPublisher applicationEventPublisher;
 
-  @Autowired
-  private JiraClient jiraClient;
+    @Autowired
+    private JiraClient jiraClient;
 
-  @Autowired
-  public JiraController(ApplicationEventPublisher applicationEventPublisher) {
-    this.applicationEventPublisher = applicationEventPublisher;
-  }
-
-  @PostMapping("/jira")
-  public ResponseEntity jiraEvent(@RequestBody JiraEventModel jiraEventModel) {
-
-    setLastComment(jiraEventModel);
-
-    switch(jiraEventModel.getWebhookEvent()) {
-
-      case "jira:issue_created" :
-        jiraEventModel.setType(TaskEventType.CREATED);
-        break;
-
-      case "jira:issue_updated" :
-        jiraEventModel.setType(TaskEventType.UPDATED);
-        break;
-
-      case "comment_created" :
-      case "comment_updated" :
-        jiraEventModel.setType(TaskEventType.COMMENT);
-        break;
-        //TODO what if it's something else? should check and throw exception...
-        // TODO why to have default method and type on TaskEventType
+    @Autowired
+    public JiraController(ApplicationEventPublisher applicationEventPublisher) {
+        this.applicationEventPublisher = applicationEventPublisher;
     }
 
-    final TaskEventModelWrapper event = new TaskEventModelWrapper(jiraEventModel);
-    applicationEventPublisher.publishEvent(event);
+    @PostMapping("/jira")
+    public ResponseEntity jiraEvent(@RequestBody JiraEventModel jiraEventModel) {
 
-    return ResponseEntity.ok().build();
+        setLastComment(jiraEventModel);
 
-  }
+        switch (jiraEventModel.getWebhookEvent()) {
 
-  /**
-   * set last comment to jiraEventModel (which doesn't contain it by default)
-   * TODO: write clear description?
-   */
-  private void setLastComment(JiraEventModel jiraEventModel) {
-    List<Comment> comments = null;
-    IssueModel task = jiraEventModel.getTask();
-    try {
-      comments = jiraClient.getIssue(task.getId()).getComments();
-      if (comments.size() > 0){
-        Comment comment = comments.get(comments.size() - 1);
-        CommentModel lastComment = convertCommentToCommentModel(comment);
-        task.setLastComment(lastComment);
-      } else {
-        task.setLastComment(getDefaultCommentModel());
-      }
-    } catch (JiraException e) {
-      LOGGER.error("Failed to retrieve issue by issueId: " + task.getId(), e);
+            case "jira:issue_created":
+                jiraEventModel.setType(TaskEventType.CREATED);
+                break;
+
+            case "jira:issue_updated":
+                jiraEventModel.setType(TaskEventType.UPDATED);
+                break;
+
+            case "comment_created":
+            case "comment_updated":
+                jiraEventModel.setType(TaskEventType.COMMENT);
+                break;
+            default:
+                jiraEventModel.setType(TaskEventType.DEFAULT);
+                break;
+
+        }
+
+        final TaskEventModelWrapper event = new TaskEventModelWrapper(jiraEventModel);
+        applicationEventPublisher.publishEvent(event);
+
+        return ResponseEntity.ok().build();
+
     }
-  }
 
-  /**
-   * @return default message if there is no comment
-   */
-  private CommentModel getDefaultCommentModel() {
-    CommentModel commentModel = new CommentModel();
-    AuthorModel authorModel = new AuthorModel();
+    /**
+     * set last comment to jiraEventModel (which doesn't contain it by default)
+     * TODO: write clear description?
+     */
+    private void setLastComment(JiraEventModel jiraEventModel) {
+        List<Comment> comments = null;
+        IssueModel task = jiraEventModel.getTask();
+        try {
+            comments = jiraClient.getIssue(task.getId()).getComments();
+            if (comments.size() > 0) {
+                Comment comment = comments.get(comments.size() - 1);
+                CommentModel lastComment = convertCommentToCommentModel(comment);
+                task.setLastComment(lastComment);
+            } else {
+                task.setLastComment(getDefaultCommentModel());
+            }
+        } catch (JiraException e) {
+            LOGGER.error("Failed to retrieve issue by issueId: " + task.getId(), e);
+        }
+    }
 
-    authorModel.setDisplayName("Vicky");
-    commentModel.setAuthor(authorModel);
-    commentModel.setBody("This task does not contain comment");
-    return commentModel;
-  }
+    /**
+     * @return default message if there is no comment
+     */
+    private CommentModel getDefaultCommentModel() {
+        CommentModel commentModel = new CommentModel();
+        AuthorModel authorModel = new AuthorModel();
 
-  private CommentModel convertCommentToCommentModel(Comment comment) {
-    CommentModel commentModel = new CommentModel();
-    AuthorModel authorModel = new AuthorModel();
+        authorModel.setDisplayName("Vicky");
+        commentModel.setAuthor(authorModel);
+        commentModel.setBody("This task does not contain comment");
+        return commentModel;
+    }
 
-    authorModel.setDisplayName(comment.getAuthor().getDisplayName());
-    commentModel.setAuthor(authorModel);
-    commentModel.setBody(comment.getBody());
-    return commentModel;
-  }
+    private CommentModel convertCommentToCommentModel(Comment comment) {
+        CommentModel commentModel = new CommentModel();
+        AuthorModel authorModel = new AuthorModel();
+
+        authorModel.setDisplayName(comment.getAuthor().getDisplayName());
+        commentModel.setAuthor(authorModel);
+        commentModel.setBody(comment.getBody());
+        return commentModel;
+    }
 }

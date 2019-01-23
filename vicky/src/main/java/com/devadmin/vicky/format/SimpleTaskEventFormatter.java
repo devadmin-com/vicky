@@ -40,8 +40,9 @@ public class SimpleTaskEventFormatter implements TaskEventFormatter {
         String commenter;
         String lastComment;
 
-        // TODO Discuss this todos with @Victor
-        if (event.getComment() == null) { // TODO: why? need one line javadoc why it's doing this check here... also format seems same - so could refactor putting commenter & comment into variable... but why doesn't getLastComment just do that, return the right person?!
+        // we are doing this check, because we have two types of event issue and comment,
+        // so if getComment is null, then we have issue event and need to extract comments different way
+        if (event.getComment() == null) {
             commenter = getLastCommenter(task);
             lastComment = getLastComment(task);
         } else {
