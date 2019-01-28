@@ -29,5 +29,7 @@ public class VickyApplication {
   @Bean
   public RestTemplate getRestTemplate() {
     return new RestTemplate();
-  } //TODO:what is this for?
+  }
+  //TODO:what is this for?
+  // TODO @Victor we need to have restTemplate bean somewhere in the context to be able to inject it in our service classe
 }

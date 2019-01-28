@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 public class SummaryTaskEventFormatter extends SimpleTaskEventFormatter {
 
   public String format(TaskEvent event) {
-    //TODO use string format
+    //TODO use string format 13
     StringBuffer message = new StringBuffer(128);
     message.append(super.formatBase(event));
     message.append(super.getShortDescription(event.getTask()));

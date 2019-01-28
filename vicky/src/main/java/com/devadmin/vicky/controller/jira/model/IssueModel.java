@@ -3,16 +3,16 @@ package com.devadmin.vicky.controller.jira.model;
 import com.devadmin.jira.JiraClient;
 import com.devadmin.vicky.Task;
 import com.devadmin.vicky.TaskPriority;
-import com.devadmin.vicky.TaskType;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * This is the object which contains the information about jira issue
@@ -102,11 +102,6 @@ public class IssueModel implements Task {
     @Override
     public Boolean isResolved() {
         return "Resolved 解決済".equals(this.fields.getStatus().getName());
-    }
-
-    @Override
-    public TaskType getType() {
-        return null;
     }
 
     @Override

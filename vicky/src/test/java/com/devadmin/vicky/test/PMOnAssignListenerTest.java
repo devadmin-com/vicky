@@ -27,10 +27,9 @@ public class PMOnAssignListenerTest extends TaskListenerTest {
 
   /**
    * Tests that handler gets the event and send the right message
-   * TODO: this is not a good name for a test
    */
   @Test
-  public void eventShouldBeHandledByThisHandlerTest() {
+  public void eventShouldBeHandledByPMOnAssignListenerTest() {
 
     createContext();
 
@@ -70,10 +69,9 @@ public class PMOnAssignListenerTest extends TaskListenerTest {
 
   /**
    * tests that the event was not handled if task is unsigned
-   *    * TODO: this is not a good name for a test
    */
   @Test
-  public void eventShouldNotBeHandledIfTaskIsUnassignedTest() {
+  public void listenerShouldNotHandleWrongTypeEventTest() {
 
     createContext();
 

@@ -73,8 +73,8 @@ public class JiraController {
     }
 
     /**
-     * set last comment to jiraEventModel (which doesn't contain it by default)
-     * TODO: write clear description?
+     * We are getting issue event we don't have comments in it so we need to get it with jiraClient by issueId
+     * and last comment to jiraEventModel
      */
     private void setLastComment(JiraEventModel jiraEventModel) {
         List<Comment> comments = null;

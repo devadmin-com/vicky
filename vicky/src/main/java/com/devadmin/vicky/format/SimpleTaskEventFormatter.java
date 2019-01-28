@@ -18,8 +18,7 @@ public class SimpleTaskEventFormatter implements TaskEventFormatter {
     /**
      * composes message which is basic for every case
      */
-    // TODO: why is this method package visibility?
-    String formatBase(TaskEvent event) {
+    protected String formatBase(TaskEvent event) {
         Task task = event.getTask();
 
         return String.format("%s <%s | %s> %s: %s @%s",
@@ -100,9 +99,7 @@ public class SimpleTaskEventFormatter implements TaskEventFormatter {
         }
     }
 
-    //TODO: javadoc, why package visibility not protected?
-    // TODO because package-private is more encapsulated
-    String getLastCommenter(Task task) {
+    protected String getLastCommenter(Task task) {
 
         Comment comment = task.getLastComment();
         String commenter = comment.getAuthor().getDisplayName();
@@ -110,8 +107,7 @@ public class SimpleTaskEventFormatter implements TaskEventFormatter {
         return commenter == null ? "Vicky" : commenter;
     }
 
-    //TODO: javadoc, why package visibility not protected?
-    String getLastComment(Task task) {
+    protected String getLastComment(Task task) {
 
         Comment comment = task.getLastComment();
         String commentBody = comment.getBody();

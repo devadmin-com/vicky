@@ -53,12 +53,6 @@ public interface Task {
     Boolean isResolved();
 
     /**
-     * @return the type of this task
-     * TODO: never used?
-     */
-    TaskType getType();
-
-    /**
      * @return status of task
      */
     String getStatus();

@@ -33,7 +33,6 @@ public class PMOnAssignListener extends TaskToMessageListener {
 
     if (event.getChangeLog() != null) { //TODO: what does this mean? wouldn't it be better to have it return an empty changelog list if there are no changes? when would there be no changes though?
       for (ChangeLogItem changeLogItem : event.getChangeLog().getItems()) {
-        //TODO: What about the initial create-assign event, will this catch it?
         if (changeLogItem.getChangeType() == ChangeType.ASSIGN ) {
 
           AssignChangeLogItem assignChangeLogItem = (AssignChangeLogItem) changeLogItem;

@@ -2,7 +2,6 @@ package com.devadmin.vicky;
 
 /**
  * This enum contains all possible priorities a task can have
- * TODO: this class looks very different from TaskType, why?
  */
 public enum TaskPriority {
 

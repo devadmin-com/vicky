@@ -31,7 +31,6 @@ public class LabeledTaskListener extends TaskToMessageListener {
 
   public void onApplicationEvent(TaskEventModelWrapper eventWrapper) {
     TaskEvent event = eventWrapper.getTaskEventModel();
-    //TODO: class docs say it's for create or resolve only, where is that check?
     for (String label : event.getTask().getLabels()) {
       try {
         messageService.sendChannelMessage(label, formatter.format(event));

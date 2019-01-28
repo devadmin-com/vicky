@@ -2,8 +2,8 @@ package com.devadmin.vicky.test;
 
 import com.devadmin.vicky.Task;
 import com.devadmin.vicky.TaskPriority;
-import com.devadmin.vicky.TaskType;
 import com.devadmin.vicky.controller.jira.model.CommentModel;
+
 import java.util.List;
 
 class TestTask implements Task {
@@ -84,10 +84,6 @@ class TestTask implements Task {
     return "TL-000";
   }
 
-  @Override
-  public TaskType getType() {
-    return null;
-  }
 
   public void setLastComment(CommentModel lastComment) {
     this.lastComment = lastComment;

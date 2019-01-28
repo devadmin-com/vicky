@@ -5,15 +5,15 @@ import com.devadmin.slack.bot.models.Event;
 import com.devadmin.slack.common.Controller;
 import com.devadmin.slack.common.EventType;
 import com.devadmin.slack.common.SlackBot;
-import java.util.regex.Matcher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.socket.WebSocketSession;
 
+import java.util.regex.Matcher;
+
 /**
- * Vicky slack bot.
- * TODO: javadoc, what is this class for?
+ * THis controller is responsible for interactions with Slack Bot ex. sending DM to Bot
  */
 @SlackBot
 public class SlackController extends AbstractBot {
