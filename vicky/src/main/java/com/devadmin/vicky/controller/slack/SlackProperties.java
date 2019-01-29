@@ -1,10 +1,9 @@
 package com.devadmin.vicky.controller.slack;
 
-import java.util.Map;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.context.properties.NestedConfigurationProperty;
-import org.springframework.stereotype.Component;
+
+import java.util.Map;
 
 /**
  * The configuration of slack client. Requires the following keys in application.yml:

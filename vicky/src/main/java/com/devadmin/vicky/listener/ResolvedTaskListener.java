@@ -34,7 +34,7 @@ public class ResolvedTaskListener extends TaskToMessageListener {
       String channelName = task.getProject();
 
       try {
-        messageService.sendChannelMessage(channelName, formatter.format(event));
+        messageService.sendChannelMessage(channelName, formatter.format(event) + "Resolved");
       } catch (MessageServiceException e) {
         LOGGER.error(e.getMessage());
       }

@@ -37,11 +37,12 @@ public class PMOnAssignListener extends TaskToMessageListener {
 
           AssignChangeLogItem assignChangeLogItem = (AssignChangeLogItem) changeLogItem;
           String assignedTo = assignChangeLogItem.getAssignedTo();
-
-          try {
-            messageService.sendPrivateMessage(assignedTo, formatter.format(event));
-          } catch (MessageServiceException e) {
-            LOGGER.error(e.getMessage());
+          if (assignedTo != null) {
+            try {
+              messageService.sendPrivateMessage(assignedTo, formatter.format(event));
+            } catch (MessageServiceException e) {
+              LOGGER.error(e.getMessage());
+            }
           }
         }
       }

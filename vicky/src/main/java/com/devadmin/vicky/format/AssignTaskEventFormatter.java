@@ -16,13 +16,7 @@ import org.springframework.stereotype.Component;
 public class AssignTaskEventFormatter extends SimpleTaskEventFormatter {
 
   public String format(TaskEvent event) {
-    // TODO use string format 13
-
-    StringBuffer message = new StringBuffer(128);
-    message.append(event.getActor());
-    message.append(" assigned to you: ");
-    message.append(super.format(event));
-    return message.toString();
+    return String.format("%s assigned to you: %s", event.getActor(), super.format(event));
   }
 
 }

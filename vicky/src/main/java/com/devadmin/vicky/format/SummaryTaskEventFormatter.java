@@ -16,14 +16,11 @@ import org.springframework.stereotype.Component;
 public class SummaryTaskEventFormatter extends SimpleTaskEventFormatter {
 
   public String format(TaskEvent event) {
-    //TODO use string format 13
-    StringBuffer message = new StringBuffer(128);
-    message.append(super.formatBase(event));
-    message.append(super.getShortDescription(event.getTask()));
-    message.append(super.getLastCommenter(event.getTask()));
-    message.append(" ➠ ");
-    message.append(super.getLastComment(event.getTask()));
-    return message.toString();
+    return String.format("%s %s %s ➠ %s",
+        super.formatBase(event),
+        super.getShortDescription(event.getTask()),
+        super.getLastCommenter(event.getTask()),
+        super.getLastComment(event.getTask()));
   }
 
 }

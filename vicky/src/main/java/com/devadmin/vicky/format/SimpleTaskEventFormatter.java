@@ -5,7 +5,6 @@
  */
 package com.devadmin.vicky.format;
 
-
 import com.devadmin.vicky.*;
 import org.springframework.stereotype.Component;
 
@@ -30,9 +29,9 @@ public class SimpleTaskEventFormatter implements TaskEventFormatter {
                 task.getAssignee());
     }
 
-
     /**
-     * @param event checks event type (is it issue event or comment event) if task has comment and composes the message respectively, which have to be send to slack
+     * @param event checks event type (is it issue event or comment event) if task has comment and composes the message
+     *              respectively, which have to be send to slack
      */
     public String format(TaskEvent event) {
         Task task = event.getTask();
@@ -46,15 +45,11 @@ public class SimpleTaskEventFormatter implements TaskEventFormatter {
             lastComment = getLastComment(task);
         } else {
             commenter = event.getComment().getAuthor().getDisplayName();
-            lastComment = event.getComment().getBody();
+            lastComment = event.getComment().getBody().replace("[~", "@").replace("]", "");
         }
-        return String.format("%s <%s | %s> %s: %s @%s\n %s ➠ %s",
-                getIcon(task),
-                task.getUrl(),
-                task.getKey(),
-                task.getStatus(),
-                task.getSummary(),
-                task.getAssignee(),
+
+        return String.format("%s\n %s ➠ %s",
+                formatBase(event),
                 commenter,
                 lastComment);
     }
@@ -112,7 +107,7 @@ public class SimpleTaskEventFormatter implements TaskEventFormatter {
         Comment comment = task.getLastComment();
         String commentBody = comment.getBody();
 
-        return commentBody == null ? "This task does not contain comment" : commentBody;
+        return commentBody == null ? "This task does not contain comment" : commentBody.replace("[~", "@").replace("]", "");
     }
 
 }
