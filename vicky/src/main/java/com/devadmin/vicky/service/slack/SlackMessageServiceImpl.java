@@ -48,7 +48,7 @@ public class SlackMessageServiceImpl implements MessageService {
     public void sendChannelMessage(String channelName, String message) throws MessageServiceException {
         RichMessage richMessage = new RichMessage(message);
         // getting all channel names from properties,
-        // checking if have the channel which should recieve the message
+        // checking if have the channel which should receive the message
         // if yes then sending the message to that channel
         Map<String, String> incomingWebhooks = properties.getWebhook().getIncoming();
         if (incomingWebhooks.containsKey(channelName)) {

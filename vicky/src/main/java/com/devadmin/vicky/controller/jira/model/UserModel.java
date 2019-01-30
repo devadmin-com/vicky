@@ -5,8 +5,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * This is the object which contains the information about user (issue creator)
+ * setting ignoreUnknown to true, to ignore fields which coming from json but don't have them in class
  */
-@JsonIgnoreProperties(ignoreUnknown = true) // TODO @Victor see this https://stackoverflow.com/questions/5455014/ignoring-new-fields-on-json-objects-using-jackson
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class UserModel {
 
   @JsonProperty("self")

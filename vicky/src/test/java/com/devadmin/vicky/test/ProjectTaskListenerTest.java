@@ -1,9 +1,5 @@
 package com.devadmin.vicky.test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
 import com.devadmin.vicky.TaskEventFormatter;
 import com.devadmin.vicky.TaskEventType;
 import com.devadmin.vicky.TaskPriority;
@@ -12,6 +8,8 @@ import com.devadmin.vicky.controller.jira.model.CommentModel;
 import com.devadmin.vicky.format.SimpleTaskEventFormatter;
 import com.devadmin.vicky.listener.ProjectTaskListener;
 import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 /**
  * Test class for {@link com.devadmin.vicky.listener.ProjectTaskListener}
@@ -43,7 +41,7 @@ public class ProjectTaskListenerTest extends TaskListenerTest {
 
     /**
      * Tests that handler gets the event and send the right message
-     * TODO: bad test name
+     * TODO: bad test name {Discussed with Victor, decided to ask team for an advice 30 of january}
      */
     @Test
     public void eventShouldBeHandledByThisHandlerTest() {
@@ -59,7 +57,7 @@ public class ProjectTaskListenerTest extends TaskListenerTest {
 
     /**
      * Tests that handler will not get the event with wrong type
-     * TODO: bad test name
+     * TODO: bad test name {Discussed with Victor, decided to ask team for an advice 30 of january}
      */
     @Test
     public void eventShouldNotBeHandledWithWrongTypeTest() {
@@ -75,7 +73,7 @@ public class ProjectTaskListenerTest extends TaskListenerTest {
 
     /**
      * Tests that handler will handle the event with correct type
-     * TODO: bad test name
+     * TODO: bad test name {Discussed with Victor, decided to ask team for an advice 30 of january}
      */
     @Test
     public void eventShouldBeHandledWithCorrectTypeTest() {
