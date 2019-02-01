@@ -4,6 +4,7 @@ import com.devadmin.vicky.TaskEvent;
 import com.devadmin.vicky.TaskEventType;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.Date;
 
 /**
@@ -64,7 +65,7 @@ public class JiraEventModel implements TaskEvent {
   }
 
   public ChangeLogModel getChangeLog() {
-    return changeLog;
+    return changeLog == null? new ChangeLogModel() : changeLog;
   }
 
   public void setChangeLog(ChangeLogModel changeLog) {

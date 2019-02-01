@@ -20,32 +20,30 @@ import org.springframework.stereotype.Component;
 @Component
 public class PMOnAssignListener extends TaskToMessageListener {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(PMOnAssignListener.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(PMOnAssignListener.class);
 
-  @Autowired
-  public PMOnAssignListener(MessageService messageService, @Qualifier("AssignFormatter") TaskEventFormatter taskEventFormatter) {
-    super(messageService, taskEventFormatter);
-  }
-
-  public void onApplicationEvent(TaskEventModelWrapper eventWrapper) {
-
-    TaskEvent event = eventWrapper.getTaskEventModel();
-
-    if (event.getChangeLog() != null) { //TODO: create empty ChangeLog, remove null check from here
-      for (ChangeLogItem changeLogItem : event.getChangeLog().getItems()) {
-        if (changeLogItem.getChangeType() == ChangeType.ASSIGN ) {
-
-          AssignChangeLogItem assignChangeLogItem = (AssignChangeLogItem) changeLogItem;
-          String assignedTo = assignChangeLogItem.getAssignedTo();
-          if (assignedTo != null) {
-            try {
-              messageService.sendPrivateMessage(assignedTo, formatter.format(event));
-            } catch (MessageServiceException e) {
-              LOGGER.error(e.getMessage());
-            }
-          }
-        }
-      }
+    @Autowired
+    public PMOnAssignListener(MessageService messageService, @Qualifier("AssignFormatter") TaskEventFormatter taskEventFormatter) {
+        super(messageService, taskEventFormatter);
     }
-  }
+
+    public void onApplicationEvent(TaskEventModelWrapper eventWrapper) {
+
+        TaskEvent event = eventWrapper.getTaskEventModel();
+
+        for (ChangeLogItem changeLogItem : event.getChangeLog().getItems()) {
+            if (changeLogItem.getChangeType() == ChangeType.ASSIGN) {
+
+                AssignChangeLogItem assignChangeLogItem = (AssignChangeLogItem) changeLogItem;
+                String assignedTo = assignChangeLogItem.getAssignedTo();
+                if (assignedTo != null) {
+                    try {
+                        messageService.sendPrivateMessage(assignedTo, formatter.format(event));
+                    } catch (MessageServiceException e) {
+                        LOGGER.error(e.getMessage());
+                    }
+                }
+            }
+        }
+    }
 }

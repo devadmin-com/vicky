@@ -2,6 +2,7 @@ package com.devadmin.vicky.controller.slack;
 
 import com.devadmin.slack.bot.AbstractBot;
 import com.devadmin.slack.common.SlackBot;
+import com.devadmin.vicky.controller.slack.config.SlackProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**

@@ -1,4 +1,4 @@
-package com.devadmin.vicky.controller.slack;
+package com.devadmin.vicky.controller.slack.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.NestedConfigurationProperty;

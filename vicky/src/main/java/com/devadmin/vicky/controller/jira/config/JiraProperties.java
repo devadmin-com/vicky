@@ -1,10 +1,6 @@
-package com.devadmin.vicky.controller.jira;
+package com.devadmin.vicky.controller.jira.config;
 
-import com.devadmin.jira.BasicCredentials;
-import com.devadmin.jira.JiraClient;
-import com.devadmin.jira.JiraException;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Bean;
 
 /**
  * The configuration of JIRA...
@@ -16,7 +12,6 @@ import org.springframework.context.annotation.Bean;
  */
 @ConfigurationProperties(prefix = "jira")
 public class JiraProperties {
-
 
   private String cloudUrl;
   private String username;
@@ -44,22 +39,5 @@ public class JiraProperties {
 
   public void setPassword(String password) {
     this.password = password;
-  }
-
-  /**
-   * This method create JiraClient bean based on application properties
-   *
-   * @return JiraClient instance
-   */
-  @Bean
-  public JiraClient getJiraClient() {
-    BasicCredentials basicCredentials = new BasicCredentials(getUsername(), getPassword());
-    JiraClient jiraClient = null;
-    try {
-      jiraClient = new JiraClient(getCloudUrl(), basicCredentials);
-    } catch (JiraException e) {
-      e.printStackTrace();
-    }
-    return jiraClient;
   }
 }
