@@ -8,6 +8,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestTemplate;
 
+/**
+ * Configuration class for jira module
+ *
+ */
 @Configuration
 @EnableConfigurationProperties(JiraProperties.class)
 public class JiraConfiguration {
@@ -18,13 +22,16 @@ public class JiraConfiguration {
         this.jiraProperties = jiraProperties;
     }
 
+    /**
+     * @return resttemplate bean which used to perform http requests
+     */
     @Bean
     public RestTemplate getRestTemplate() {
         return new RestTemplate();
     }
 
     /**
-     * This method create JiraClient bean based on application properties
+     * This method creates JiraClient bean based on application properties
      *
      * @return JiraClient instance
      */

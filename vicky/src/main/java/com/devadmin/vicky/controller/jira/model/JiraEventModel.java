@@ -65,7 +65,7 @@ public class JiraEventModel implements TaskEvent {
   }
 
   public ChangeLogModel getChangeLog() {
-    return changeLog == null? new ChangeLogModel() : changeLog;
+    return changeLog == null ? new EmptyChangeLogModel() : changeLog;
   }
 
   public void setChangeLog(ChangeLogModel changeLog) {

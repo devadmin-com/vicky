@@ -30,7 +30,6 @@ public class PMOnAssignListener extends TaskToMessageListener {
     public void onApplicationEvent(TaskEventModelWrapper eventWrapper) {
 
         TaskEvent event = eventWrapper.getTaskEventModel();
-
         for (ChangeLogItem changeLogItem : event.getChangeLog().getItems()) {
             if (changeLogItem.getChangeType() == ChangeType.ASSIGN) {
 
