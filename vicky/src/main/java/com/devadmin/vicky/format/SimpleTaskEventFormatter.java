@@ -5,7 +5,11 @@
  */
 package com.devadmin.vicky.format;
 
-import com.devadmin.vicky.*;
+import com.devadmin.vicky.Comment;
+import com.devadmin.vicky.Task;
+import com.devadmin.vicky.TaskEvent;
+import com.devadmin.vicky.TaskEventFormatter;
+import com.devadmin.vicky.TaskPriority;
 import org.springframework.stereotype.Component;
 
 /**
@@ -45,7 +49,7 @@ public class SimpleTaskEventFormatter implements TaskEventFormatter {
             lastComment = getLastComment(task);
         } else {
             commenter = event.getComment().getAuthor().getDisplayName();
-            lastComment = event.getComment().getBody().replace("[~", "@").replace("]", "");
+            lastComment = commentTruncating(event.getComment().getBody()).replace("[~", "@").replace("]", "");
         }
 
         return String.format("%s\n %s ➠ %s",
@@ -105,9 +109,14 @@ public class SimpleTaskEventFormatter implements TaskEventFormatter {
     protected String getLastComment(Task task) {
 
         Comment comment = task.getLastComment();
-        String commentBody = comment.getBody();
+        String truncatedComment = commentTruncating(comment.getBody());
 
-        return commentBody == null ? "This task does not contain comment" : commentBody.replace("[~", "@").replace("]", "");
+        return comment.getBody() == null ? "This task does not contain comment"
+            : truncatedComment.replace("[~", "@").replace("]", "");
     }
 
+    private String commentTruncating(String text) {
+        String str = text.substring(0, 256);
+        return str.substring(0, str.lastIndexOf(' ')) + " ...";
+    }
 }
