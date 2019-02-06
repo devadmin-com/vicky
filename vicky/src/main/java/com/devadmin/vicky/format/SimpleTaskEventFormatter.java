@@ -116,7 +116,11 @@ public class SimpleTaskEventFormatter implements TaskEventFormatter {
     }
 
     private String commentTruncating(String text) {
+      if (text.length() > 256) {
         String str = text.substring(0, 256);
         return str.substring(0, str.lastIndexOf(' ')) + " ...";
+      } else {
+        return text;
+      }
     }
 }
