@@ -1,8 +1,3 @@
-/*
- * Copyright (c) http://devadmin.com
- *
- * License: https://github.com/devadmin-com/vicky/blob/master/LICENSE
- */
 package com.devadmin.vicky.listener;
 
 import com.devadmin.vicky.MessageService;
@@ -10,7 +5,6 @@ import com.devadmin.vicky.MessageServiceException;
 import com.devadmin.vicky.TaskEvent;
 import com.devadmin.vicky.TaskEventFormatter;
 import com.devadmin.vicky.event.TaskEventModelWrapper;
-import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,33 +12,28 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 /**
- * If a user is referenced in a comment send them a private message
- *
- * Story: TL-106
+ * If task commented and commenter and assignee is not the same user send assignee PM message
  */
 @Component
-public class AtReferenceListener extends TaskToMessageListener {
+public class CommentedTaskListener extends TaskToMessageListener {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(AtReferenceListener.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(CommentedTaskListener.class);
 
   @Autowired
-  public AtReferenceListener(MessageService messageService,
+  public CommentedTaskListener(MessageService messageService,
       @Qualifier("SimpleFormatter") TaskEventFormatter taskEventFormatter) {
     super(messageService, taskEventFormatter);
   }
 
+  @Override
   public void onApplicationEvent(TaskEventModelWrapper eventWrapper) {
     TaskEvent event = eventWrapper.getTaskEventModel();
 
-    if (event.getComment() != null) {
-      List<String> atReferences = event.getComment().getReferences();
-
-      for (String atReference : atReferences) {
-        try {
-          messageService.sendPrivateMessage(atReference, formatter.format(event));
-        } catch (MessageServiceException e) {
-          LOGGER.error(e.getMessage());
-        }
+    if (event.getComment() != null && !event.getComment().getAuthor().getName().equals(event.getTask().getAssignee())) {
+      try {
+        messageService.sendPrivateMessage(event.getComment().getAuthor().getName(), formatter.format(event));
+      } catch (MessageServiceException e) {
+        LOGGER.error(e.getMessage());
       }
     }
   }

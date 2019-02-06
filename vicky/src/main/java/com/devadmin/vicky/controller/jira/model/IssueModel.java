@@ -1,26 +1,19 @@
 package com.devadmin.vicky.controller.jira.model;
 
-import com.devadmin.jira.JiraClient;
 import com.devadmin.vicky.Task;
 import com.devadmin.vicky.TaskPriority;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Value;
 
 /**
  * This is the object which contains the information about jira issue
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class IssueModel implements Task {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(IssueModel.class);
 
     @JsonProperty("id")
     private String id;
@@ -34,8 +27,6 @@ public class IssueModel implements Task {
     @Value("jira:cloud-url")
     private String cloudUrl;
 
-    @Autowired
-    private JiraClient jiraClient;
     private CommentModel comment;
 
     public String getId() {

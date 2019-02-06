@@ -6,17 +6,17 @@ import org.springframework.context.annotation.Configuration;
 
 /**
  * Used for Testing...
- *
+ * <p>
  * Returns testing class for MessageService...
  */
 @Configuration
 public class TestAppConfig {
-    /**
-     *
-     * @return
-     */
-    @Bean
-    public MessageService getMessageService() {
-        return new TestMessageService();
-    }
+
+  /**
+   * @return testing class for MessageService...
+   */
+  @Bean
+  public MessageService getMessageService() {
+    return new TestMessageService();
+  }
 }

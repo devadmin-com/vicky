@@ -3,7 +3,6 @@ package com.devadmin.vicky.test;
 import com.devadmin.vicky.Task;
 import com.devadmin.vicky.TaskPriority;
 import com.devadmin.vicky.controller.jira.model.CommentModel;
-
 import java.util.List;
 
 class TestTask implements Task {
@@ -14,6 +13,7 @@ class TestTask implements Task {
   private String status;
   private TaskPriority priority;
   private CommentModel lastComment;
+  private String assignee;
 
   @Override
   public String getId() {
@@ -66,7 +66,11 @@ class TestTask implements Task {
 
   @Override
   public String getAssignee() {
-    return "Test User";
+    return assignee;
+  }
+
+  public void setAssignee(String assignee) {
+    this.assignee = assignee;
   }
 
   @Override
