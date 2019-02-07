@@ -40,10 +40,12 @@ public class AtReferenceListener extends TaskToMessageListener {
       List<String> atReferences = event.getComment().getReferences();
 
       for (String atReference : atReferences) {
-        try {
-          messageService.sendPrivateMessage(atReference, formatter.format(event));
-        } catch (MessageServiceException e) {
-          LOGGER.error(e.getMessage());
+        if (!atReference.equals(event.getComment().getAuthor().getName())) {
+          try {
+            messageService.sendPrivateMessage(atReference, formatter.format(event));
+          } catch (MessageServiceException e) {
+            LOGGER.error(e.getMessage());
+          }
         }
       }
     }

@@ -1,5 +1,6 @@
 package com.devadmin.vicky.test;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -34,6 +35,7 @@ public class AtReferenceListenerTest extends TaskListenerTest {
     comment.setBody("What is this [~serpento] ?");
     AuthorModel authorModel = new AuthorModel();
     authorModel.setDisplayName("serpento");
+    authorModel.setName("testUser");
     comment.setAuthor(authorModel);
 
     TestTask testTask = new TestTask();
@@ -50,6 +52,33 @@ public class AtReferenceListenerTest extends TaskListenerTest {
     assertTrue(testMessageService.wasPMed());
   }
 
+  /**
+   * tests that the event was sent
+   */
+  @Test
+  public void testMultiplyAtReferencesInComment() {
+    createContext();
+
+    CommentModel comment = new CommentModel();
+    comment.setBody("What is this [~serpento] and [~vvorski]?");
+    AuthorModel authorModel = new AuthorModel();
+    authorModel.setName("testUser");
+    comment.setAuthor(authorModel);
+
+    TestTask testTask = new TestTask();
+    testTask.setStatus("Backlog");
+
+    TestTaskEventModel testEventModel = new TestTaskEventModel();
+    testEventModel.setComment(comment);
+    testEventModel.setTask(testTask);
+
+    publish(testEventModel);
+
+    assertFalse(testMessageService.wasChannelMsged());
+    assertTrue(testMessageService.wasPMed());
+    assertEquals(2, testMessageService.getPrivateMessageCount());
+  }
+
 
   /**
    * Tests that handler will not get the event with wrong type
@@ -58,6 +87,9 @@ public class AtReferenceListenerTest extends TaskListenerTest {
   public void eventShouldNotBeHandledWithNoReferenceTest(){
 
     createContext();
+
+    AuthorModel authorModel = new AuthorModel();
+    authorModel.setName("serpento");
 
     CommentModel comment = new CommentModel();
     comment.setBody("Hello world!");
@@ -78,8 +110,10 @@ public class AtReferenceListenerTest extends TaskListenerTest {
 
   // private methods
   private void createContext() {
-    AtReferenceListener listener = new AtReferenceListener(testMessageService, taskEventFormatter);
-    context.addApplicationListener(listener);
+    AtReferenceListener atReferenceListener = new AtReferenceListener(testMessageService, taskEventFormatter);
+    //CommentedTaskListener commentedTaskListener = new CommentedTaskListener(testMessageService, taskEventFormatter);
+    context.addApplicationListener(atReferenceListener);
+    //context.addApplicationListener(commentedTaskListener);
     context.refresh();
   }
 }

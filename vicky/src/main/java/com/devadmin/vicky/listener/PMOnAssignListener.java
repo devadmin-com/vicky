@@ -5,7 +5,13 @@
  */
 package com.devadmin.vicky.listener;
 
-import com.devadmin.vicky.*;
+import com.devadmin.vicky.AssignChangeLogItem;
+import com.devadmin.vicky.ChangeLogItem;
+import com.devadmin.vicky.ChangeType;
+import com.devadmin.vicky.MessageService;
+import com.devadmin.vicky.MessageServiceException;
+import com.devadmin.vicky.TaskEvent;
+import com.devadmin.vicky.TaskEventFormatter;
 import com.devadmin.vicky.event.TaskEventModelWrapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,7 +37,8 @@ public class PMOnAssignListener extends TaskToMessageListener {
 
         TaskEvent event = eventWrapper.getTaskEventModel();
         for (ChangeLogItem changeLogItem : event.getChangeLog().getItems()) {
-            if (changeLogItem.getChangeType() == ChangeType.ASSIGN) {
+          if (changeLogItem.getChangeType() == ChangeType.ASSIGN && !event.getActor()
+              .equals(((AssignChangeLogItem) changeLogItem).getAssignedTo())) {
 
                 AssignChangeLogItem assignChangeLogItem = (AssignChangeLogItem) changeLogItem;
                 String assignedTo = assignChangeLogItem.getAssignedTo();

@@ -33,6 +33,7 @@ public class TestMessageService implements MessageService {
    * The number of messages that are sent to the channel.
    */
   private int channelMessageCount = 0;
+  private int privateMessageCount = 0;
 
   private List<Message> privateMsg = new ArrayList<>();
   private List<Message> channelMsg = new ArrayList<>();
@@ -56,6 +57,7 @@ public class TestMessageService implements MessageService {
    */
   @Override
   public void sendPrivateMessage(String personName, String message) throws MessageServiceException {
+    this.privateMessageCount++;
     privateMsg.add(new Message(personName, message));
   }
 
@@ -148,6 +150,14 @@ public class TestMessageService implements MessageService {
 
   public void setChannelMessageCount(int channelMessageCount) {
     this.channelMessageCount = channelMessageCount;
+  }
+
+  public int getPrivateMessageCount() {
+    return privateMessageCount;
+  }
+
+  public void setPrivateMessageCount(int privateMessageCount) {
+    this.privateMessageCount = privateMessageCount;
   }
 }
 
