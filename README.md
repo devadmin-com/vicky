@@ -5,7 +5,7 @@ and people.
 
 # Building, Installing, Running
 ## Requirements
-* Java ??? or higher
+* Java 8 or higher
 * gradle ??? or higher
 
 ## How to run & modify
@@ -17,7 +17,7 @@ and people.
 (jira, slack, vicky)
 
 ### Important: application.yml !!
-  - Configure *application.yml* file (put right values instead of placeholders)
+  - Configure *application.yml* file instead of *sample-application.yml* 
   
 ### Hint: Running local machine for testing.
   - Use [Ngrok](https://ngrok.com) to test webhook integrations on your local machine if you do not have a static IP with following command @todo - what is it?
@@ -40,6 +40,11 @@ When a user is referenced in a comment send them a message on the private channe
 ```
 <ticket type icon> <Number (clickable URL)> <Status>: <Summary> 
 <commenter name> ➠ <last comment>
+```
+### Ticket assigned to you, send update as:
+```
+<Name user who assigned> assigned to you: <type icon ⚙⚡> <Number (clickable URL)> <Status>: <Summary> 
+<commenter id> ➠ <last comment> (4h)
 ```
 
 ## Slack Message Processing
