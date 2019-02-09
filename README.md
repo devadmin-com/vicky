@@ -33,8 +33,8 @@ Slack channel and jira project name have to be the same.
 Users need to have the same name on slack & jira
 
 ## JIRA Event Messages to Slack Channels
-On Create, resolve send updates to project channel
-### Type = <DEFAULT> (anything not specified Below)
+On Create, resolve send updates to project channel as described below:
+### Type = "DEFAULT" (anything not specified Below)
 ```
 :rocket: <Number> (clickable URL) <Status>: <Summary> @<assignee nickname>
 <commenter id> ➠ <last comment>
