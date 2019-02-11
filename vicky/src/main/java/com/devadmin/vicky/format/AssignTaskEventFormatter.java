@@ -15,8 +15,10 @@ import org.springframework.stereotype.Component;
 @Component("AssignFormatter")
 public class AssignTaskEventFormatter extends SimpleTaskEventFormatter {
 
+  // TODO:javadoc
   public String format(TaskEvent event) {
     return String.format("%s assigned to you: %s", event.getActor(), super.format(event));
+    //TODO: missing coment - check spec
   }
 
 }

@@ -38,7 +38,7 @@ public class PMOnAssignListener extends TaskToMessageListener {
         TaskEvent event = eventWrapper.getTaskEventModel();
         for (ChangeLogItem changeLogItem : event.getChangeLog().getItems()) {
           if (changeLogItem.getChangeType() == ChangeType.ASSIGN && !event.getActor()
-              .equals(((AssignChangeLogItem) changeLogItem).getAssignedTo())) {
+              .equals(((AssignChangeLogItem) changeLogItem).getAssignedTo())) { // don't send updates for own actions
 
                 AssignChangeLogItem assignChangeLogItem = (AssignChangeLogItem) changeLogItem;
                 String assignedTo = assignChangeLogItem.getAssignedTo();
