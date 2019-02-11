@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) http://devadmin.com
+ *
+ * License: https://github.com/devadmin-com/vicky/blob/master/LICENSE
+ */
 package com.devadmin.vicky.listener;
 
 import com.devadmin.vicky.MessageService;
@@ -13,6 +18,8 @@ import org.springframework.stereotype.Component;
 
 /**
  * If task commented and commenter and assignee is not the same user send assignee PM message
+ *
+ * Story: TL-108
  */
 @Component
 public class CommentedTaskListener extends TaskToMessageListener {

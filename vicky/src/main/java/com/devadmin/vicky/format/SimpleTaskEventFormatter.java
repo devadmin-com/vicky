@@ -19,7 +19,7 @@ import org.springframework.stereotype.Component;
 public class SimpleTaskEventFormatter implements TaskEventFormatter {
 
     /**
-     * composes message which is basic for every case
+     * composes basic part of message (without comment)
      */
     protected String formatBase(TaskEvent event) {
         Task task = event.getTask();
@@ -35,22 +35,23 @@ public class SimpleTaskEventFormatter implements TaskEventFormatter {
 
     /**
      * @param event checks event type (is it issue event or comment event) if task has comment and composes the message
-     *              respectively, which have to be send to slack
+     *              appropriately
      */
     public String format(TaskEvent event) {
         Task task = event.getTask();
         String commenter;
         String lastComment;
 
-        // we are doing this check, because we have two types of event issue and comment,
-        // so if getComment is null, then we have issue event and need to extract comments different way
-        if (event.getComment() == null) {
-            commenter = getLastCommenter(task);
-            lastComment = getLastComment(task);
-        } else {
-            commenter = event.getComment().getAuthor().getDisplayName();
-            lastComment = commentTruncating(event.getComment().getBody()).replace("[~", "@").replace("]", "");
-        }
+            // we are doing this check, because we have two types of event issue and comment,
+            // so if getComment is null, then we have issue event and need to extract comments different way
+        // why don't we just move this logic to the getLastCommenter method?
+            if (event.getComment() == null) {
+                commenter = getLastCommenter(task);
+                lastComment = getLastComment(task); //TODO - why is the comment not truncated?
+            } else {
+                commenter = event.getComment().getAuthor().getDisplayName();
+                lastComment = commentTruncating(event.getComment().getBody()).replace("[~", "@").replace("]", "");
+            }
 
         return String.format("%s\n %s ➠ %s",
                 formatBase(event),
