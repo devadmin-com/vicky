@@ -36,7 +36,7 @@ public class CommentedTaskListener extends TaskToMessageListener {
   public void onApplicationEvent(TaskEventModelWrapper eventWrapper) {
     TaskEvent event = eventWrapper.getTaskEventModel();
 
-    if (event.getComment() != null && !event.getComment().getAuthor().getName().equals(event.getTask().getAssignee())) {
+    if (event.getComment() != null && !event.getComment().getAuthor().getName().equals(event.getTask().getAssignee())) { // don't send updates for own actions
       try {
         messageService.sendPrivateMessage(event.getComment().getAuthor().getName(), formatter.format(event));
       } catch (MessageServiceException e) {
