@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * THis controller is responsible for interactions with Slack Bot ex. sending DM to Bot
+ * TODO: I don't understand, I thought sending was through the slack service?
  */
 @SlackBot
 public class SlackController extends AbstractBot {

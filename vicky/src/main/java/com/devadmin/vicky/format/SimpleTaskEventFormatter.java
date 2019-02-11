@@ -13,7 +13,7 @@ import com.devadmin.vicky.TaskPriority;
 import org.springframework.stereotype.Component;
 
 /**
- * Implements basic formatting of @TaskEventModelWrapper for sending to a @MessageService
+ * Implements standard formatting of @TaskEventModelWrapper for sending to a @MessageService
  */
 @Component("SimpleFormatter")
 public class SimpleTaskEventFormatter implements TaskEventFormatter {
@@ -44,7 +44,8 @@ public class SimpleTaskEventFormatter implements TaskEventFormatter {
 
             // we are doing this check, because we have two types of event issue and comment,
             // so if getComment is null, then we have issue event and need to extract comments different way
-        // why don't we just move this logic to the getLastCommenter method?
+        // TODO: why don't we just move this logic to the getLastCommenter method?
+        //TODO: why is this logic not in SummaryTaskEventFormatter?
             if (event.getComment() == null) {
                 commenter = getLastCommenter(task);
                 lastComment = getLastComment(task); //TODO - why is the comment not truncated?

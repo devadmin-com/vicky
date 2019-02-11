@@ -32,7 +32,7 @@ public class AtReferenceListener extends TaskToMessageListener {
       @Qualifier("SimpleFormatter") TaskEventFormatter taskEventFormatter) {
     super(messageService, taskEventFormatter);
   }
-
+  //TODO: Javadoc
   public void onApplicationEvent(TaskEventModelWrapper eventWrapper) {
     TaskEvent event = eventWrapper.getTaskEventModel();
 

@@ -9,5 +9,4 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @EnableConfigurationProperties(SlackProperties.class)
 public class SlackConfiguration {
-
 }

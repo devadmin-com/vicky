@@ -33,6 +33,7 @@ public class PMOnAssignListener extends TaskToMessageListener {
         super(messageService, taskEventFormatter);
     }
 
+    //TODO: Javadoc
     public void onApplicationEvent(TaskEventModelWrapper eventWrapper) {
 
         TaskEvent event = eventWrapper.getTaskEventModel();

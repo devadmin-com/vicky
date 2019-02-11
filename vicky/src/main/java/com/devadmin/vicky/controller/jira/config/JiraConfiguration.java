@@ -18,6 +18,7 @@ public class JiraConfiguration {
 
     private JiraProperties jiraProperties;
 
+    //TODO: Javadoc
     public JiraConfiguration(JiraProperties jiraProperties) {
         this.jiraProperties = jiraProperties;
     }

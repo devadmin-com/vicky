@@ -13,5 +13,6 @@ import java.util.List;
  */
 public interface ChangeLog {
 
+  //TODO: Javadoc
   List<ChangeLogItem> getItems();
 }

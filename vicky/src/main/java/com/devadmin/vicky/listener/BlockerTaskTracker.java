@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.TimerTask;
 
 /**
- * This class periodically checks if Blocker task contains comments for last 6 hours
+ * This class periodically checks if Blocker task was commented within the last 6 hours
  */
 public class BlockerTaskTracker {
 
@@ -21,6 +21,7 @@ public class BlockerTaskTracker {
   private static final long DELAY = 1000L * 60L * 60L * 24L; // 24h
   private static final long PERIOD = 1000L * 60L * 60L * 6L; // 6h
 
+  //TODO: Javadoc
   private Date startTrackingDate;
 
   private java.util.Timer timer = new java.util.Timer();

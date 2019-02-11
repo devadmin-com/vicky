@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) http://devadmin.com
+ *
+ * License: https://github.com/devadmin-com/vicky/blob/master/LICENSE
+ */
 package com.devadmin.vicky.controller.jira;
 
 import com.devadmin.jira.Comment;
@@ -40,6 +45,7 @@ public class JiraController {
         this.applicationEventPublisher = applicationEventPublisher;
     }
 
+    //TODO: Javadoc
     @PostMapping("/jira")
     public ResponseEntity jiraEvent(@RequestBody JiraEventModel jiraEventModel) {
 
@@ -59,10 +65,10 @@ public class JiraController {
             case "comment_updated":
                 jiraEventModel.setType(TaskEventType.COMMENT);
                 break;
+
             default:
                 jiraEventModel.setType(TaskEventType.DEFAULT);
                 break;
-
         }
 
         final TaskEventModelWrapper event = new TaskEventModelWrapper(jiraEventModel);
@@ -86,7 +92,7 @@ public class JiraController {
                 CommentModel lastComment = convertCommentToCommentModel(comment);
                 task.setLastComment(lastComment);
             } else {
-                task.setLastComment(getDefaultCommentModel());
+                task.setLastComment(getNoCommentModel());
             }
         } catch (JiraException e) {
             LOGGER.error("Failed to retrieve issue by issueId: " + task.getId(), e);
@@ -96,16 +102,17 @@ public class JiraController {
     /**
      * @return default message if there is no comment
      */
-    private CommentModel getDefaultCommentModel() {
+    private CommentModel getNoCommentModel() {
         CommentModel commentModel = new CommentModel();
         AuthorModel authorModel = new AuthorModel();
 
         authorModel.setDisplayName("Vicky");
         commentModel.setAuthor(authorModel);
-        commentModel.setBody("This task does not contain comment");
+        commentModel.setBody("NO COMMENT - This task does not contain a comment");
         return commentModel;
     }
 
+    //TODO: javadoc, why?
     private CommentModel convertCommentToCommentModel(Comment comment) {
         CommentModel commentModel = new CommentModel();
         AuthorModel authorModel = new AuthorModel();
