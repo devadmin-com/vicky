@@ -7,7 +7,6 @@ package com.devadmin.vicky.listener;
 
 import com.devadmin.vicky.*;
 import com.devadmin.vicky.event.TaskEventModelWrapper;
-import com.devadmin.vicky.util.BlockerTaskTracker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

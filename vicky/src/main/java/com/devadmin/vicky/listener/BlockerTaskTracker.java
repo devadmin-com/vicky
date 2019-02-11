@@ -1,4 +1,4 @@
-package com.devadmin.vicky.util;
+package com.devadmin.vicky.listener;
 
 import com.devadmin.jira.Comment;
 import com.devadmin.jira.JiraClient;
