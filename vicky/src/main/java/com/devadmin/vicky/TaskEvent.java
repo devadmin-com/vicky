@@ -7,9 +7,7 @@ package com.devadmin.vicky;
 
 import java.util.Date;
 
-/**
- * Models an event happening on a task.
- **/
+/** Models an event happening on a task. */
 public interface TaskEvent {
 
   /** @return true if the event has comment */
@@ -32,19 +30,12 @@ public interface TaskEvent {
    */
   TaskEventType getType();
 
-  /**
-   *
-   * @return the set of changes changelog data
-   */
+  /** @return the set of changes changelog data */
   ChangeLog getChangeLog();
 
-  /**
-   * @return comment on task
-   */
+  /** @return comment on task */
   Comment getComment();
 
-  /**
-   * @return the user who performed the action which caused this event
-   */
+  /** @return the user who performed the action which caused this event */
   String getActor();
 }

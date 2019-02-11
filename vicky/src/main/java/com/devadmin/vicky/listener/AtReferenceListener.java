@@ -10,17 +10,18 @@ import com.devadmin.vicky.MessageServiceException;
 import com.devadmin.vicky.TaskEvent;
 import com.devadmin.vicky.TaskEventFormatter;
 import com.devadmin.vicky.event.TaskEventModelWrapper;
-import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 /**
  * If a user is referenced in a comment send them a private message
  *
- * Story: TL-106
+ * <p>Story: TL-106
  */
 @Component
 public class AtReferenceListener extends TaskToMessageListener {
@@ -28,11 +29,12 @@ public class AtReferenceListener extends TaskToMessageListener {
   private static final Logger LOGGER = LoggerFactory.getLogger(AtReferenceListener.class);
 
   @Autowired
-  public AtReferenceListener(MessageService messageService,
+  public AtReferenceListener(
+      MessageService messageService,
       @Qualifier("SimpleFormatter") TaskEventFormatter taskEventFormatter) {
     super(messageService, taskEventFormatter);
   }
-  //TODO: Javadoc
+  // TODO: Javadoc
   public void onApplicationEvent(TaskEventModelWrapper eventWrapper) {
     TaskEvent event = eventWrapper.getTaskEventModel();
 
@@ -40,7 +42,11 @@ public class AtReferenceListener extends TaskToMessageListener {
       List<String> atReferences = event.getComment().getReferences();
 
       for (String atReference : atReferences) {
-        if (!atReference.equals(event.getComment().getAuthor().getName())) { // don't send updates for comments you write yourself
+        if (!atReference.equals(
+            event
+                .getComment()
+                .getAuthor()
+                .getName())) { // don't send updates for comments you write yourself
           try {
             messageService.sendPrivateMessage(atReference, formatter.format(event));
           } catch (MessageServiceException e) {

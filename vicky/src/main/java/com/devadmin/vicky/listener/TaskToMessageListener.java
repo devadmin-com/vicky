@@ -13,8 +13,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationListener;
 
 /**
- * Base class for any listener which takes {@link TaskEventModelWrapper}s and sends messages to a {@link MessageService}.
- *
+ * Base class for any listener which takes {@link TaskEventModelWrapper}s and sends messages to a
+ * {@link MessageService}.
  */
 public abstract class TaskToMessageListener implements ApplicationListener<TaskEventModelWrapper> {
 
@@ -24,9 +24,9 @@ public abstract class TaskToMessageListener implements ApplicationListener<TaskE
 
   protected final TaskEventFormatter formatter; // what we use to format tasks
 
-  public TaskToMessageListener(MessageService messageService, TaskEventFormatter taskEventFormatter) {
+  public TaskToMessageListener(
+      MessageService messageService, TaskEventFormatter taskEventFormatter) {
     this.messageService = messageService;
     this.formatter = taskEventFormatter;
   }
-
 }

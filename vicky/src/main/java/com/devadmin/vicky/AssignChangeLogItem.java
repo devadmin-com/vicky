@@ -5,14 +5,9 @@
  */
 package com.devadmin.vicky;
 
-/**
- * AssignChangeLogItem is changeLogItem with assignment change
- */
+/** AssignChangeLogItem is changeLogItem with assignment change */
 public interface AssignChangeLogItem extends ChangeLogItem {
 
-  /**
-   * @return username of assignee
-   */
+  /** @return username of assignee */
   String getAssignedTo();
-
 }

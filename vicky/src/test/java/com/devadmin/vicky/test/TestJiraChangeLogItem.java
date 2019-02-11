@@ -6,6 +6,7 @@ import com.devadmin.vicky.ChangeType;
 
 /**
  * Test item inside changelog
+ *
  * @see ChangeLogItem
  */
 public class TestJiraChangeLogItem implements AssignChangeLogItem {

@@ -1,15 +1,13 @@
 package com.devadmin.vicky.test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
 import com.devadmin.vicky.TaskEventFormatter;
 import com.devadmin.vicky.controller.jira.model.AuthorModel;
 import com.devadmin.vicky.controller.jira.model.CommentModel;
 import com.devadmin.vicky.format.SimpleTaskEventFormatter;
 import com.devadmin.vicky.listener.CommentedTaskListener;
 import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 public class CommentedTaskListenerTest extends TaskListenerTest {
 
@@ -18,9 +16,7 @@ public class CommentedTaskListenerTest extends TaskListenerTest {
     return new SimpleTaskEventFormatter();
   }
 
-  /**
-   * test CommentedTaskListener if commenter and assignee is different users
-   */
+  /** test CommentedTaskListener if commenter and assignee is different users */
   @Test
   public void testWhenCommenterAndAssigneeIsDifferentUsers() {
     createContext();
@@ -45,9 +41,7 @@ public class CommentedTaskListenerTest extends TaskListenerTest {
     assertTrue(testMessageService.wasPMed());
   }
 
-  /**
-   * test CommentedTaskListener if commenter and assignee is same users
-   */
+  /** test CommentedTaskListener if commenter and assignee is same users */
   @Test
   public void testWhenCommenterAndAssigneeIsSameUsers() {
     createContext();
@@ -72,9 +66,7 @@ public class CommentedTaskListenerTest extends TaskListenerTest {
     assertFalse(testMessageService.wasPMed());
   }
 
-  /**
-   * test CommentedTaskListener if event does not contain comment
-   */
+  /** test CommentedTaskListener if event does not contain comment */
   @Test
   public void testWhenCommentModelInEventIsNull() {
     createContext();
@@ -92,9 +84,7 @@ public class CommentedTaskListenerTest extends TaskListenerTest {
     assertFalse(testMessageService.wasPMed());
   }
 
-  /**
-   * test CommentedTaskListener if event does not contain comment
-   */
+  /** test CommentedTaskListener if event does not contain comment */
   @Test
   public void testWhenCommentTextMoreThen256Characters() {
     createContext();
@@ -135,9 +125,9 @@ public class CommentedTaskListenerTest extends TaskListenerTest {
 
   // private methods
   private void createContext() {
-    CommentedTaskListener listener = new CommentedTaskListener(testMessageService, taskEventFormatter);
+    CommentedTaskListener listener =
+        new CommentedTaskListener(testMessageService, taskEventFormatter);
     context.addApplicationListener(listener);
     context.refresh();
   }
-
 }

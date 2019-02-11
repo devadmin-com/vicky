@@ -8,11 +8,11 @@ package com.devadmin.vicky;
 import java.util.List;
 
 /**
- * Describes all changes done on task
- * This interface to enable concrete implementation to do concrete system specific stuff ex: jira, asana etc.
+ * Describes all changes done on task This interface to enable concrete implementation to do
+ * concrete system specific stuff ex: jira, asana etc.
  */
 public interface ChangeLog {
 
-  //gets the list of changes happened on task
+  // gets the list of changes happened on task
   List<ChangeLogItem> getItems();
 }

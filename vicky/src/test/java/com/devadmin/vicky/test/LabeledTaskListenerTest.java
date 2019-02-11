@@ -15,10 +15,7 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
-/**
- * Test class for {@link com.devadmin.vicky.listener.LabeledTaskListener}
- *
- */
+/** Test class for {@link com.devadmin.vicky.listener.LabeledTaskListener} */
 public class LabeledTaskListenerTest extends TaskListenerTest {
 
   @Override
@@ -26,11 +23,9 @@ public class LabeledTaskListenerTest extends TaskListenerTest {
     return new SimpleTaskEventFormatter();
   }
 
-  /**
-   * Tests that the event was not handled if task isn't contain label
-   */
+  /** Tests that the event was not handled if task isn't contain label */
   @Test
-  public void eventShouldNotBeHandledWithoutLabelsTest(){
+  public void eventShouldNotBeHandledWithoutLabelsTest() {
 
     createContext();
 
@@ -48,11 +43,9 @@ public class LabeledTaskListenerTest extends TaskListenerTest {
     assertFalse(testMessageService.wasPMed());
   }
 
-  /**
-   * Tests that the message was sent to channel which has the same name as Label
-   */
+  /** Tests that the message was sent to channel which has the same name as Label */
   @Test
-  public void shouldSendChannelMessageWithTheNameOfLabelTest(){
+  public void shouldSendChannelMessageWithTheNameOfLabelTest() {
 
     createContext();
 
@@ -90,5 +83,4 @@ public class LabeledTaskListenerTest extends TaskListenerTest {
     context.addApplicationListener(listener);
     context.refresh();
   }
-
 }

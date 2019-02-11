@@ -6,7 +6,8 @@
 package com.devadmin.vicky;
 
 /**
- * A generic messaging service. Allows writing string messages to a named channel or privately to a person.
+ * A generic messaging service. Allows writing string messages to a named channel or privately to a
+ * person.
  */
 public interface MessageService {
 

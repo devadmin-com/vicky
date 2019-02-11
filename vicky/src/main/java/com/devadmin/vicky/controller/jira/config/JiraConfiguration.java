@@ -8,44 +8,40 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestTemplate;
 
-/**
- * Configuration class for jira module
- *
- */
+/** Configuration class for jira module */
 @Configuration
 @EnableConfigurationProperties(JiraProperties.class)
 public class JiraConfiguration {
 
-    private JiraProperties jiraProperties;
+  private JiraProperties jiraProperties;
 
-    //TODO: Javadoc
-    // TODO V why javadoc ??
-    public JiraConfiguration(JiraProperties jiraProperties) {
-        this.jiraProperties = jiraProperties;
-    }
+  // TODO: Javadoc
+  // TODO V why javadoc ??
+  public JiraConfiguration(JiraProperties jiraProperties) {
+    this.jiraProperties = jiraProperties;
+  }
 
-    /**
-     * @return resttemplate bean which used to perform http requests
-     */
-    @Bean
-    public RestTemplate getRestTemplate() {
-        return new RestTemplate();
-    }
+  /** @return resttemplate bean which used to perform http requests */
+  @Bean
+  public RestTemplate getRestTemplate() {
+    return new RestTemplate();
+  }
 
-    /**
-     * This method creates JiraClient bean based on application properties
-     *
-     * @return JiraClient instance
-     */
-    @Bean
-    public JiraClient getJiraClient() {
-        BasicCredentials basicCredentials = new BasicCredentials(jiraProperties.getUsername(), jiraProperties.getPassword());
-        JiraClient jiraClient = null;
-        try {
-            jiraClient = new JiraClient(jiraProperties.getCloudUrl(), basicCredentials);
-        } catch (JiraException e) {
-            e.printStackTrace();
-        }
-        return jiraClient;
+  /**
+   * This method creates JiraClient bean based on application properties
+   *
+   * @return JiraClient instance
+   */
+  @Bean
+  public JiraClient getJiraClient() {
+    BasicCredentials basicCredentials =
+        new BasicCredentials(jiraProperties.getUsername(), jiraProperties.getPassword());
+    JiraClient jiraClient = null;
+    try {
+      jiraClient = new JiraClient(jiraProperties.getCloudUrl(), basicCredentials);
+    } catch (JiraException e) {
+      e.printStackTrace();
     }
+    return jiraClient;
+  }
 }

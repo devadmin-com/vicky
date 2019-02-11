@@ -2,37 +2,31 @@ package com.devadmin.vicky.test;
 
 import com.devadmin.vicky.MessageService;
 import com.devadmin.vicky.MessageServiceException;
+
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * An implementation of MessageService for testing.
  *
- * Buffers everything which has been sent to it.
+ * <p>Buffers everything which has been sent to it.
  *
- * Just stores the latest message sent
+ * <p>Just stores the latest message sent
  */
 public class TestMessageService implements MessageService {
 
-  /**
-   * The last message send through us
-   */
+  /** The last message send through us */
   private String lastMessage;
 
-  /**
-   * The ID of the last channel sent to
-   */
+  /** The ID of the last channel sent to */
   private String lastChannelName;
 
-  /**
-   * The ID of the last person sent to
-   */
+  /** The ID of the last person sent to */
   private String personId;
 
-  /**
-   * The number of messages that are sent to the channel.
-   */
+  /** The number of messages that are sent to the channel. */
   private int channelMessageCount = 0;
+
   private int privateMessageCount = 0;
 
   private List<Message> privateMsg = new ArrayList<>();
@@ -44,7 +38,8 @@ public class TestMessageService implements MessageService {
    * @see MessageService#sendChannelMessage(String, String)
    */
   @Override
-  public void sendChannelMessage(String channelName, String message) throws MessageServiceException {
+  public void sendChannelMessage(String channelName, String message)
+      throws MessageServiceException {
     this.channelMessageCount++;
     setLastMessage(message);
     channelMsg.add(new Message(channelName, message));
@@ -61,24 +56,17 @@ public class TestMessageService implements MessageService {
     privateMsg.add(new Message(personName, message));
   }
 
-  /**
-   * @return true if any private messages were sent
-   */
+  /** @return true if any private messages were sent */
   boolean wasPMed() {
     return privateMsg.size() > 0;
   }
 
-  /**
-   * @return true if any channel messages were sent
-   */
+  /** @return true if any channel messages were sent */
   boolean wasChannelMsged() {
     return channelMsg.size() > 0;
   }
 
-
-  /**
-   * @return true if there were any messages sent to this person.
-   */
+  /** @return true if there were any messages sent to this person. */
   boolean wasPMed(String id) {
     boolean was = false;
 
@@ -90,9 +78,7 @@ public class TestMessageService implements MessageService {
     return was;
   }
 
-  /**
-   * @return true if there were any messages sent to the channel.
-   */
+  /** @return true if there were any messages sent to the channel. */
   boolean wasChannelMsged(String id) {
     boolean was = false;
 
@@ -161,9 +147,7 @@ public class TestMessageService implements MessageService {
   }
 }
 
-/**
- * Models one message sent (privately or to a channel)
- */
+/** Models one message sent (privately or to a channel) */
 class Message {
 
   private final String to;

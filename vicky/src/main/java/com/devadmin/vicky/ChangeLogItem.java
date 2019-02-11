@@ -6,13 +6,11 @@
 package com.devadmin.vicky;
 
 /**
- * ChangeLogItem inside changelog
- * describes changes done on event (ex: priority change, status change etc.)
+ * ChangeLogItem inside changelog describes changes done on event (ex: priority change, status
+ * change etc.)
  */
 public interface ChangeLogItem {
 
-  /**
-   * @return what kind of change happened (ex: priority, reporter, status, etc.)
-   */
+  /** @return what kind of change happened (ex: priority, reporter, status, etc.) */
   ChangeType getChangeType();
 }

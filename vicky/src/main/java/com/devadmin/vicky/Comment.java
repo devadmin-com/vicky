@@ -9,24 +9,15 @@ import com.devadmin.vicky.controller.jira.model.AuthorModel;
 
 import java.util.List;
 
-/**
- * Comment on a task.
- */
+/** Comment on a task. */
 public interface Comment {
 
-  /**
-   * @return List of usernames who was referenced in comment
-   */
+  /** @return List of usernames who was referenced in comment */
   List<String> getReferences();
 
-
-  /**
-   * @return comment author model
-   */
+  /** @return comment author model */
   AuthorModel getAuthor();
 
-  /**
-   * @return comment body
-   */
+  /** @return comment body */
   String getBody();
 }

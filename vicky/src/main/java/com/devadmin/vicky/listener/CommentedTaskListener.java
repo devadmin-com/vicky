@@ -19,7 +19,7 @@ import org.springframework.stereotype.Component;
 /**
  * If task commented and commenter and assignee is not the same user send assignee PM message
  *
- * Story: TL-108
+ * <p>Story: TL-108
  */
 @Component
 public class CommentedTaskListener extends TaskToMessageListener {
@@ -27,7 +27,8 @@ public class CommentedTaskListener extends TaskToMessageListener {
   private static final Logger LOGGER = LoggerFactory.getLogger(CommentedTaskListener.class);
 
   @Autowired
-  public CommentedTaskListener(MessageService messageService,
+  public CommentedTaskListener(
+      MessageService messageService,
       @Qualifier("SimpleFormatter") TaskEventFormatter taskEventFormatter) {
     super(messageService, taskEventFormatter);
   }
@@ -36,9 +37,15 @@ public class CommentedTaskListener extends TaskToMessageListener {
   public void onApplicationEvent(TaskEventModelWrapper eventWrapper) {
     TaskEvent event = eventWrapper.getTaskEventModel();
 
-    if (event.getComment() != null && !event.getComment().getAuthor().getName().equals(event.getTask().getAssignee())) { // don't send updates for own actions
+    if (event.getComment() != null
+        && !event
+            .getComment()
+            .getAuthor()
+            .getName()
+            .equals(event.getTask().getAssignee())) { // don't send updates for own actions
       try {
-        messageService.sendPrivateMessage(event.getComment().getAuthor().getName(), formatter.format(event));
+        messageService.sendPrivateMessage(
+            event.getComment().getAuthor().getName(), formatter.format(event));
       } catch (MessageServiceException e) {
         LOGGER.error(e.getMessage());
       }

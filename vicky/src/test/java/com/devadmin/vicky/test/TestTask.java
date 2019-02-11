@@ -3,6 +3,7 @@ package com.devadmin.vicky.test;
 import com.devadmin.vicky.Task;
 import com.devadmin.vicky.TaskPriority;
 import com.devadmin.vicky.controller.jira.model.CommentModel;
+
 import java.util.List;
 
 class TestTask implements Task {
@@ -56,9 +57,7 @@ class TestTask implements Task {
     this.status = status;
   }
 
-  /**
-   * @return true if task is resolved
-   */
+  /** @return true if task is resolved */
   @Override
   public Boolean isResolved() {
     return "Resolved 解決済".equals(status);
@@ -87,7 +86,6 @@ class TestTask implements Task {
   public String getKey() {
     return "TL-000";
   }
-
 
   public void setLastComment(CommentModel lastComment) {
     this.lastComment = lastComment;

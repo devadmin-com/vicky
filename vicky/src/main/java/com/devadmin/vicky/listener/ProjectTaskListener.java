@@ -9,10 +9,10 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 /**
- * <p>On issue create or resolve send update to project's channel (if one exists).</p>
- * <p>If no channel exists for project nothing is done.</p>
- * Story: TL-99
- * TODO: shoudl this be called CreatedTaskListener?
+ * On issue create or resolve send update to project's channel (if one exists).
+ *
+ * <p>If no channel exists for project nothing is done. Story: TL-99 TODO: shoudl this be called
+ * CreatedTaskListener?
  */
 @Component
 public class ProjectTaskListener extends TaskToMessageListener {
@@ -20,11 +20,13 @@ public class ProjectTaskListener extends TaskToMessageListener {
   private static final Logger LOGGER = LoggerFactory.getLogger(ProjectTaskListener.class);
 
   @Autowired
-  public ProjectTaskListener(MessageService messageService, @Qualifier("SimpleFormatter") TaskEventFormatter taskEventFormatter) {
+  public ProjectTaskListener(
+      MessageService messageService,
+      @Qualifier("SimpleFormatter") TaskEventFormatter taskEventFormatter) {
     super(messageService, taskEventFormatter);
   }
 
-  //TODO: Javadoc
+  // TODO: Javadoc
   public void onApplicationEvent(TaskEventModelWrapper eventWrapper) {
     TaskEvent event = eventWrapper.getTaskEventModel();
 

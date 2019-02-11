@@ -10,11 +10,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-
-/**
- * Test class for {@link com.devadmin.vicky.listener.AtReferenceListener}
- *
- */
+/** Test class for {@link com.devadmin.vicky.listener.AtReferenceListener} */
 public class AtReferenceListenerTest extends TaskListenerTest {
 
   @Override
@@ -22,9 +18,7 @@ public class AtReferenceListenerTest extends TaskListenerTest {
     return new SimpleTaskEventFormatter();
   }
 
-  /**
-   * tests that the event was sent
-   */
+  /** tests that the event was sent */
   @Test
   public void itShouldPassWhenHasReferenceTest() {
     createContext();
@@ -50,9 +44,7 @@ public class AtReferenceListenerTest extends TaskListenerTest {
     assertTrue(testMessageService.wasPMed());
   }
 
-  /**
-   * tests that the event was sent
-   */
+  /** tests that the event was sent */
   @Test
   public void testMultiplyAtReferencesInComment() {
     createContext();
@@ -77,12 +69,9 @@ public class AtReferenceListenerTest extends TaskListenerTest {
     assertEquals(2, testMessageService.getPrivateMessageCount());
   }
 
-
-  /**
-   * Tests that handler will not get the event with wrong type
-   */
+  /** Tests that handler will not get the event with wrong type */
   @Test
-  public void eventShouldNotBeHandledWithNoReferenceTest(){
+  public void eventShouldNotBeHandledWithNoReferenceTest() {
 
     createContext();
 
@@ -108,10 +97,12 @@ public class AtReferenceListenerTest extends TaskListenerTest {
 
   // private methods
   private void createContext() {
-    AtReferenceListener atReferenceListener = new AtReferenceListener(testMessageService, taskEventFormatter);
-    //CommentedTaskListener commentedTaskListener = new CommentedTaskListener(testMessageService, taskEventFormatter);
+    AtReferenceListener atReferenceListener =
+        new AtReferenceListener(testMessageService, taskEventFormatter);
+    // CommentedTaskListener commentedTaskListener = new CommentedTaskListener(testMessageService,
+    // taskEventFormatter);
     context.addApplicationListener(atReferenceListener);
-    //context.addApplicationListener(commentedTaskListener);
+    // context.addApplicationListener(commentedTaskListener);
     context.refresh();
   }
 }

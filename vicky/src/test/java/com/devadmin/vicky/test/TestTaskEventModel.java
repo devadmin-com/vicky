@@ -4,9 +4,7 @@ import com.devadmin.vicky.*;
 
 import java.util.Date;
 
-/**
- * An implementation of TaskEventModelWrapper for testing...
- */
+/** An implementation of TaskEventModelWrapper for testing... */
 public class TestTaskEventModel implements TaskEvent {
 
   private TaskEventType type;
@@ -16,7 +14,7 @@ public class TestTaskEventModel implements TaskEvent {
 
   @Override
   public boolean hasComment() {
-     return getComment() != null;
+    return getComment() != null;
   }
 
   @Override
@@ -67,8 +65,6 @@ public class TestTaskEventModel implements TaskEvent {
 
   @Override
   public String toString() {
-    return "TestTaskEventModel{" +
-        "type=" + type +
-        '}';
+    return "TestTaskEventModel{" + "type=" + type + '}';
   }
 }

@@ -18,83 +18,79 @@ import java.util.List;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-/**
- * Test class for {@link ProjectTaskListener}
- */
+/** Test class for {@link ProjectTaskListener} */
 public class MultipleTaskListenerTest extends TaskListenerTest {
 
-   /**
-     * tests that the event was sent
-     */
-    @Test
-    public void basicTest() {
+  /** tests that the event was sent */
+  @Test
+  public void basicTest() {
 
-        createContext();
+    createContext();
 
-        TestTaskEventModel testEventModel = getTestTaskEventModel(TaskEventType.CREATED);
-        publish(testEventModel);
+    TestTaskEventModel testEventModel = getTestTaskEventModel(TaskEventType.CREATED);
+    publish(testEventModel);
 
-        assertTrue(testMessageService.wasChannelMsged());
-        assertTrue(testMessageService.wasPMed());
-        assertNotNull(testMessageService.getChannelMsg());
-        assertNotNull(testMessageService.getPrivateMsg());
-        assertTrue(testMessageService.getChannelMsg().size() > 0);
-        assertTrue(testMessageService.getPrivateMsg().size() > 0);
-        assertTrue(testMessageService.wasChannelMsged("proj"));
-        assertTrue(testMessageService.wasChannelMsged("label1"));
-        assertTrue(testMessageService.wasChannelMsged("label2"));
+    assertTrue(testMessageService.wasChannelMsged());
+    assertTrue(testMessageService.wasPMed());
+    assertNotNull(testMessageService.getChannelMsg());
+    assertNotNull(testMessageService.getPrivateMsg());
+    assertTrue(testMessageService.getChannelMsg().size() > 0);
+    assertTrue(testMessageService.getPrivateMsg().size() > 0);
+    assertTrue(testMessageService.wasChannelMsged("proj"));
+    assertTrue(testMessageService.wasChannelMsged("label1"));
+    assertTrue(testMessageService.wasChannelMsged("label2"));
+  }
 
-    }
+  // private methods
 
-    // private methods
+  private TestTaskEventModel getTestTaskEventModel(TaskEventType type) {
 
-    private TestTaskEventModel getTestTaskEventModel(TaskEventType type) {
+    TestTaskEventModel testEventModel = new TestTaskEventModel();
+    testEventModel.setType(type);
 
-        TestTaskEventModel testEventModel = new TestTaskEventModel();
-        testEventModel.setType(type);
+    //  from PMOnAssign test
+    TestJiraChangeLogItem item = new TestJiraChangeLogItem();
+    item.setField("assignee");
+    item.setTo("testUser");
 
+    List<ChangeLogItem> itemList = new ArrayList<>();
+    itemList.add(item);
 
-        //  from PMOnAssign test
-        TestJiraChangeLogItem item = new TestJiraChangeLogItem();
-        item.setField("assignee");
-        item.setTo("testUser");
+    TestChangeLog testChangelog = new TestChangeLog();
+    testChangelog.setItems(itemList);
+    testEventModel.setChangelog(testChangelog);
 
-        List<ChangeLogItem> itemList = new ArrayList<>();
-        itemList.add(item);
+    CommentModel commentModel = new CommentModel();
+    commentModel.setBody("Some Test Comment");
+    AuthorModel authorModel = new AuthorModel();
+    authorModel.setDisplayName("serpento");
+    commentModel.setAuthor(authorModel);
 
-        TestChangeLog testChangelog = new TestChangeLog();
-        testChangelog.setItems(itemList);
-        testEventModel.setChangelog(testChangelog);
+    // from labeled
+    List<String> labels = Arrays.asList("label1", "label2");
+    TestTask testTask = new TestTask();
+    testTask.setLabels(labels);
+    testTask.setPriority(TaskPriority.MINOR);
+    testTask.setStatus("Backlog");
+    testTask.setLastComment(commentModel);
+    testEventModel.setTask(testTask);
 
-        CommentModel commentModel = new CommentModel();
-        commentModel.setBody("Some Test Comment");
-        AuthorModel authorModel = new AuthorModel();
-        authorModel.setDisplayName("serpento");
-        commentModel.setAuthor(authorModel);
+    return testEventModel;
+  }
 
-        // from labeled
-        List<String> labels = Arrays.asList("label1", "label2");
-        TestTask testTask = new TestTask();
-        testTask.setLabels(labels);
-        testTask.setPriority(TaskPriority.MINOR);
-        testTask.setStatus("Backlog");
-        testTask.setLastComment(commentModel);
-        testEventModel.setTask(testTask);
-
-        return testEventModel;
-    }
-
-    private void createContext() {
-        ProjectTaskListener projectTaskListener = new ProjectTaskListener(testMessageService, taskEventFormatter);
-        PMOnAssignListener pmOnAssignListener = new PMOnAssignListener(testMessageService, taskEventFormatter);
-        AtReferenceListener atReferenceListener = new AtReferenceListener(testMessageService, taskEventFormatter);
-        LabeledTaskListener labeledTaskListener = new LabeledTaskListener(testMessageService, taskEventFormatter);
-        context.addApplicationListener(projectTaskListener);
-        context.addApplicationListener(pmOnAssignListener);
-        context.addApplicationListener(atReferenceListener);
-        context.addApplicationListener(labeledTaskListener);
-        context.refresh();
-    }
-
+  private void createContext() {
+    ProjectTaskListener projectTaskListener =
+        new ProjectTaskListener(testMessageService, taskEventFormatter);
+    PMOnAssignListener pmOnAssignListener =
+        new PMOnAssignListener(testMessageService, taskEventFormatter);
+    AtReferenceListener atReferenceListener =
+        new AtReferenceListener(testMessageService, taskEventFormatter);
+    LabeledTaskListener labeledTaskListener =
+        new LabeledTaskListener(testMessageService, taskEventFormatter);
+    context.addApplicationListener(projectTaskListener);
+    context.addApplicationListener(pmOnAssignListener);
+    context.addApplicationListener(atReferenceListener);
+    context.addApplicationListener(labeledTaskListener);
+    context.refresh();
+  }
 }
-

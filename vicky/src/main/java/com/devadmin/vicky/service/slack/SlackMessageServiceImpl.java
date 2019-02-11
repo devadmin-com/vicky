@@ -20,70 +20,74 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.Map;
 
-/**
- * Implements a {@link MessageService} with slack as the underlying transport
- */
+/** Implements a {@link MessageService} with slack as the underlying transport */
 @Service
 public class SlackMessageServiceImpl implements MessageService {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(SlackMessageServiceImpl.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(SlackMessageServiceImpl.class);
 
-    private final SlackProperties properties;
+  private final SlackProperties properties;
 
-    private final SlackApiEndpoints slackApiEndpoints;
+  private final SlackApiEndpoints slackApiEndpoints;
 
-    private final RestTemplate restTemplate;
+  private final RestTemplate restTemplate;
 
-    public SlackMessageServiceImpl(SlackProperties properties, RestTemplate restTemplate,
-                                   SlackApiEndpoints slackApiEndpoints) {
-        this.properties = properties;
-        this.restTemplate = restTemplate;
-        this.slackApiEndpoints = slackApiEndpoints;
-    }
+  public SlackMessageServiceImpl(
+      SlackProperties properties, RestTemplate restTemplate, SlackApiEndpoints slackApiEndpoints) {
+    this.properties = properties;
+    this.restTemplate = restTemplate;
+    this.slackApiEndpoints = slackApiEndpoints;
+  }
 
+  /** @see MessageService#sendChannelMessage(String, String) */
+  @Override
+  public void sendChannelMessage(String channelName, String message)
+      throws MessageServiceException {
+    RichMessage richMessage = new RichMessage(message);
     /**
-     * @see MessageService#sendChannelMessage(String, String)
+     * getting all channel names from properties, checking if have the channel which should receive
+     * the message if yes then sending the message to that channel
      */
-    @Override
-    public void sendChannelMessage(String channelName, String message) throws MessageServiceException {
-        RichMessage richMessage = new RichMessage(message);
-        /**
-             getting all channel names from properties,
-             checking if have the channel which should receive the message
-             if yes then sending the message to that channel
-         */
-        Map<String, String> incomingWebhooks = properties.getWebhook().getIncoming();
-        if (incomingWebhooks.containsKey(channelName)) {
-            String incomingWebhookUrl = incomingWebhooks.get(channelName);
-            try {
-                restTemplate.postForEntity(incomingWebhookUrl, richMessage, String.class);
-            } catch (RestClientException e) {
-                LOGGER.error("Unable to post IncomingWebhookURL given from Slack Properties: {}", e);
-                throw new MessageServiceException(e.getMessage(), e);
-            }
-        }
-
+    Map<String, String> incomingWebhooks = properties.getWebhook().getIncoming();
+    if (incomingWebhooks.containsKey(channelName)) {
+      String incomingWebhookUrl = incomingWebhooks.get(channelName);
+      try {
+        restTemplate.postForEntity(incomingWebhookUrl, richMessage, String.class);
+      } catch (RestClientException e) {
+        LOGGER.error("Unable to post IncomingWebhookURL given from Slack Properties: {}", e);
+        throw new MessageServiceException(e.getMessage(), e);
+      }
     }
+  }
 
-    /**
-     * @see MessageService#sendPrivateMessage(String, String)
-     */
-    @Override
-    public void sendPrivateMessage(String personName, String message) throws MessageServiceException {
-        // getting the event with HTTP POST request, then getting list of all members in slack
-        Event event = restTemplate
-                .postForEntity(slackApiEndpoints.getUserListApi(), null, Event.class, properties.getToken().getBot()).getBody();
-        // looping through all members and getting the one whom we need to send PM
-        for (User person : event.getMembers()) {
-            if (personName.equals(person.getName())) {
-                try {
-                    restTemplate.postForEntity(slackApiEndpoints.getChatPostMessageApi(), null, String.class,
-                            properties.getToken().getBot(), person.getId(), message);
-                } catch (RestClientException e) {
-                    LOGGER.error("Unable to post to given person Id: {}", e);
-                    throw new MessageServiceException(e.getMessage(), e);
-                }
-            }
+  /** @see MessageService#sendPrivateMessage(String, String) */
+  @Override
+  public void sendPrivateMessage(String personName, String message) throws MessageServiceException {
+    // getting the event with HTTP POST request, then getting list of all members in slack
+    Event event =
+        restTemplate
+            .postForEntity(
+                slackApiEndpoints.getUserListApi(),
+                null,
+                Event.class,
+                properties.getToken().getBot())
+            .getBody();
+    // looping through all members and getting the one whom we need to send PM
+    for (User person : event.getMembers()) {
+      if (personName.equals(person.getName())) {
+        try {
+          restTemplate.postForEntity(
+              slackApiEndpoints.getChatPostMessageApi(),
+              null,
+              String.class,
+              properties.getToken().getBot(),
+              person.getId(),
+              message);
+        } catch (RestClientException e) {
+          LOGGER.error("Unable to post to given person Id: {}", e);
+          throw new MessageServiceException(e.getMessage(), e);
         }
+      }
     }
+  }
 }

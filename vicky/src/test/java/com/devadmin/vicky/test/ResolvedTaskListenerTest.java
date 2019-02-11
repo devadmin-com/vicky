@@ -1,8 +1,5 @@
 package com.devadmin.vicky.test;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
 import com.devadmin.vicky.TaskEventFormatter;
 import com.devadmin.vicky.controller.jira.model.AuthorModel;
 import com.devadmin.vicky.controller.jira.model.CommentModel;
@@ -10,10 +7,10 @@ import com.devadmin.vicky.format.SimpleTaskEventFormatter;
 import com.devadmin.vicky.listener.ResolvedTaskListener;
 import org.junit.Test;
 
-/**
- * Test class for {@link ResolvedTaskListenerTest}
- *
- */
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
+/** Test class for {@link ResolvedTaskListenerTest} */
 public class ResolvedTaskListenerTest extends TaskListenerTest {
 
   @Override
@@ -21,11 +18,9 @@ public class ResolvedTaskListenerTest extends TaskListenerTest {
     return new SimpleTaskEventFormatter();
   }
 
-  /**
-   * Tests that the event was not handled if task isn't resolved
-   */
+  /** Tests that the event was not handled if task isn't resolved */
   @Test
-  public void eventShouldNotBeHandledIfTaskIsNotResolvedTest(){
+  public void eventShouldNotBeHandledIfTaskIsNotResolvedTest() {
 
     createContext();
 
@@ -40,11 +35,9 @@ public class ResolvedTaskListenerTest extends TaskListenerTest {
     assertFalse(testMessageService.wasPMed());
   }
 
-  /**
-   * Tests that the event handled if task is resolved
-   */
+  /** Tests that the event handled if task is resolved */
   @Test
-  public void eventShouldBeHandledIfTaskIsResolvedTest(){
+  public void eventShouldBeHandledIfTaskIsResolvedTest() {
 
     createContext();
 
@@ -69,9 +62,9 @@ public class ResolvedTaskListenerTest extends TaskListenerTest {
 
   // private methods
   private void createContext() {
-    ResolvedTaskListener listener = new ResolvedTaskListener(testMessageService, taskEventFormatter);
+    ResolvedTaskListener listener =
+        new ResolvedTaskListener(testMessageService, taskEventFormatter);
     context.addApplicationListener(listener);
     context.refresh();
   }
-
 }

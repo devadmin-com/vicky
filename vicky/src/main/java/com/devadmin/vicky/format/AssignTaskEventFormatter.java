@@ -8,10 +8,7 @@ package com.devadmin.vicky.format;
 import com.devadmin.vicky.TaskEvent;
 import org.springframework.stereotype.Component;
 
-/**
- * Implements formatting of assign @TaskEventModelWrapper for sending to a @MessageService
- *
- */
+/** Implements formatting of assign @TaskEventModelWrapper for sending to a @MessageService */
 @Component("AssignFormatter")
 public class AssignTaskEventFormatter extends SimpleTaskEventFormatter {
 
@@ -20,8 +17,7 @@ public class AssignTaskEventFormatter extends SimpleTaskEventFormatter {
     // TODO: why doesn't use formatBase?
     // TODO: V why it should????
     return String.format("%s assigned to you: %s", event.getActor(), super.format(event));
-    //TODO: missing coment - check spec
-    //TODO: V check parent
+    // TODO: missing coment - check spec
+    // TODO: V check parent
   }
-
 }

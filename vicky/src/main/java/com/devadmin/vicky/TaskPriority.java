@@ -1,10 +1,7 @@
 package com.devadmin.vicky;
 
-/**
- * This enum contains all possible priorities a task can have
- */
+/** This enum contains all possible priorities a task can have */
 public enum TaskPriority {
-
   TRIVIAL("Trivial"),
   MINOR("MINOR"),
   MAJOR("MAJOR"),

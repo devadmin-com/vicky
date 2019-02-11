@@ -1,4 +1,3 @@
-
 package com.devadmin.vicky.listener;
 
 import com.devadmin.vicky.*;
@@ -10,9 +9,9 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 /**
- * <p>On issue resolve send update to project's channel (if one exists).</p>
- * <p>If no channel exists for project nothing is done.</p>
- * Story: TL-99
+ * On issue resolve send update to project's channel (if one exists).
+ *
+ * <p>If no channel exists for project nothing is done. Story: TL-99
  */
 @Component
 public class ResolvedTaskListener extends TaskToMessageListener {
@@ -20,11 +19,13 @@ public class ResolvedTaskListener extends TaskToMessageListener {
   private static final Logger LOGGER = LoggerFactory.getLogger(ResolvedTaskListener.class);
 
   @Autowired
-  public ResolvedTaskListener(MessageService messageService, @Qualifier("SimpleFormatter") TaskEventFormatter taskEventFormatter) {
+  public ResolvedTaskListener(
+      MessageService messageService,
+      @Qualifier("SimpleFormatter") TaskEventFormatter taskEventFormatter) {
     super(messageService, taskEventFormatter);
   }
 
-  //TODO: Javadoc
+  // TODO: Javadoc
   public void onApplicationEvent(TaskEventModelWrapper eventWrapper) {
     TaskEvent event = eventWrapper.getTaskEventModel();
 
@@ -39,7 +40,5 @@ public class ResolvedTaskListener extends TaskToMessageListener {
         LOGGER.error(e.getMessage());
       }
     }
-
   }
-
 }

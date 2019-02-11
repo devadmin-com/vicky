@@ -15,9 +15,7 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
-/**
- * Test class for {@link com.devadmin.vicky.listener.PMOnAssignListener}
- */
+/** Test class for {@link com.devadmin.vicky.listener.PMOnAssignListener} */
 public class PMOnAssignListenerTest extends TaskListenerTest {
 
   @Override
@@ -25,9 +23,7 @@ public class PMOnAssignListenerTest extends TaskListenerTest {
     return new AssignTaskEventFormatter();
   }
 
-  /**
-   * Tests that handler gets the event and send the right message
-   */
+  /** Tests that handler gets the event and send the right message */
   @Test
   public void eventShouldBeHandledByPMOnAssignListenerTest() {
 
@@ -67,9 +63,7 @@ public class PMOnAssignListenerTest extends TaskListenerTest {
     assertTrue(testMessageService.wasPMed(item.getTo()));
   }
 
-  /**
-   * tests that the event was not handled if task is unsigned
-   */
+  /** tests that the event was not handled if task is unsigned */
   @Test
   public void listenerShouldNotHandleWrongTypeEventTest() {
 
