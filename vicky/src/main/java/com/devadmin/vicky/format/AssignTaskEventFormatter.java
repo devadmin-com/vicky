@@ -17,6 +17,7 @@ public class AssignTaskEventFormatter extends SimpleTaskEventFormatter {
 
   // TODO:javadoc
   public String format(TaskEvent event) {
+    // TODO: why doesn't use formatBase?
     return String.format("%s assigned to you: %s", event.getActor(), super.format(event));
     //TODO: missing coment - check spec
   }

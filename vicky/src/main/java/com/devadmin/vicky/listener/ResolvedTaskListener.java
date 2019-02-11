@@ -30,11 +30,10 @@ public class ResolvedTaskListener extends TaskToMessageListener {
     Task task = event.getTask();
     if (task.isResolved()) {
 
-      // channel name is the same as jira project name
-      String channelName = task.getProject();
+      String projectName = task.getProject();
 
       try {
-        messageService.sendChannelMessage(channelName, formatter.format(event) + "Resolved");
+        messageService.sendChannelMessage(projectName, formatter.format(event) + "Resolved"); //TODO what is this +Resolved? don't see it in spec.
       } catch (MessageServiceException e) {
         LOGGER.error(e.getMessage());
       }

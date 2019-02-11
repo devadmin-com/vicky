@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
  * <p>On issue create or resolve send update to project's channel (if one exists).</p>
  * <p>If no channel exists for project nothing is done.</p>
  * Story: TL-99
+ * TODO: shoudl this be called CreatedTaskListener?
  */
 @Component
 public class ProjectTaskListener extends TaskToMessageListener {
@@ -27,12 +28,10 @@ public class ProjectTaskListener extends TaskToMessageListener {
     TaskEvent event = eventWrapper.getTaskEventModel();
 
     if (event.getType() == TaskEventType.CREATED) {
-
-      // send to the channel name which is the same as the jira project name
-      String channelName = event.getTask().getProject();
+      String projectName = event.getTask().getProject();
 
       try {
-        messageService.sendChannelMessage(channelName, formatter.format(event));
+        messageService.sendChannelMessage(projectName, formatter.format(event));
       } catch (MessageServiceException e) {
         LOGGER.error(e.getMessage());
       }
