@@ -30,6 +30,7 @@ public class LabeledTaskListener extends TaskToMessageListener {
   }
 
   public void onApplicationEvent(TaskEventModelWrapper eventWrapper) {
+    //TODO why is there no check so only happens for create & resolve events?
     TaskEvent event = eventWrapper.getTaskEventModel();
     for (String label : event.getTask().getLabels()) {
       try {
