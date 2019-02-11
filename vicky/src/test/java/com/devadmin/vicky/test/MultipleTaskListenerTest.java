@@ -76,7 +76,7 @@ public class MultipleTaskListenerTest extends TaskListenerTest {
         List<String> labels = Arrays.asList("label1", "label2");
         TestTask testTask = new TestTask();
         testTask.setLabels(labels);
-        testTask.setPriority(TaskPriority.Minor);
+        testTask.setPriority(TaskPriority.MINOR);
         testTask.setStatus("Backlog");
         testTask.setLastComment(commentModel);
         testEventModel.setTask(testTask);

@@ -45,7 +45,10 @@ public class JiraController {
         this.applicationEventPublisher = applicationEventPublisher;
     }
 
-    //TODO: Javadoc
+
+    /**
+     * Endpoints which handles event from jir to path "/jira"
+     */
     @PostMapping("/jira")
     public ResponseEntity jiraEvent(@RequestBody JiraEventModel jiraEventModel) {
 
@@ -113,6 +116,7 @@ public class JiraController {
     }
 
     //TODO: javadoc, why?
+    //TODO: V why not ?
     private CommentModel convertCommentToCommentModel(Comment comment) {
         CommentModel commentModel = new CommentModel();
         AuthorModel authorModel = new AuthorModel();

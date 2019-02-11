@@ -1,9 +1,5 @@
 package com.devadmin.vicky.test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
 import com.devadmin.vicky.TaskEventFormatter;
 import com.devadmin.vicky.TaskPriority;
 import com.devadmin.vicky.controller.jira.model.AuthorModel;
@@ -11,6 +7,8 @@ import com.devadmin.vicky.controller.jira.model.CommentModel;
 import com.devadmin.vicky.format.SimpleTaskEventFormatter;
 import com.devadmin.vicky.listener.AtReferenceListener;
 import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 
 /**
@@ -40,7 +38,7 @@ public class AtReferenceListenerTest extends TaskListenerTest {
 
     TestTask testTask = new TestTask();
     testTask.setStatus("Backlog");
-    testTask.setPriority(TaskPriority.Major);
+    testTask.setPriority(TaskPriority.MAJOR);
 
     TestTaskEventModel testEventModel = new TestTaskEventModel();
     testEventModel.setComment(comment);
@@ -96,7 +94,7 @@ public class AtReferenceListenerTest extends TaskListenerTest {
 
     TestTask testTask = new TestTask();
     testTask.setStatus("Backlog");
-    testTask.setPriority(TaskPriority.Major);
+    testTask.setPriority(TaskPriority.MAJOR);
 
     TestTaskEventModel testEventModel = new TestTaskEventModel();
     testEventModel.setComment(comment);

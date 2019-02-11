@@ -34,7 +34,7 @@ public class ResolvedTaskListener extends TaskToMessageListener {
       String projectName = task.getProject();
 
       try {
-        messageService.sendChannelMessage(projectName, formatter.format(event) + "Resolved"); //TODO what is this +Resolved? don't see it in spec.
+        messageService.sendChannelMessage(projectName, formatter.format(event));
       } catch (MessageServiceException e) {
         LOGGER.error(e.getMessage());
       }

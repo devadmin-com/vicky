@@ -11,20 +11,28 @@ class FieldModel {
 
   @JsonProperty("issuetype")
   private IssueTypeModel issueType;
+
   @JsonProperty("timespent")
   private Long timespent;
+
   @JsonProperty("project")
   private ProjectModel project;
+
   @JsonProperty("summary")
   private String summary;
+
   @JsonProperty("assignee")
   private UserModel assignee;
+
   @JsonProperty("status")
   private StatusModel status;
+
   @JsonProperty("priority")
   private PriorityModel priority;
+
   @JsonProperty("created")
   private String createdDate;
+
   @JsonProperty("labels")
   private String[] labels;
 

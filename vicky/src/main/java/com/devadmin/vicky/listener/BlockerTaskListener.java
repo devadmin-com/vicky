@@ -34,7 +34,7 @@ public class BlockerTaskListener extends TaskToMessageListener {
     TaskEvent event = eventWrapper.getTaskEventModel();
     Task task = event.getTask();
 
-    if (task.getPriority() == TaskPriority.Blocker) {
+    if (task.getPriority() == TaskPriority.BLOCKER) {
 
       String assignedTo = task.getAssignee();
 

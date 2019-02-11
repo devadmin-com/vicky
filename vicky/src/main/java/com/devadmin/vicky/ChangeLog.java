@@ -13,6 +13,6 @@ import java.util.List;
  */
 public interface ChangeLog {
 
-  //TODO: Javadoc
+  //gets the list of changes happened on task
   List<ChangeLogItem> getItems();
 }

@@ -18,9 +18,9 @@ public class SummaryTaskEventFormatter extends SimpleTaskEventFormatter {
   public String format(TaskEvent event) {
     return String.format("%s %s %s ➠ %s",
         super.formatBase(event),
-        super.getShortDescription(event.getTask()),
-        super.getLastCommenter(event.getTask()),
-        super.getLastComment(event.getTask()));
+        super.getShortDescription(event),
+        super.getLastCommenter(event),
+        super.getLastComment(event));
   }
 
 }

@@ -51,7 +51,7 @@ public class PMOnAssignListenerTest extends TaskListenerTest {
     commentModel.setAuthor(authorModel);
 
     TestTask testTask = new TestTask();
-    testTask.setPriority(TaskPriority.Minor);
+    testTask.setPriority(TaskPriority.MINOR);
     testTask.setStatus("Backlog");
     testTask.setLastComment(commentModel);
 
@@ -78,7 +78,7 @@ public class PMOnAssignListenerTest extends TaskListenerTest {
     TestTaskEventModel testEventModel = new TestTaskEventModel();
 
     TestTask testTask = new TestTask();
-    testTask.setPriority(TaskPriority.Minor);
+    testTask.setPriority(TaskPriority.MINOR);
     testTask.setStatus("Backlog");
     testEventModel.setTask(testTask);
 

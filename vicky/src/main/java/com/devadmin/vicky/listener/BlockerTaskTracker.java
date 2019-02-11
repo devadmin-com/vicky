@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.TimerTask;
 
 /**
- * This class periodically checks if Blocker task was commented within the last 6 hours
+ * This class periodically checks if BLOCKER task was commented within the last 6 hours
  */
 public class BlockerTaskTracker {
 
@@ -54,7 +54,7 @@ public class BlockerTaskTracker {
 
 
   /**
-   * Start tracking once found task with Blocker priority
+   * Start tracking once found task with BLOCKER priority
    */
   public void startTracking() {
     startTrackingDate = new Date();

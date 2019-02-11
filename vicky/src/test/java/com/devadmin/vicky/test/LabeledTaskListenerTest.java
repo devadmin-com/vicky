@@ -1,9 +1,5 @@
 package com.devadmin.vicky.test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
 import com.devadmin.vicky.TaskEventFormatter;
 import com.devadmin.vicky.TaskEventType;
 import com.devadmin.vicky.TaskPriority;
@@ -11,10 +7,13 @@ import com.devadmin.vicky.controller.jira.model.AuthorModel;
 import com.devadmin.vicky.controller.jira.model.CommentModel;
 import com.devadmin.vicky.format.SimpleTaskEventFormatter;
 import com.devadmin.vicky.listener.LabeledTaskListener;
+import org.junit.Test;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 /**
  * Test class for {@link com.devadmin.vicky.listener.LabeledTaskListener}
@@ -37,7 +36,7 @@ public class LabeledTaskListenerTest extends TaskListenerTest {
 
     TestTask testTask = new TestTask();
     testTask.setLabels(new ArrayList<>());
-    testTask.setPriority(TaskPriority.Minor);
+    testTask.setPriority(TaskPriority.MINOR);
     testTask.setStatus("Backlog");
     TestTaskEventModel testEventModel = new TestTaskEventModel();
     testEventModel.setType(TaskEventType.CREATED);
@@ -67,7 +66,7 @@ public class LabeledTaskListenerTest extends TaskListenerTest {
 
     TestTask testTask = new TestTask();
     testTask.setLabels(labels);
-    testTask.setPriority(TaskPriority.Minor);
+    testTask.setPriority(TaskPriority.MINOR);
     testTask.setStatus("Backlog");
     testTask.setLastComment(commentModel);
 

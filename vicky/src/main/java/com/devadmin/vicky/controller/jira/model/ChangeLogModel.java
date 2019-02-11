@@ -8,9 +8,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * This class contains information about what changes occurred  in the task.
- */
+/** This class contains information about what changes occurred in the task. */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ChangeLogModel implements ChangeLog {
 
@@ -35,5 +33,4 @@ public class ChangeLogModel implements ChangeLog {
   public void setItems(List<JiraChangeLogItemModel> items) {
     this.items = items;
   }
-
 }

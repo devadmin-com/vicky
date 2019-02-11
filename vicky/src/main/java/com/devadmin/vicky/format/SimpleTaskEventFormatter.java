@@ -5,11 +5,7 @@
  */
 package com.devadmin.vicky.format;
 
-import com.devadmin.vicky.Comment;
-import com.devadmin.vicky.Task;
-import com.devadmin.vicky.TaskEvent;
-import com.devadmin.vicky.TaskEventFormatter;
-import com.devadmin.vicky.TaskPriority;
+import com.devadmin.vicky.*;
 import org.springframework.stereotype.Component;
 
 /**
@@ -38,21 +34,8 @@ public class SimpleTaskEventFormatter implements TaskEventFormatter {
      *              appropriately
      */
     public String format(TaskEvent event) {
-        Task task = event.getTask();
-        String commenter;
-        String lastComment;
-
-            // we are doing this check, because we have two types of event issue and comment,
-            // so if getComment is null, then we have issue event and need to extract comments different way
-        // TODO: why don't we just move this logic to the getLastCommenter method?
-        //TODO: why is this logic not in SummaryTaskEventFormatter?
-            if (event.getComment() == null) {
-                commenter = getLastCommenter(task);
-                lastComment = getLastComment(task); //TODO - why is the comment not truncated?
-            } else {
-                commenter = event.getComment().getAuthor().getDisplayName();
-                lastComment = commentTruncating(event.getComment().getBody()).replace("[~", "@").replace("]", "");
-            }
+        String commenter  = getLastCommenter(event);
+        String lastComment = getLastComment(event);
 
         return String.format("%s\n %s ➠ %s",
                 formatBase(event),
@@ -63,10 +46,11 @@ public class SimpleTaskEventFormatter implements TaskEventFormatter {
     /**
      * Truncates task description for display.
      *
-     * @param task the task who's description we want to shorten...
+     * @param event getting task from it which description we want to shorten...
      * @return a shortened version of the task's description
      */
-    protected String getShortDescription(Task task) {
+    protected String getShortDescription(TaskEvent event) {
+        Task task = event.getTask();
         StringBuilder stb = new StringBuilder();
         String[] descriptionLines = task.getDescription().split("\r\n|\r|\n");
 
@@ -86,7 +70,7 @@ public class SimpleTaskEventFormatter implements TaskEventFormatter {
      * @return the icon to use when displaying this task
      */
     private String getIcon(Task task) {
-        if (task.getPriority() == TaskPriority.Blocker) {
+        if (task.getPriority() == TaskPriority.BLOCKER) {
             return "‼️";
         } else {
             switch (task.getStatus()) {
@@ -100,21 +84,44 @@ public class SimpleTaskEventFormatter implements TaskEventFormatter {
         }
     }
 
-    protected String getLastCommenter(Task task) {
+    /**
+     * @param event which contains task
+     * @return commenter of the last comment on task
+     */
+    protected String getLastCommenter(TaskEvent event) {
+        Task task = event.getTask();
+        String commenter;
 
-        Comment comment = task.getLastComment();
-        String commenter = comment.getAuthor().getDisplayName();
+        if (event.getComment() == null) {
+            Comment comment = task.getLastComment();
+            commenter = comment.getAuthor().getDisplayName();
+        } else {
+            commenter = event.getComment().getAuthor().getDisplayName();
+        }
 
         return commenter == null ? "Vicky" : commenter;
     }
 
-    protected String getLastComment(Task task) {
+    /**
+     * @param event which contains task
+     * @return last comment on task
+     */
+    protected String getLastComment(TaskEvent event) {
 
-        Comment comment = task.getLastComment();
-        String truncatedComment = commentTruncating(comment.getBody());
+        Task task = event.getTask();
+        String lastComment;
 
-        return comment.getBody() == null ? "This task does not contain comment"
-            : truncatedComment.replace("[~", "@").replace("]", "");
+        if (event.getComment() == null) {
+            Comment comment = task.getLastComment();
+            String truncatedComment = commentTruncating(comment.getBody());
+
+            lastComment = comment.getBody() == null ? "This task does not contain comment"
+                    : truncatedComment.replace("[~", "@").replace("]", "");
+        } else {
+            lastComment = commentTruncating(event.getComment().getBody()).replace("[~", "@").replace("]", "");
+        }
+
+        return lastComment;
     }
 
     private String commentTruncating(String text) {

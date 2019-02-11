@@ -3,32 +3,38 @@ package com.devadmin.vicky.controller.jira.model;
 import com.devadmin.vicky.Comment;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**
- * This is the object contains information related to issue comment
- */
+/** This is the object contains information related to issue comment */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class CommentModel implements Comment {
 
   @JsonProperty("self")
   private String self;
+
   @JsonProperty("id")
   private String id;
+
   @JsonProperty("author")
   private AuthorModel author;
+
   @JsonProperty("body")
   private String body;
+
   @JsonProperty("updateAuthor")
   private AuthorModel updateAuthor;
+
   @JsonProperty("created")
   private Date created;
+
   @JsonProperty("updated")
   private Date updated;
+
   @JsonProperty("jsdPublic")
   private Boolean jsdPublic;
 

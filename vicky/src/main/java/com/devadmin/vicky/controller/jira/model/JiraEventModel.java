@@ -10,23 +10,29 @@ import java.util.Date;
 /**
  * Implements a JIRA Event based on JSON from JIRA webhook
  *
- * This is object contains the information received from jira
+ * <p>This is object contains the information received from jira
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class JiraEventModel implements TaskEvent {
 
   @JsonProperty("timestamp")
   private Long timeStamp;
+
   @JsonProperty("webhookEvent")
   private String webhookEvent;
+
   @JsonProperty("issue_event_type_name")
   private String issueEventTypeName;
+
   @JsonProperty("user")
   private UserModel user;
+
   @JsonProperty("issue")
   private IssueModel issue;
+
   @JsonProperty("changelog")
   private ChangeLogModel changeLog;
+
   @JsonProperty("comment")
   private CommentModel comment;
 
@@ -90,9 +96,7 @@ public class JiraEventModel implements TaskEvent {
     return this.comment != null;
   }
 
-  /**
-   * @return the Task that this event was for
-   */
+  /** @return the Task that this event was for */
   @Override
   public IssueModel getTask() {
     return issue;

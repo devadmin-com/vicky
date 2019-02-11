@@ -41,7 +41,6 @@ public class ProjectTaskListenerTest extends TaskListenerTest {
 
     /**
      * Tests that handler gets the event and send the right message
-     * TODO: bad test name {Discussed with Victor, decided to ask team for an advice 30 of january}
      */
     @Test
     public void eventShouldBeHandledByThisHandlerTest() {
@@ -57,7 +56,6 @@ public class ProjectTaskListenerTest extends TaskListenerTest {
 
     /**
      * Tests that handler will not get the event with wrong type
-     * TODO: bad test name {Discussed with Victor, decided to ask team for an advice 30 of january}
      */
     @Test
     public void eventShouldNotBeHandledWithWrongTypeTest() {
@@ -73,7 +71,6 @@ public class ProjectTaskListenerTest extends TaskListenerTest {
 
     /**
      * Tests that handler will handle the event with correct type
-     * TODO: bad test name {Discussed with Victor, decided to ask team for an advice 30 of january}
      */
     @Test
     public void eventShouldBeHandledWithCorrectTypeTest() {
@@ -100,7 +97,7 @@ public class ProjectTaskListenerTest extends TaskListenerTest {
         commentModel.setAuthor(authorModel);
 
         TestTask testTask = new TestTask();
-        testTask.setPriority(TaskPriority.Minor);
+        testTask.setPriority(TaskPriority.MINOR);
         testTask.setStatus("Backlog");
         testTask.setLastComment(commentModel);
         testEventModel.setTask(testTask);
