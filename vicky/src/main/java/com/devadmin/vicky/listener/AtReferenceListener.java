@@ -40,7 +40,7 @@ public class AtReferenceListener extends TaskToMessageListener {
       List<String> atReferences = event.getComment().getReferences();
 
       for (String atReference : atReferences) {
-        if (!atReference.equals(event.getComment().getAuthor().getName())) {
+        if (!atReference.equals(event.getComment().getAuthor().getName())) { // don't send updates for comments you write yourself
           try {
             messageService.sendPrivateMessage(atReference, formatter.format(event));
           } catch (MessageServiceException e) {
