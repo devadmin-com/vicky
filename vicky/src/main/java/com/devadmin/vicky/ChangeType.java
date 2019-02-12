@@ -5,17 +5,6 @@ package com.devadmin.vicky;
  * assignment
  */
 public enum ChangeType {
-  ASSIGN("assignee"),
-  DEFAULT("");
-
-  private String changeType;
-
-  ChangeType(String changeType) {
-    this.changeType = changeType;
-  }
-
-  // TODO: Javadoc
-  public String getChangeType() {
-    return changeType;
-  }
+  ASSIGN,
+  DEFAULT;
 }

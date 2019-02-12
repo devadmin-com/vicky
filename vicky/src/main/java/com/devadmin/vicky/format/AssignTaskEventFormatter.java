@@ -14,10 +14,6 @@ public class AssignTaskEventFormatter extends SimpleTaskEventFormatter {
 
   @Override
   public String format(TaskEvent event) {
-    // TODO: why doesn't use formatBase?
-    // TODO: V why it should????
     return String.format("%s assigned to you: %s", event.getActor(), super.format(event));
-    // TODO: missing coment - check spec
-    // TODO: V check parent
   }
 }

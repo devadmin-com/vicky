@@ -6,9 +6,8 @@ import com.devadmin.vicky.controller.slack.config.SlackProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
- * THis controller is responsible for interactions with Slack Bot ex. sending DM to Bot TODO: I
- * don't understand, I thought sending was through the slack service? TODO V we had methods
- * previuosly which we deleted from here for the time we wil ldecide to interact with slack bot
+ * This controller is responsible for interactions with Slack Bot ex. sending DM to Bot
+ * this is the bean we use to have a socket connection with SLACK
  */
 @SlackBot
 public class SlackController extends AbstractBot {

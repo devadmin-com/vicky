@@ -31,7 +31,7 @@ public class BlockerTaskListener extends TaskToMessageListener {
       @Qualifier("AssignFormatter") TaskEventFormatter taskEventFormatter) {
     super(messageService, taskEventFormatter);
   }
-  // TODO: Javadoc
+  @Override
   public void onApplicationEvent(TaskEventModelWrapper eventWrapper) {
     TaskEvent event = eventWrapper.getTaskEventModel();
     Task task = event.getTask();

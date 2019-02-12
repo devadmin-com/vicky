@@ -2,10 +2,10 @@ package com.devadmin.vicky;
 
 /** This enum contains all possible priorities a task can have */
 public enum TaskPriority {
-  TRIVIAL("Trivial"),
+  TRIVIAL("TRIVIAL"),
   MINOR("MINOR"),
   MAJOR("MAJOR"),
-  CRITICAL("Critical"),
+  CRITICAL("CRITICAL"),
   BLOCKER("BLOCKER");
 
   String priority;

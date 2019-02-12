@@ -17,32 +17,26 @@ public class JiraProperties {
   private String username;
   private String password;
 
-  // TODO: Javadoc
   public String getCloudUrl() {
     return cloudUrl;
   }
 
-  // TODO: Javadoc
   public void setCloudUrl(String cloudUrl) {
     this.cloudUrl = cloudUrl;
   }
 
-  // TODO: Javadoc
   public String getUsername() {
     return username;
   }
 
-  // TODO: Javadoc
   public void setUsername(String username) {
     this.username = username;
   }
 
-  // TODO: Javadoc
   public String getPassword() {
     return password;
   }
 
-  // TODO: Javadoc
   public void setPassword(String password) {
     this.password = password;
   }
