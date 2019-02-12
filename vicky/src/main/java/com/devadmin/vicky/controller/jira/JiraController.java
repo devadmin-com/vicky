@@ -105,8 +105,7 @@ public class JiraController {
     return commentModel;
   }
 
-  // TODO: javadoc, why?
-  // TODO: V why not ?
+  // mapping to comment model to set to task
   private CommentModel convertCommentToCommentModel(Comment comment) {
     CommentModel commentModel = new CommentModel();
     AuthorModel authorModel = new AuthorModel();
