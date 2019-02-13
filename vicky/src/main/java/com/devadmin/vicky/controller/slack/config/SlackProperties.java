@@ -18,7 +18,6 @@ public class SlackProperties {
 
   private String apiUrl;
   @NestedConfigurationProperty private Token token;
-  @NestedConfigurationProperty private Webhook webhook;
 
   public String getApiUrl() {
     return apiUrl;
@@ -34,14 +33,6 @@ public class SlackProperties {
 
   public void setToken(Token token) {
     this.token = token;
-  }
-
-  public Webhook getWebhook() {
-    return webhook;
-  }
-
-  public void setWebhook(Webhook webhook) {
-    this.webhook = webhook;
   }
 
   public static class Token {

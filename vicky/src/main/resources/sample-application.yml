@@ -18,7 +18,4 @@ slack:
   token:
     bot: <your slack bot token>
     verification: <your slack slash command token>
-  webhook:
-    incoming:
-      channel-name1: <your slack incomming webhook token1>
-      channel-name2: <your slack incomming webhook token2>
+
