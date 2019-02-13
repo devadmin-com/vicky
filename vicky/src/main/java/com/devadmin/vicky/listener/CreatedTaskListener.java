@@ -10,17 +10,17 @@ import org.springframework.stereotype.Component;
 
 /**
  * On issue create or resolve send update to project's channel (if one exists).
+ * <p>If no channel exists for project nothing is done.
  *
- * <p>If no channel exists for project nothing is done. Story: TL-99 TODO: shoudl this be called
- * CreatedTaskListener?
+ * Story: TL-99
  */
 @Component
-public class ProjectTaskListener extends TaskToMessageListener {
+public class CreatedTaskListener extends TaskToMessageListener {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(ProjectTaskListener.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(CreatedTaskListener.class);
 
   @Autowired
-  public ProjectTaskListener(
+  public CreatedTaskListener(
       MessageService messageService,
       @Qualifier("SimpleFormatter") TaskEventFormatter taskEventFormatter) {
     super(messageService, taskEventFormatter);

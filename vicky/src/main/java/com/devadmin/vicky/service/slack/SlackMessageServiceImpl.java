@@ -51,6 +51,15 @@ public class SlackMessageServiceImpl implements MessageService {
      * the message if yes then sending the message to that channel
      */
     Map<String, String> incomingWebhooks = properties.getWebhook().getIncoming();
+    Event event =
+            restTemplate
+                    .postForEntity(
+                            slackApiEndpoints.getChannelListApi(),
+                            null,
+                            Event.class,
+                            properties.getToken().getBot())
+                    .getBody();
+
     if (incomingWebhooks.containsKey(channelName)) {
       String incomingWebhookUrl = incomingWebhooks.get(channelName);
       try {
@@ -66,6 +75,7 @@ public class SlackMessageServiceImpl implements MessageService {
   @Override
   public void sendPrivateMessage(String personName, String message) throws MessageServiceException {
     // getting the event with HTTP POST request, then getting list of all members in slack
+    //TODO: What if a paginated list is returned? see: https://api.slack.com/methods/users.list next_cursor
     Event event =
         restTemplate
             .postForEntity(

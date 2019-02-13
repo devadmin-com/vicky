@@ -9,7 +9,7 @@ import com.devadmin.vicky.controller.jira.model.CommentModel;
 import com.devadmin.vicky.listener.AtReferenceListener;
 import com.devadmin.vicky.listener.LabeledTaskListener;
 import com.devadmin.vicky.listener.PMOnAssignListener;
-import com.devadmin.vicky.listener.ProjectTaskListener;
+import com.devadmin.vicky.listener.CreatedTaskListener;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -19,7 +19,7 @@ import java.util.List;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-/** Test class for {@link ProjectTaskListener} */
+/** Test class for {@link CreatedTaskListener} */
 public class MultipleTaskListenerTest extends TaskListenerTest {
 
   /** tests that the event was sent */
@@ -80,8 +80,8 @@ public class MultipleTaskListenerTest extends TaskListenerTest {
   }
 
   private void createContext() {
-    ProjectTaskListener projectTaskListener =
-        new ProjectTaskListener(testMessageService, taskEventFormatter);
+    CreatedTaskListener projectTaskListener =
+        new CreatedTaskListener(testMessageService, taskEventFormatter);
     PMOnAssignListener pmOnAssignListener =
         new PMOnAssignListener(testMessageService, taskEventFormatter);
     AtReferenceListener atReferenceListener =

@@ -8,7 +8,11 @@ package com.devadmin.vicky.format;
 import com.devadmin.vicky.TaskEvent;
 import org.springframework.stereotype.Component;
 
-/** Implements formatting of assign @TaskEventModelWrapper for sending to a @MessageService */
+/**
+ * Implements formatting of assign @TaskEventModelWrapper for sending to a @MessageService
+ *
+ * Used for task assign actions - adds who assigned to standard message put out by SimpleTaskEventFormatter
+ */
 @Component("AssignFormatter")
 public class AssignTaskEventFormatter extends SimpleTaskEventFormatter {
 

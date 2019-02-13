@@ -7,12 +7,12 @@ import com.devadmin.vicky.TaskType;
 import com.devadmin.vicky.controller.jira.model.AuthorModel;
 import com.devadmin.vicky.controller.jira.model.CommentModel;
 import com.devadmin.vicky.format.SimpleTaskEventFormatter;
-import com.devadmin.vicky.listener.ProjectTaskListener;
+import com.devadmin.vicky.listener.CreatedTaskListener;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-/** Test class for {@link com.devadmin.vicky.listener.ProjectTaskListener} */
+/** Test class for {@link CreatedTaskListener} */
 public class ProjectTaskListenerTest extends TaskListenerTest {
 
   @Override
@@ -97,7 +97,7 @@ public class ProjectTaskListenerTest extends TaskListenerTest {
   }
 
   private void createContext() {
-    ProjectTaskListener listener = new ProjectTaskListener(testMessageService, taskEventFormatter);
+    CreatedTaskListener listener = new CreatedTaskListener(testMessageService, taskEventFormatter);
     context.addApplicationListener(listener);
     context.refresh();
   }

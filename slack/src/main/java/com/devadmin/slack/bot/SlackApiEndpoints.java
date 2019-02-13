@@ -27,7 +27,7 @@ public class SlackApiEndpoints {
     return slackApi + "/chat.postMessage?token={token}&channel={channel}&text={text}";
   }
 
-  public String getUserListApi() {
+  public String getConversationListApi() {
     return slackApi + "/users.list?token={token}";
   }
 }
