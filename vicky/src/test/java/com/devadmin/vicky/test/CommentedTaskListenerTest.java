@@ -91,7 +91,7 @@ public class CommentedTaskListenerTest extends TaskListenerTest {
     createContext();
 
     String expectedMessage =
-        ":rocket: <https://devadmin.atlassian.net/browse/TL-000 | TL-000> Backlog: Test Task @testUser\n "
+        ":rocket: <https://devadmin.atlassian.net/browse/TL-000 | TL-000> OTHER: Test Task @testUser\n "
             + "Serpento ➠ Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been "
             + "the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and "
             + "scrambled it to make a type specimen book. It has ...";
