@@ -3,6 +3,7 @@ package com.devadmin.vicky.test;
 import com.devadmin.vicky.TaskEventFormatter;
 import com.devadmin.vicky.TaskEventType;
 import com.devadmin.vicky.TaskPriority;
+import com.devadmin.vicky.TaskType;
 import com.devadmin.vicky.controller.jira.model.AuthorModel;
 import com.devadmin.vicky.controller.jira.model.CommentModel;
 import com.devadmin.vicky.format.SimpleTaskEventFormatter;
@@ -31,8 +32,8 @@ public class LabeledTaskListenerTest extends TaskListenerTest {
 
     TestTask testTask = new TestTask();
     testTask.setLabels(new ArrayList<>());
-    testTask.setPriority(TaskPriority.MINOR);
-    testTask.setStatus("Backlog");
+    testTask.setPriority(TaskPriority.OTHER);
+    testTask.setType(TaskType.OTHER);
     TestTaskEventModel testEventModel = new TestTaskEventModel();
     testEventModel.setType(TaskEventType.CREATED);
     testEventModel.setTask(testTask);
@@ -59,8 +60,8 @@ public class LabeledTaskListenerTest extends TaskListenerTest {
 
     TestTask testTask = new TestTask();
     testTask.setLabels(labels);
-    testTask.setPriority(TaskPriority.MINOR);
-    testTask.setStatus("Backlog");
+    testTask.setPriority(TaskPriority.OTHER);
+    testTask.setType(TaskType.OTHER);
     testTask.setLastComment(commentModel);
 
     TestTaskEventModel testEventModel = new TestTaskEventModel();

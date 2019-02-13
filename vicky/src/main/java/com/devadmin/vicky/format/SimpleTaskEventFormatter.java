@@ -13,6 +13,9 @@ import org.springframework.stereotype.Component;
 @Component("SimpleFormatter")
 public class SimpleTaskEventFormatter implements TaskEventFormatter {
 
+  // all comments are cut off at this length for display
+ static final int COMMENT_CUT_LENGTH = 256;
+
   /** composes basic part of message (without comment) */
   protected String formatBase(TaskEvent event) {
     Task task = event.getTask();
@@ -22,7 +25,7 @@ public class SimpleTaskEventFormatter implements TaskEventFormatter {
         getIcon(task),
         task.getUrl(),
         task.getKey(),
-        task.getStatus(),
+        task.getType().toString(),
         task.getSummary(),
         task.getAssignee());
   }
@@ -63,13 +66,17 @@ public class SimpleTaskEventFormatter implements TaskEventFormatter {
 
   /** @return the icon to use when displaying this task */
   private String getIcon(Task task) {
+    assert(task != null);
+
     if (task.getPriority() == TaskPriority.BLOCKER) {
       return "‼️";
     } else {
-      switch (task.getStatus()) {
-        case "Operations 運営":
+        assert(task.getType() != null);
+
+        switch (task.getType()) {
+        case OPERATIONS:
           return "⚙";
-        case "Urgent Bug 緊急バグ":
+        case URGENT_BUG:
           return "⚡";
         default:
           return ":rocket:";
@@ -106,7 +113,7 @@ public class SimpleTaskEventFormatter implements TaskEventFormatter {
 
     if (event.getComment() == null) {
       Comment comment = task.getLastComment();
-      String truncatedComment = commentTruncating(comment.getBody());
+      String truncatedComment = truncateComment(comment.getBody());
 
       lastComment =
           comment.getBody() == null
@@ -114,16 +121,19 @@ public class SimpleTaskEventFormatter implements TaskEventFormatter {
               : truncatedComment.replace("[~", "@").replace("]", "");
     } else {
       lastComment =
-          commentTruncating(event.getComment().getBody()).replace("[~", "@").replace("]", "");
+          truncateComment(event.getComment().getBody()).replace("[~", "@").replace("]", "");
     }
 
     return lastComment;
   }
 
-  private String commentTruncating(String text) {
-    if (text.length() > 256) {
-      String str = text.substring(0, 256);
-      return str.substring(0, str.lastIndexOf(' ')) + " ...";
+  /**
+   * Returns string cut to COMMENT_CUT_LENGTH characters, with "..." at end
+   */
+  private String truncateComment(String text) {
+    if (text.length() > COMMENT_CUT_LENGTH) {
+      String str = text.substring(0, COMMENT_CUT_LENGTH);
+      return str.substring(0, str.lastIndexOf(' ')) + " ..."; // don't cut word in middle, and always add "..." at end
     } else {
       return text;
     }

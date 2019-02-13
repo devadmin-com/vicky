@@ -3,6 +3,7 @@ package com.devadmin.vicky.test;
 import com.devadmin.vicky.ChangeLogItem;
 import com.devadmin.vicky.TaskEventType;
 import com.devadmin.vicky.TaskPriority;
+import com.devadmin.vicky.TaskType;
 import com.devadmin.vicky.controller.jira.model.AuthorModel;
 import com.devadmin.vicky.controller.jira.model.CommentModel;
 import com.devadmin.vicky.listener.AtReferenceListener;
@@ -70,8 +71,8 @@ public class MultipleTaskListenerTest extends TaskListenerTest {
     List<String> labels = Arrays.asList("label1", "label2");
     TestTask testTask = new TestTask();
     testTask.setLabels(labels);
-    testTask.setPriority(TaskPriority.MINOR);
-    testTask.setStatus("Backlog");
+    testTask.setPriority(TaskPriority.OTHER);
+    testTask.setType(TaskType.OTHER);
     testTask.setLastComment(commentModel);
     testEventModel.setTask(testTask);
 

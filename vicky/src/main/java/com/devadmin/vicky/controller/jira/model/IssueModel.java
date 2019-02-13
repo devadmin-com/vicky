@@ -2,6 +2,7 @@ package com.devadmin.vicky.controller.jira.model;
 
 import com.devadmin.vicky.Task;
 import com.devadmin.vicky.TaskPriority;
+import com.devadmin.vicky.TaskType;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.beans.factory.annotation.Value;
@@ -72,7 +73,7 @@ public class IssueModel implements Task {
 
   @Override
   public TaskPriority getPriority() {
-    return TaskPriority.valueOf(fields.getPriority().getName());
+    return fields.getPriority().getName().equals("BLOCKER")?TaskPriority.BLOCKER:TaskPriority.OTHER;
   }
 
   @Override
@@ -97,8 +98,15 @@ public class IssueModel implements Task {
   }
 
   @Override
-  public String getStatus() {
-    return this.fields.getStatus().getName();
+  public TaskType getType() {
+    switch(this.fields.getIssueType().getName()) {
+      case "Operations 運営":
+        return TaskType.OPERATIONS;
+      case "Urgent Bug 緊急バグ":
+        return TaskType.URGENT_BUG;
+      default:
+        return TaskType.OTHER;
+    }
   }
 
   @Override

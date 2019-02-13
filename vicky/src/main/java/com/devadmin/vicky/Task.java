@@ -44,7 +44,7 @@ public interface Task {
   Boolean isResolved();
 
   /** @return status of task */
-  String getStatus();
+  TaskType getType();
 
   /** @return the username who assignee this task */
   String getAssignee();
@@ -52,9 +52,9 @@ public interface Task {
   /** @return IssueKey which is consist of project key and issue number */
   String getKey();
 
-  /** @return Issue summery */
+  /** @return Issue summary (one-line description) */
   String getSummary();
 
-  /** @return The last comment on task */
+  /** @return The last comment written on the task */
   Comment getLastComment();
 }

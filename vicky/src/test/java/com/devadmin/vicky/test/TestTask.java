@@ -1,7 +1,6 @@
 package com.devadmin.vicky.test;
 
-import com.devadmin.vicky.Task;
-import com.devadmin.vicky.TaskPriority;
+import com.devadmin.vicky.*;
 import com.devadmin.vicky.controller.jira.model.CommentModel;
 
 import java.util.List;
@@ -11,10 +10,12 @@ class TestTask implements Task {
   private final String TEST_PROJECT_NAME = "proj";
   private List<String> labels;
 
-  private String status;
+  private TaskType type = TaskType.OTHER;
   private TaskPriority priority;
   private CommentModel lastComment;
   private String assignee;
+
+  private boolean isResolved = false;
 
   @Override
   public String getId() {
@@ -49,20 +50,21 @@ class TestTask implements Task {
     this.labels = labels;
   }
 
-  public String getStatus() {
-    return status;
+  public TaskType getType() {
+    return type;
   }
 
-  public void setStatus(String status) {
-    this.status = status;
+  public void setType(TaskType type) {
+    this.type = type;
   }
 
   /** @return true if task is resolved */
   @Override
   public Boolean isResolved() {
-    return "Resolved 解決済".equals(status);
+    return isResolved;
   }
 
+  public void setIsResolved() { isResolved = true;}
   @Override
   public String getAssignee() {
     return assignee;

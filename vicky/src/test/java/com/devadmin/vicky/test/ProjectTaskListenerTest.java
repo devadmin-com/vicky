@@ -3,6 +3,7 @@ package com.devadmin.vicky.test;
 import com.devadmin.vicky.TaskEventFormatter;
 import com.devadmin.vicky.TaskEventType;
 import com.devadmin.vicky.TaskPriority;
+import com.devadmin.vicky.TaskType;
 import com.devadmin.vicky.controller.jira.model.AuthorModel;
 import com.devadmin.vicky.controller.jira.model.CommentModel;
 import com.devadmin.vicky.format.SimpleTaskEventFormatter;
@@ -88,8 +89,8 @@ public class ProjectTaskListenerTest extends TaskListenerTest {
     commentModel.setAuthor(authorModel);
 
     TestTask testTask = new TestTask();
-    testTask.setPriority(TaskPriority.MINOR);
-    testTask.setStatus("Backlog");
+    testTask.setPriority(TaskPriority.OTHER);
+    testTask.setType(TaskType.OTHER);
     testTask.setLastComment(commentModel);
     testEventModel.setTask(testTask);
     return testEventModel;

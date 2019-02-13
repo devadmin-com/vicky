@@ -1,6 +1,7 @@
 package com.devadmin.vicky.test;
 
 import com.devadmin.vicky.TaskEventFormatter;
+import com.devadmin.vicky.TaskType;
 import com.devadmin.vicky.controller.jira.model.AuthorModel;
 import com.devadmin.vicky.controller.jira.model.CommentModel;
 import com.devadmin.vicky.format.SimpleTaskEventFormatter;
@@ -25,7 +26,7 @@ public class ResolvedTaskListenerTest extends TaskListenerTest {
     createContext();
 
     TestTask testTask = new TestTask();
-    testTask.setStatus("IN PROGRESS 進行中");
+    testTask.setType(TaskType.OTHER);
     TestTaskEventModel testEventModel = new TestTaskEventModel();
     testEventModel.setTask(testTask);
 
@@ -48,7 +49,7 @@ public class ResolvedTaskListenerTest extends TaskListenerTest {
     commentModel.setAuthor(authorModel);
 
     TestTask testTask = new TestTask();
-    testTask.setStatus("Resolved 解決済");
+    testTask.setIsResolved();
     testTask.setLastComment(commentModel);
 
     TestTaskEventModel testEventModel = new TestTaskEventModel();

@@ -1,6 +1,7 @@
 package com.devadmin.vicky.test;
 
 import com.devadmin.vicky.TaskEventFormatter;
+import com.devadmin.vicky.TaskType;
 import com.devadmin.vicky.controller.jira.model.AuthorModel;
 import com.devadmin.vicky.controller.jira.model.CommentModel;
 import com.devadmin.vicky.format.SimpleTaskEventFormatter;
@@ -28,7 +29,7 @@ public class CommentedTaskListenerTest extends TaskListenerTest {
     comment.setAuthor(authorModel);
 
     TestTask testTask = new TestTask();
-    testTask.setStatus("Backlog");
+    testTask.setType(TaskType.OTHER);
     testTask.setAssignee("testUser");
 
     TestTaskEventModel testEventModel = new TestTaskEventModel();
@@ -53,7 +54,7 @@ public class CommentedTaskListenerTest extends TaskListenerTest {
     comment.setAuthor(authorModel);
 
     TestTask testTask = new TestTask();
-    testTask.setStatus("Backlog");
+    testTask.setType(TaskType.OTHER);
     testTask.setAssignee("testUser");
 
     TestTaskEventModel testEventModel = new TestTaskEventModel();
@@ -72,7 +73,7 @@ public class CommentedTaskListenerTest extends TaskListenerTest {
     createContext();
 
     TestTask testTask = new TestTask();
-    testTask.setStatus("Backlog");
+    testTask.setType(TaskType.OTHER);
     testTask.setAssignee("testUser");
 
     TestTaskEventModel testEventModel = new TestTaskEventModel();
@@ -109,7 +110,7 @@ public class CommentedTaskListenerTest extends TaskListenerTest {
     comment.setAuthor(authorModel);
 
     TestTask testTask = new TestTask();
-    testTask.setStatus("Backlog");
+    testTask.setType(TaskType.OTHER);
     testTask.setAssignee("testUser");
 
     TestTaskEventModel testEventModel = new TestTaskEventModel();
