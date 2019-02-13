@@ -13,7 +13,11 @@ import java.util.List;
 import java.util.TimerTask;
 
 
-/** This class periodically checks if BLOCKER task was commented within the last 6 hours */
+/**
+ * This class periodically checks if a BLOCKER task was commented within the last 6 hours.
+ *
+ * One instance of this class is needed per Blocker task
+ */
 public class BlockerTaskTracker {
 
   private static final long DELAY = 1000L * 60L * 60L * 24L; // 24h
@@ -63,6 +67,7 @@ public class BlockerTaskTracker {
 
     public void run() {
       try {
+        // TODO should check if task is still
         List<Comment> comments = jiraClient.getIssue(taskEvent.getTask().getId()).getComments();
         if (comments.size() == 0
             || startTrackingDate.after(comments.get(comments.size() - 1).getCreatedDate())) {
