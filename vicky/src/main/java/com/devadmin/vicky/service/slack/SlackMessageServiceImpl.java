@@ -3,6 +3,7 @@
  *
  * License: https://github.com/devadmin-com/vicky/blob/master/LICENSE
  */
+
 package com.devadmin.vicky.service.slack;
 
 import com.devadmin.slack.bot.SlackApiEndpoints;
@@ -19,6 +20,7 @@ import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Map;
+
 
 /** Implements a {@link MessageService} with slack as the underlying transport */
 @Service

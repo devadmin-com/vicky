@@ -5,6 +5,7 @@ import org.springframework.boot.context.properties.NestedConfigurationProperty;
 
 import java.util.Map;
 
+
 /**
  * The configuration of slack client. Requires the following keys in application.yml:
  *

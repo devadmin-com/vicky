@@ -3,6 +3,7 @@
  *
  * License: https://github.com/devadmin-com/vicky/blob/master/LICENSE
  */
+
 package com.devadmin.vicky.listener;
 
 import com.devadmin.vicky.*;
@@ -31,6 +32,7 @@ public class BlockerTaskListener extends TaskToMessageListener {
       @Qualifier("AssignFormatter") TaskEventFormatter taskEventFormatter) {
     super(messageService, taskEventFormatter);
   }
+
   @Override
   public void onApplicationEvent(TaskEventModelWrapper eventWrapper) {
     TaskEvent event = eventWrapper.getTaskEventModel();

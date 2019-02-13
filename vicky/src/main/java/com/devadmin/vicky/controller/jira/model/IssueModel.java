@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+
 /** This is the object which contains the information about jira issue */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class IssueModel implements Task {

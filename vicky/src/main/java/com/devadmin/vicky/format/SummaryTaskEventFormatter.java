@@ -3,6 +3,7 @@
  *
  * License: https://github.com/devadmin-com/vicky/blob/master/LICENSE
  */
+
 package com.devadmin.vicky.format;
 
 import com.devadmin.vicky.TaskEvent;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Component;
 @Component("SummaryFormatter")
 public class SummaryTaskEventFormatter extends SimpleTaskEventFormatter {
 
+  @Override
   public String format(TaskEvent event) {
     return String.format(
         "%s %s %s ➠ %s",

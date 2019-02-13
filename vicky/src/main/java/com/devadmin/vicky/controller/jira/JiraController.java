@@ -3,6 +3,7 @@
  *
  * License: https://github.com/devadmin-com/vicky/blob/master/LICENSE
  */
+
 package com.devadmin.vicky.controller.jira;
 
 import com.devadmin.jira.Comment;
@@ -25,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+
 
 /** This class contain methods which receive events from JIRA */
 @RestController
