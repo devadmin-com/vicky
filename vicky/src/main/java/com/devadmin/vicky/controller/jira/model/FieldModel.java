@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * This is the object which contains the information about fields which are describing jira issue
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-class FieldModel {
+public class FieldModel {
 
   @JsonProperty("issuetype")
   private IssueTypeModel issueType;
