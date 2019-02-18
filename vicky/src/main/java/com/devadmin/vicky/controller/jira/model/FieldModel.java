@@ -33,6 +33,9 @@ public class FieldModel {
   @JsonProperty("created")
   private String createdDate;
 
+  @JsonProperty("updated")
+  private String updatedDate;
+
   @JsonProperty("labels")
   private String[] labels;
 
@@ -98,6 +101,14 @@ public class FieldModel {
 
   public void setCreatedDate(String createdDate) {
     this.createdDate = createdDate;
+  }
+
+  public String getUpdatedDate() {
+    return updatedDate;
+  }
+
+  public void setUpdatedDate(String updatedDate) {
+    this.updatedDate = updatedDate;
   }
 
   public String[] getLabels() {

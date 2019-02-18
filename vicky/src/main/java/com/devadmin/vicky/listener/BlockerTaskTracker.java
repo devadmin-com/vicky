@@ -6,11 +6,19 @@ import com.devadmin.jira.JiraException;
 import com.devadmin.vicky.MessageService;
 import com.devadmin.vicky.MessageServiceException;
 import com.devadmin.vicky.TaskEvent;
+import com.devadmin.vicky.TaskService;
+import com.devadmin.vicky.controller.jira.model.IssueModel;
+import com.devadmin.vicky.service.jira.JiraTaskServiceImpl;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import com.devadmin.vicky.Task;
 
 import java.util.Date;
 import java.util.List;
 import java.util.TimerTask;
+import org.springframework.scheduling.annotation.Scheduled;
 
 
 /**
@@ -38,7 +46,11 @@ public class BlockerTaskTracker {
    * specific stuff here, pleasea refactor so no jira stuff here. TODO @Victor we have decided not
    * touch this part untill we will review other parts
    */
-  @Autowired private JiraClient jiraClient;
+  @Autowired
+  private JiraClient jiraClient;
+
+  @Autowired
+  private TaskService jiraTaskService;
 
   private MessageService messageService;
 
@@ -78,6 +90,17 @@ public class BlockerTaskTracker {
       } catch (JiraException | MessageServiceException e) {
         e.printStackTrace();
       }
+    }
+  }
+
+  @Scheduled(fixedDelay = 21600000)
+  private void trackingCreatedBlockingIssues(){
+    List<IssueModel> tasks = jiraTaskService.getBlockerTasks();
+
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+
+    for (IssueModel task : tasks) {
+      LocalDate dateTime = LocalDate.parse(task.getFields().getCreatedDate(), formatter);
     }
   }
 }

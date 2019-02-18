@@ -37,7 +37,8 @@ public class JiraController {
 
   private final ApplicationEventPublisher applicationEventPublisher;
 
-  @Autowired private JiraClient jiraClient;
+  @Autowired
+  private JiraClient jiraClient;
 
   @Autowired
   public JiraController(ApplicationEventPublisher applicationEventPublisher) {
