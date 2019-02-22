@@ -5,17 +5,22 @@
  */
 package com.devadmin.vicky;
 
+import com.devadmin.jira.Comment;
+
 import java.util.List;
-import com.devadmin.vicky.controller.jira.model.IssueModel;
 
 /**
  * A generic task service.
  *
- * For now only used for getting list of blocker tasks
+ * <p>For now only used for getting list of blocker tasks
  */
 public interface TaskService {
+  /** @return all open tasks in system which have TaskPriority.BLOCKER */
+  List<Task> getBlockerTasks();
+
   /**
-   * @return all open tasks in system which have TaskPriority.BLOCKER
+   * @param taskId
+   * @return last comment on a task
    */
-   List<IssueModel> getBlockerTasks();
+  Comment getLastCommentByTaskId(String taskId);
 }

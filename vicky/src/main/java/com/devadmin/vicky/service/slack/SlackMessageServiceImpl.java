@@ -72,7 +72,7 @@ public class SlackMessageServiceImpl implements MessageService {
             .getBody();
     // looping through all members and getting the one whom we need to send PM
     for (User person : event.getMembers()) {
-      if (personName.equals(person.getName())) {
+      if (personName != null && personName.equals(person.getName())) {
         try {
           restTemplate.postForEntity(
               slackApiEndpoints.getChatPostMessageApi(),

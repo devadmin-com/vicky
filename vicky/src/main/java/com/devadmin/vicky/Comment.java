@@ -7,6 +7,7 @@ package com.devadmin.vicky;
 
 import com.devadmin.vicky.controller.jira.model.AuthorModel;
 
+import java.util.Date;
 import java.util.List;
 
 /** Comment on a task. */
@@ -20,4 +21,10 @@ public interface Comment {
 
   /** @return comment body */
   String getBody();
+
+  /** @ return comment creation date*/
+  Date getCreated();
+
+  /**  @return comment last update date*/
+  Date getUpdated();
 }

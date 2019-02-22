@@ -1,106 +1,98 @@
 package com.devadmin.vicky.listener;
 
 import com.devadmin.jira.Comment;
-import com.devadmin.jira.JiraClient;
-import com.devadmin.jira.JiraException;
 import com.devadmin.vicky.MessageService;
 import com.devadmin.vicky.MessageServiceException;
-import com.devadmin.vicky.TaskEvent;
-import com.devadmin.vicky.TaskService;
-import com.devadmin.vicky.controller.jira.model.IssueModel;
-import com.devadmin.vicky.service.jira.JiraTaskServiceImpl;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import com.devadmin.vicky.Task;
+import com.devadmin.vicky.TaskService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
 
+import java.time.Duration;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
-import java.util.TimerTask;
-import org.springframework.scheduling.annotation.Scheduled;
-
 
 /**
  * This class periodically checks if a BLOCKER task was commented within the last 6 hours.
  *
- * One instance of this class is needed per Blocker task
+ * <p>One instance of this class is needed per Blocker task
  */
+@Component
 public class BlockerTaskTracker {
 
-  private static final long DELAY = 1000L * 60L * 60L * 24L; // 24h
-  private static final long PERIOD = 1000L * 60L * 60L * 6L; // 6h
+  private static final Logger logger = LoggerFactory.getLogger(BlockerTaskTracker.class);
 
-  // TODO: Javadoc
-  private Date startTrackingDate;
+  private static final long ONE_DAY = 1000L * 60L * 60L * 24L; // 24h
+  private static final long SIX_HOURS = 1000L * 60L * 60L * 6L; // 6h
+  private static final long ONE_HOUR = 1000L * 60L * 60L; // 1h
+  private static final String COMMENT_MESSAGE =
+      "This ticked has not been commented for more than 6 hours";
+  private static final String CREATION_MESSAGE =
+      "This ticked has not been commented for more than 24 hours";
 
-  private java.util.Timer timer = new java.util.Timer();
-
-  /**
-   * Here we need jiraClient because when we received a task event from Jira, this task contains no
-   * comments. and using task id via jiraClient we are receiving all comments of the task.
-   *
-   * <p>Here we must know that the assigned person has added a comment in the task during the last
-   * 24 hours, if does not add, we must continue to track every 6 hours. TODO we've talked about
-   * this... if it's JIRA specific should be in a JIRA packa, but I think can do without having jira
-   * specific stuff here, pleasea refactor so no jira stuff here. TODO @Victor we have decided not
-   * touch this part untill we will review other parts
-   */
-  @Autowired
-  private JiraClient jiraClient;
-
-  @Autowired
   private TaskService jiraTaskService;
 
   private MessageService messageService;
 
-  private TaskEvent taskEvent;
-
-  private String message;
-  private String personName;
-
-  public BlockerTaskTracker(
-      TaskEvent taskEvent, String message, MessageService messageService, String personName) {
+  @Autowired
+  public BlockerTaskTracker(TaskService jiraTaskService, MessageService messageService) {
+    this.jiraTaskService = jiraTaskService;
     this.messageService = messageService;
-    this.taskEvent = taskEvent;
-    this.message = message;
-    this.personName = personName;
   }
 
-  /** Start tracking once found task with BLOCKER priority */
-  public void startTracking() {
-    startTrackingDate = new Date();
-    timer.schedule(new Timer(), DELAY, PERIOD);
-  }
+  /**
+   * gets all blocker tasks from jira, checks if each of them contains comment, sends PM to slack if
+   * task was not commented for 24 hours, or last comment was done more than 6 hours ago
+   */
+  @Scheduled(fixedDelay = ONE_HOUR)
+  public void handleBlockerTasks() {
 
-  /** calls run method every time after delay */
-  class Timer extends TimerTask {
-    // TODO everytime we restart check last comment time etc...
+    ZoneId defaultZoneId = ZoneId.systemDefault();
+    LocalDateTime today = LocalDateTime.now();
+    List<Task> tasks = jiraTaskService.getBlockerTasks();
 
-    public void run() {
-      try {
-        // TODO should check if task is still
-        List<Comment> comments = jiraClient.getIssue(taskEvent.getTask().getId()).getComments();
-        if (comments.size() == 0
-            || startTrackingDate.after(comments.get(comments.size() - 1).getCreatedDate())) {
-          messageService.sendPrivateMessage(personName, message);
-        } else {
-          timer.cancel();
+    for (Task task : tasks) {
+      Comment lastComment = jiraTaskService.getLastCommentByTaskId(task.getId());
+      if (lastComment != null) {
+        Date commentCreatedDate = lastComment.getCreatedDate();
+        Instant instant = commentCreatedDate.toInstant();
+
+        LocalDateTime lastCommentDateTime = instant.atZone(defaultZoneId).toLocalDateTime();
+
+        long durationBetweenNowAndLastCommentCreation =
+            Duration.between(lastCommentDateTime, today).toMillis();
+        if (durationBetweenNowAndLastCommentCreation >= SIX_HOURS) {
+          sendPrivateMessage(task, COMMENT_MESSAGE);
         }
-      } catch (JiraException | MessageServiceException e) {
-        e.printStackTrace();
+
+      } else {
+        String taskCreatedDate = task.getFields().getCreatedDate();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEE MMM dd HH:mm:ss zzz yyyy");
+
+        LocalDateTime creationDateTime = LocalDateTime.parse(taskCreatedDate, formatter);
+
+        long durationBetweenNowAndTaskCreation =
+            Duration.between(creationDateTime, today).toMillis();
+        if (durationBetweenNowAndTaskCreation >= ONE_DAY) {
+          sendPrivateMessage(task, task.getFields().getSummary() + CREATION_MESSAGE);
+        }
       }
     }
   }
 
-  @Scheduled(fixedDelay = 21600000)
-  private void trackingCreatedBlockingIssues(){
-    List<IssueModel> tasks = jiraTaskService.getBlockerTasks();
-
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
-
-    for (IssueModel task : tasks) {
-      LocalDate dateTime = LocalDate.parse(task.getFields().getCreatedDate(), formatter);
+  private void sendPrivateMessage(Task task, String message) {
+    System.out.println("SENDING PRIVATE MESSAGE ==>>> " + message);
+    try {
+      messageService.sendPrivateMessage(task.getAssignee(), message);
+    } catch (MessageServiceException e) {
+      logger.error("was not able to send private message about Blocker task", e.getMessage());
     }
   }
 }

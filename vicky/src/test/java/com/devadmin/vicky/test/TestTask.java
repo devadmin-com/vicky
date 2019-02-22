@@ -1,7 +1,10 @@
 package com.devadmin.vicky.test;
 
-import com.devadmin.vicky.*;
+import com.devadmin.vicky.Task;
+import com.devadmin.vicky.TaskPriority;
+import com.devadmin.vicky.TaskType;
 import com.devadmin.vicky.controller.jira.model.CommentModel;
+import com.devadmin.vicky.controller.jira.model.FieldModel;
 
 import java.util.List;
 
@@ -14,6 +17,7 @@ class TestTask implements Task {
   private TaskPriority priority;
   private CommentModel lastComment;
   private String assignee;
+  private FieldModel fieldModel;
 
   private boolean isResolved = false;
 
@@ -96,5 +100,14 @@ class TestTask implements Task {
   @Override
   public CommentModel getLastComment() {
     return lastComment;
+  }
+
+  @Override
+  public FieldModel getFields() {
+    return fieldModel;
+  }
+
+  public void setFieldModel(FieldModel fieldModel) {
+    this.fieldModel = fieldModel;
   }
 }

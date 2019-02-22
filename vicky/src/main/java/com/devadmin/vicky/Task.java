@@ -5,6 +5,8 @@
  */
 package com.devadmin.vicky;
 
+import com.devadmin.vicky.controller.jira.model.FieldModel;
+
 import java.util.List;
 
 /**
@@ -57,4 +59,7 @@ public interface Task {
 
   /** @return The last comment written on the task */
   Comment getLastComment();
+
+  /** @return fields of task*/
+  FieldModel getFields();
 }
