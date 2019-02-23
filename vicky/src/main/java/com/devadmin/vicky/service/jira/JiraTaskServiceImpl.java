@@ -61,8 +61,12 @@ public class JiraTaskServiceImpl implements TaskService {
    */
   public static IssueModel convertIssueToIssueModel(Issue issue) {
     IssueModel issueModel = new IssueModel();
+
     FieldModel fieldModel = getFieldModel(issue);
     issueModel.setFields(fieldModel);
+    issueModel.setId(issue.getId());
+    issueModel.setKey(issue.getKey());
+    issueModel.setSelf(issue.getSelf());
     return issueModel;
   }
 

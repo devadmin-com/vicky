@@ -33,9 +33,9 @@ public class BlockerTaskTracker {
   private static final long SIX_HOURS = 1000L * 60L * 60L * 6L; // 6h
   private static final long ONE_HOUR = 1000L * 60L * 60L; // 1h
   private static final String COMMENT_MESSAGE =
-      "This ticked has not been commented for more than 6 hours";
+      "This ticket has not been commented for more than 6 hours";
   private static final String CREATION_MESSAGE =
-      "This ticked has not been commented for more than 24 hours";
+      "This ticket has not been commented for more than 24 hours";
 
   private TaskService jiraTaskService;
 
@@ -69,7 +69,7 @@ public class BlockerTaskTracker {
         long durationBetweenNowAndLastCommentCreation =
             Duration.between(lastCommentDateTime, today).toMillis();
         if (durationBetweenNowAndLastCommentCreation >= SIX_HOURS) {
-          sendPrivateMessage(task, COMMENT_MESSAGE);
+          sendPrivateMessage(task.getAssignee(),task.getKey() + " " + COMMENT_MESSAGE);
         }
 
       } else {
@@ -81,16 +81,23 @@ public class BlockerTaskTracker {
         long durationBetweenNowAndTaskCreation =
             Duration.between(creationDateTime, today).toMillis();
         if (durationBetweenNowAndTaskCreation >= ONE_DAY) {
-          sendPrivateMessage(task, task.getFields().getSummary() + CREATION_MESSAGE);
+          sendPrivateMessage(task.getAssignee(), task.getKey() + CREATION_MESSAGE);
         }
       }
     }
   }
 
-  private void sendPrivateMessage(Task task, String message) {
+  /**
+   * Send a direct private message to a given assignee
+   *
+   * @param assignee the assignee to send the message to
+   * @param message the message to send
+   *
+   */
+  private void sendPrivateMessage(String assignee, String message) {
     System.out.println("SENDING PRIVATE MESSAGE ==>>> " + message);
     try {
-      messageService.sendPrivateMessage(task.getAssignee(), message);
+      messageService.sendPrivateMessage(assignee, message);
     } catch (MessageServiceException e) {
       logger.error("was not able to send private message about Blocker task", e.getMessage());
     }
