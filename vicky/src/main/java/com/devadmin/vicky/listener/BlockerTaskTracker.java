@@ -95,7 +95,6 @@ public class BlockerTaskTracker {
    *
    */
   private void sendPrivateMessage(String assignee, String message) {
-    System.out.println("SENDING PRIVATE MESSAGE ==>>> " + message);
     try {
       messageService.sendPrivateMessage(assignee, message);
     } catch (MessageServiceException e) {
