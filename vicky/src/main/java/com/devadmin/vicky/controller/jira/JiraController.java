@@ -6,15 +6,15 @@
 
 package com.devadmin.vicky.controller.jira;
 
-import com.devadmin.jira.Comment;
-import com.devadmin.jira.JiraClient;
-import com.devadmin.jira.JiraException;
 import com.devadmin.vicky.TaskEventType;
 import com.devadmin.vicky.controller.jira.model.AuthorModel;
 import com.devadmin.vicky.controller.jira.model.CommentModel;
 import com.devadmin.vicky.controller.jira.model.IssueModel;
 import com.devadmin.vicky.controller.jira.model.JiraEventModel;
 import com.devadmin.vicky.event.TaskEventModelWrapper;
+import net.rcarz.jiraclient.Comment;
+import net.rcarz.jiraclient.JiraClient;
+import net.rcarz.jiraclient.JiraException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +27,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-
 /** This class contain methods which receive events from JIRA */
 @RestController
 @RequestMapping("event")
@@ -37,8 +36,7 @@ public class JiraController {
 
   private final ApplicationEventPublisher applicationEventPublisher;
 
-  @Autowired
-  private JiraClient jiraClient;
+  @Autowired private JiraClient jiraClient;
 
   @Autowired
   public JiraController(ApplicationEventPublisher applicationEventPublisher) {

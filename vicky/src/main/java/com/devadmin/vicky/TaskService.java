@@ -5,8 +5,7 @@
  */
 package com.devadmin.vicky;
 
-import com.devadmin.jira.Comment;
-
+import net.rcarz.jiraclient.Comment;
 import java.util.List;
 
 /**

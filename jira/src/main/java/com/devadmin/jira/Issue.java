@@ -758,7 +758,7 @@ public class Issue extends Resource {
   private Integer timeSpent = null;
   private Date createdDate = null;
   private Date updatedDate = null;
-  private Security security = null;
+//  private Security security = null;
 
   /**
    * Creates an issue from a JSON payload.
@@ -812,7 +812,7 @@ public class Issue extends Resource {
     timeSpent = Field.getInteger(fields.get(Field.TIME_SPENT));
     createdDate = Field.getDateTime(fields.get(Field.CREATED_DATE));
     updatedDate = Field.getDateTime(fields.get(Field.UPDATED_DATE));
-    security = Field.getResource(Security.class, fields.get(Field.SECURITY), restclient);
+//    security = Field.getResource(Security.class, fields.get(Field.SECURITY), restclient);
   }
 
   private static String getRestUri(String key) {
@@ -1602,9 +1602,9 @@ public class Issue extends Resource {
     return updatedDate;
   }
 
-  public Security getSecurity() {
-    return security;
-  }
+//  public Security getSecurity() {
+//    return security;
+//  }
 
   public boolean delete(final boolean deleteSubtasks) throws JiraException {
     boolean result;

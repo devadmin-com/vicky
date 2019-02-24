@@ -43,8 +43,11 @@ ext {
 }
 
 dependencies {
-    compile "com.devadmin:jira:${jiraIntegrationVersion}"
+//    compile "com.devadmin:jira:${jiraIntegrationVersion}"
     compile "com.devadmin:slack:${slackIntegrationVersion}"
+
+    compile group: 'net.rcarz', name: 'jira-client', version: '0.5'
+
 
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter'

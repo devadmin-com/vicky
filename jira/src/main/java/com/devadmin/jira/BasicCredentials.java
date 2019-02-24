@@ -41,7 +41,7 @@ public class BasicCredentials implements ICredentials {
     return username;
   }
 
-  public void initialize(RestClient client) throws JiraException {}
-
-  public void logout(RestClient client) throws JiraException {}
+//  public void initialize(RestClient client) throws JiraException {}
+//
+//  public void logout(RestClient client) throws JiraException {}
 }

@@ -1,13 +1,14 @@
 package com.devadmin.vicky.service.jira;
 
-import com.devadmin.jira.*;
 import com.devadmin.vicky.Task;
 import com.devadmin.vicky.TaskService;
 import com.devadmin.vicky.controller.jira.model.*;
+import net.rcarz.jiraclient.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -81,8 +82,9 @@ public class JiraTaskServiceImpl implements TaskService {
       fieldModel.setAssignee(getAssignee(issue));
       fieldModel.setStatus(getStatus(issue));
       fieldModel.setPriority(getPriority(issue));
-      fieldModel.setCreatedDate(issue.getCreatedDate().toString());
-      fieldModel.setUpdatedDate(issue.getUpdatedDate().toString());
+      //todo added a maven dependency of rcarz jira client which doesn't have method issue.getCreatedDate() and issue.getUpdatedDate() methods in its 0.5 version
+//      fieldModel.setCreatedDate(issue.getCreatedDate().toString());
+//      fieldModel.setUpdatedDate(issue.getUpdatedDate().toString());
       fieldModel.setLabels(issue.getLabels().toArray(new String[0]));
 
     }

@@ -194,7 +194,7 @@ public final class Field {
 
         return results;
     }
-    
+
     /**
      * Gets a list of remote links from the given object.
      *
@@ -363,7 +363,7 @@ public final class Field {
             else if (type == ChangeLogItem.class)
                 result = (T)new ChangeLogItem(restclient, (JSONObject)r);
             else if (type == Comment.class)
-                result = (T)new Comment(restclient, (JSONObject)r, parentId);
+                result = (T)new Comment(restclient, (JSONObject)r);
             else if (type == Component.class)
                 result = (T)new Component(restclient, (JSONObject)r);
             else if (type == CustomFieldOption.class)
@@ -607,7 +607,7 @@ public final class Field {
                     type.equals("string") && custom != null
                     && (custom.equals("com.atlassian.jira.plugin.system.customfieldtypes:multicheckboxes") ||
                     custom.equals("com.atlassian.jira.plugin.system.customfieldtypes:multiselect")))) {
-                
+
                 realResult = new JSONObject();
                 ((JSONObject)realResult).put(ValueType.VALUE.toString(), realValue.toString());
             } else if (type.equals("string"))
@@ -713,7 +713,7 @@ public final class Field {
                 return ((TimeTracking) value).toJsonObject();
         } else if (m.type.equals("number")) {
             if (value == null) //Non mandatory number fields can be set to null
-                return JSONNull.getInstance(); 
+                return JSONNull.getInstance();
             else if(!(value instanceof Integer) && !(value instanceof Double) && !(value
                     instanceof Float) && !(value instanceof Long) )
             {

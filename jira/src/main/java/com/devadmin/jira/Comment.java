@@ -9,18 +9,11 @@ import java.util.Map;
 /** Represents an issue comment. */
 public class Comment extends Resource {
 
-  private String issueKey = null;
   private User author = null;
   private String body = null;
   private Date created = null;
   private Date updated = null;
   private User updatedAuthor = null;
-
-  public Visibility getVisibility() {
-    return visibility;
-  }
-
-  private Visibility visibility = null;
 
   /**
    * Creates a comment from a JSON payload.
@@ -28,10 +21,9 @@ public class Comment extends Resource {
    * @param restclient REST client instance
    * @param json JSON payload
    */
-  protected Comment(RestClient restclient, JSONObject json, String issueKey) {
+  protected Comment(RestClient restclient, JSONObject json) {
     super(restclient);
 
-    this.issueKey = issueKey;
     if (json != null) deserialise(json);
   }
 
@@ -45,8 +37,6 @@ public class Comment extends Resource {
     created = Field.getDateTime(map.get("created"));
     updated = Field.getDateTime(map.get("updated"));
     updatedAuthor = Field.getResource(User.class, map.get("updatedAuthor"), restclient);
-    Object obj = map.get("visibility");
-    visibility = Field.getResource(Visibility.class, map.get("visibility"), restclient);
   }
 
   /**
@@ -70,56 +60,7 @@ public class Comment extends Resource {
 
     if (!(result instanceof JSONObject)) throw new JiraException("JSON payload is malformed");
 
-    return new Comment(restclient, (JSONObject) result, issue);
-  }
-
-  /**
-   * Updates the comment body.
-   *
-   * @param issue associated issue record
-   * @param body Comment text
-   * @throws JiraException when the comment update fails
-   */
-  public void update(String body) throws JiraException {
-    update(body, null, null);
-  }
-
-  /**
-   * Updates the comment body with limited visibility.
-   *
-   * @param issue associated issue record
-   * @param body Comment text
-   * @param visType Target audience type (role or group)
-   * @param visName Name of the role or group to limit visibility to
-   * @throws JiraException when the comment update fails
-   */
-  public void update(String body, String visType, String visName) throws JiraException {
-
-    JSONObject req = new JSONObject();
-    req.put("body", body);
-
-    if (visType != null && visName != null) {
-      JSONObject vis = new JSONObject();
-      vis.put("type", visType);
-      vis.put("value", visName);
-
-      req.put("visibility", vis);
-    }
-
-    JSON result = null;
-
-    try {
-      String issueUri = getBaseUri() + "issue/" + issueKey;
-      result = restclient.put(issueUri + "/comment/" + id, req);
-    } catch (Exception ex) {
-      throw new JiraException("Failed add update comment " + id, ex);
-    }
-
-    if (!(result instanceof JSONObject)) {
-      throw new JiraException("JSON payload is malformed");
-    }
-
-    deserialise((JSONObject) result);
+    return new Comment(restclient, (JSONObject) result);
   }
 
   @Override

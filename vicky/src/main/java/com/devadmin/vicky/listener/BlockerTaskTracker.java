@@ -1,10 +1,10 @@
 package com.devadmin.vicky.listener;
 
-import com.devadmin.jira.Comment;
 import com.devadmin.vicky.MessageService;
 import com.devadmin.vicky.MessageServiceException;
 import com.devadmin.vicky.Task;
 import com.devadmin.vicky.TaskService;
+import net.rcarz.jiraclient.Comment;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

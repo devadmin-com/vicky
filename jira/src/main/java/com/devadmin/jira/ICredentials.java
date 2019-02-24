@@ -4,7 +4,7 @@ import org.apache.http.HttpRequest;
 
 public interface ICredentials {
 
-    void initialize(RestClient client) throws JiraException;
+//    void initialize(RestClient client) throws JiraException;
     /**
      * Sets the Authorization header for the given request.
      *
@@ -19,6 +19,6 @@ public interface ICredentials {
      */
     String getLogonName();
 
-    void logout(RestClient client) throws JiraException;
+//    void logout(RestClient client) throws JiraException;
 }
 
