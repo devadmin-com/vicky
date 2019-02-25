@@ -49,7 +49,6 @@ ext {
 }
 
 dependencies {
-//    compile "com.devadmin:jira:${jiraIntegrationVersion}"
     compile "com.devadmin:slack:${slackIntegrationVersion}"
 
     implementation 'com.github.gumruyanzh:jira-client:-SNAPSHOT'
