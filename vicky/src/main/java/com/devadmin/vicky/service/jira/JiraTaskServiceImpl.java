@@ -82,9 +82,8 @@ public class JiraTaskServiceImpl implements TaskService {
       fieldModel.setAssignee(getAssignee(issue));
       fieldModel.setStatus(getStatus(issue));
       fieldModel.setPriority(getPriority(issue));
-      //todo added a maven dependency of rcarz jira client which doesn't have method issue.getCreatedDate() and issue.getUpdatedDate() methods in its 0.5 version
-//      fieldModel.setCreatedDate(issue.getCreatedDate().toString());
-//      fieldModel.setUpdatedDate(issue.getUpdatedDate().toString());
+      fieldModel.setCreatedDate(issue.getCreatedDate().toString());
+      fieldModel.setUpdatedDate(issue.getUpdatedDate().toString());
       fieldModel.setLabels(issue.getLabels().toArray(new String[0]));
 
     }

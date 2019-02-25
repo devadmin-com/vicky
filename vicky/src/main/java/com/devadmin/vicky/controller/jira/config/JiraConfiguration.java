@@ -2,6 +2,7 @@ package com.devadmin.vicky.controller.jira.config;
 
 import net.rcarz.jiraclient.BasicCredentials;
 import net.rcarz.jiraclient.JiraClient;
+import net.rcarz.jiraclient.JiraException;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -33,6 +34,12 @@ public class JiraConfiguration {
   public JiraClient getJiraClient() {
     BasicCredentials basicCredentials =
         new BasicCredentials(jiraProperties.getUsername(), jiraProperties.getPassword());
-    return new JiraClient(jiraProperties.getCloudUrl(), basicCredentials);
+    JiraClient jiraClient = null;
+    try {
+      jiraClient = new JiraClient(jiraProperties.getCloudUrl(), basicCredentials);
+    } catch (JiraException e) {
+      e.printStackTrace();
+    }
+    return jiraClient;
   }
 }

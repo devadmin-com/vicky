@@ -22,6 +22,12 @@ idea {
     }
 }
 
+allprojects {
+    repositories {
+        maven { url 'https://jitpack.io' }
+    }
+}
+
 group = 'com.devadmin'
 version = '0.0.1.SNAPSHOT'
 
@@ -46,11 +52,11 @@ dependencies {
 //    compile "com.devadmin:jira:${jiraIntegrationVersion}"
     compile "com.devadmin:slack:${slackIntegrationVersion}"
 
-    compile group: 'net.rcarz', name: 'jira-client', version: '0.5'
-
-
+    implementation 'com.github.rcarz:jira-client:-SNAPSHOT'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter'
+
+
     annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
 
     compile "org.slf4j:slf4j-api:${slf4jVersion}"
