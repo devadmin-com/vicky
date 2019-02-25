@@ -52,7 +52,7 @@ dependencies {
 //    compile "com.devadmin:jira:${jiraIntegrationVersion}"
     compile "com.devadmin:slack:${slackIntegrationVersion}"
 
-    implementation 'com.github.rcarz:jira-client:-SNAPSHOT'
+    implementation 'com.github.gumruyanzh:jira-client:-SNAPSHOT'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter'
 
