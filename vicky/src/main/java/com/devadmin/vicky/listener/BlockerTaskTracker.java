@@ -60,6 +60,7 @@ public class BlockerTaskTracker {
 
     for (Task task : tasks) {
       Comment lastComment = jiraTaskService.getLastCommentByTaskId(task.getId());
+      String taskNameWithLink = "<" + task.getUrl() + "|" + task.getKey() + ">";
       if (lastComment != null) {
         Date commentCreatedDate = lastComment.getCreatedDate();
         Instant instant = commentCreatedDate.toInstant();
@@ -69,7 +70,8 @@ public class BlockerTaskTracker {
         long durationBetweenNowAndLastCommentCreation =
             Duration.between(lastCommentDateTime, today).toMillis();
         if (durationBetweenNowAndLastCommentCreation >= SIX_HOURS) {
-          sendPrivateMessage(task.getAssignee(),task.getKey() + " " + COMMENT_MESSAGE);
+
+          sendPrivateMessage(task.getAssignee(),taskNameWithLink + " " + COMMENT_MESSAGE);
         }
 
       } else {
@@ -81,7 +83,7 @@ public class BlockerTaskTracker {
         long durationBetweenNowAndTaskCreation =
             Duration.between(creationDateTime, today).toMillis();
         if (durationBetweenNowAndTaskCreation >= ONE_DAY) {
-          sendPrivateMessage(task.getAssignee(), task.getKey() + CREATION_MESSAGE);
+          sendPrivateMessage(task.getAssignee(), taskNameWithLink + CREATION_MESSAGE);
         }
       }
     }
