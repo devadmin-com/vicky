@@ -51,7 +51,7 @@ ext {
 dependencies {
     compile "com.devadmin:slack:${slackIntegrationVersion}"
 
-    implementation 'com.github.gumruyanzh:jira-client:-SNAPSHOT'
+    implementation 'com.github.gumruyanzh:jira-client:master-SNAPSHOT'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter'
 
