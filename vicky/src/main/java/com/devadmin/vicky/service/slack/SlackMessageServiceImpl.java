@@ -5,13 +5,12 @@
  */
 
 package com.devadmin.vicky.service.slack;
-
-import com.devadmin.slack.bot.SlackApiEndpoints;
-import com.devadmin.slack.bot.models.Event;
-import com.devadmin.slack.bot.models.User;
 import com.devadmin.vicky.MessageService;
 import com.devadmin.vicky.MessageServiceException;
 import com.devadmin.vicky.controller.slack.config.SlackProperties;
+import com.devadmin.vicky.controller.slack.SlackApiEndpoints;
+import com.devadmin.vicky.controller.slack.Event;
+import me.ramswaroop.jbot.core.slack.models.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;

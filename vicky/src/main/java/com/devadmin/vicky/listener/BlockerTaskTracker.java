@@ -10,7 +10,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-
 import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -70,7 +69,6 @@ public class BlockerTaskTracker {
         long durationBetweenNowAndLastCommentCreation =
             Duration.between(lastCommentDateTime, today).toMillis();
         if (durationBetweenNowAndLastCommentCreation >= SIX_HOURS) {
-
           sendPrivateMessage(task.getAssignee(),taskNameWithLink + " " + COMMENT_MESSAGE);
         }
 

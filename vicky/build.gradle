@@ -22,18 +22,13 @@ idea {
     }
 }
 
-allprojects {
-    repositories {
-        maven { url 'https://jitpack.io' }
-    }
-}
-
 group = 'com.devadmin'
 version = '0.0.1.SNAPSHOT'
 
 repositories {
     mavenCentral()
     mavenLocal()
+    maven { url "https://jitpack.io" }
 }
 
 ext {
@@ -49,7 +44,8 @@ ext {
 }
 
 dependencies {
-    compile "com.devadmin:slack:${slackIntegrationVersion}"
+    compile("me.ramswaroop.jbot:jbot:4.1.2-rc.1")
+
 
     implementation 'com.github.gumruyanzh:jira-client:master-SNAPSHOT'
     implementation 'org.springframework.boot:spring-boot-starter-web'
