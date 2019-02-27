@@ -5,11 +5,12 @@
  */
 
 package com.devadmin.vicky.service.slack;
+
 import com.devadmin.vicky.MessageService;
 import com.devadmin.vicky.MessageServiceException;
-import com.devadmin.vicky.controller.slack.config.SlackProperties;
-import com.devadmin.vicky.controller.slack.SlackApiEndpoints;
 import com.devadmin.vicky.controller.slack.Event;
+import com.devadmin.vicky.controller.slack.SlackApiEndpoints;
+import com.devadmin.vicky.controller.slack.config.SlackProperties;
 import me.ramswaroop.jbot.core.slack.models.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -59,8 +60,8 @@ public class SlackMessageServiceImpl implements MessageService {
   @Override
   public void sendPrivateMessage(String personName, String message) throws MessageServiceException {
     // getting the event with HTTP POST request, then getting list of all members in slack
-    // TODO: What if a paginated list is returned? see: https://api.slack.com/methods/users.list
-    // next_cursor
+    // let's keep it this way for now (would be better to find a way to send DM by person name)
+    // TODO handle pagination problem (we can have next_cursor)
     Event event =
         restTemplate
             .postForEntity(

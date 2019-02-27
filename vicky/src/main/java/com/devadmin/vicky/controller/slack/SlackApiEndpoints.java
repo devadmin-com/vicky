@@ -22,10 +22,12 @@ public class SlackApiEndpoints {
     return slackApi + "/im.list?token={token}&limit={limit}&next_cursor={cursor}";
   }
 
+  /**  @return  endpoint for sending messages to channel or Directly to use*/
   public String getChatPostMessageApi() {
     return slackApi + "/chat.postMessage?token={token}&channel={channel}&text={text}";
   }
 
+  /**  @return endpoint for getting list of users*/
   public String getUserListApi() {
     return slackApi + "/users.list?token={token}";
   }
