@@ -10,11 +10,8 @@ and people.
 
 ## How to run & modify
   - clone the project
-  - open it with Intellij Idea
-  - Go to File > Project Structure > Modules
-  - import projects **jira, slack and vicky** as *gradle* projects
-  - Go to *gradle* panel of your ide and execute **clean, build, install** for each module
-(jira, slack, vicky)
+  - open it with Intellij Idea as gradle project
+  - Enable auto-import for gradle
 
 ### Important: application.yml !!
   - Configure *application.yml* file instead of *sample-application.yml* 
