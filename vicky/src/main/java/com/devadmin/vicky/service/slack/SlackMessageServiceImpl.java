@@ -71,19 +71,21 @@ public class SlackMessageServiceImpl implements MessageService {
                 properties.getToken().getBot())
             .getBody();
     // looping through all members and getting the one whom we need to send PM
-    for (User person : event.getMembers()) {
-      if (personName != null && personName.equals(person.getName())) {
-        try {
-          restTemplate.postForEntity(
-              slackApiEndpoints.getChatPostMessageApi(),
-              null,
-              String.class,
-              properties.getToken().getBot(),
-              person.getId(),
-              message);
-        } catch (RestClientException e) {
-          LOGGER.error("Unable to post to given person Id: {}", e);
-          throw new MessageServiceException(e.getMessage(), e);
+    if (event != null) {
+      for (User person : event.getMembers()) {
+        if (personName != null && person != null && personName.equals(person.getName())) {
+          try {
+            restTemplate.postForEntity(
+                slackApiEndpoints.getChatPostMessageApi(),
+                null,
+                String.class,
+                properties.getToken().getBot(),
+                person.getId(),
+                message);
+          } catch (RestClientException e) {
+            LOGGER.error("Unable to post to given person Id: {}", e);
+            throw new MessageServiceException(e.getMessage(), e);
+          }
         }
       }
     }
