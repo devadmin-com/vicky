@@ -18,11 +18,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.Arrays;
+import java.util.Optional;
+
 /** Implements a {@link MessageService} with slack as the underlying transport */
 @Service
 public class SlackMessageServiceImpl implements MessageService {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(SlackMessageServiceImpl.class);
+  private static String MESSAGE_TO_USER = "";
 
   private final SlackProperties properties;
 
@@ -71,23 +75,29 @@ public class SlackMessageServiceImpl implements MessageService {
                 properties.getToken().getBot())
             .getBody();
     // looping through all members and getting the one whom we need to send PM
+    MESSAGE_TO_USER = message;
     if (event != null) {
-      for (User person : event.getMembers()) {
-        if (personName != null && person != null && personName.equals(person.getName())) {
-          try {
-            restTemplate.postForEntity(
-                slackApiEndpoints.getChatPostMessageApi(),
-                null,
-                String.class,
-                properties.getToken().getBot(),
-                person.getId(),
-                message);
-          } catch (RestClientException e) {
-            LOGGER.error("Unable to post to given person Id: {}", e);
-            throw new MessageServiceException(e.getMessage(), e);
-          }
-        }
-      }
+      User[] slackUsers = event.getMembers();
+      Optional<User> user =
+          Arrays.stream(slackUsers).filter(p -> p.getName().equals(personName)).findFirst();
+      user.ifPresent(this::sendMessageToUser);
+    }
+  }
+
+  private void sendMessageToUser(User user) {
+    try {
+      restTemplate.postForEntity(
+          slackApiEndpoints.getChatPostMessageApi(),
+          null,
+          String.class,
+          properties.getToken().getBot(),
+          user.getId(),
+          MESSAGE_TO_USER);
+    } catch (RestClientException e) {
+      LOGGER.error("Unable to post to given person Id: {}", e);
+      // throw new MessageServiceException(e.getMessage(), e);
+    } finally {
+      MESSAGE_TO_USER = "";
     }
   }
 }
