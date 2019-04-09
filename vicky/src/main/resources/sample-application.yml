@@ -19,3 +19,7 @@ slack:
     bot: <your slack bot token>
     verification: <your slack slash command token>
 
+# server properties
+server:
+  tomcat:
+    uri-encoding: UTF-8
