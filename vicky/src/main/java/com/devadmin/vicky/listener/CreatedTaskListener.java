@@ -2,8 +2,7 @@ package com.devadmin.vicky.listener;
 
 import com.devadmin.vicky.*;
 import com.devadmin.vicky.event.TaskEventModelWrapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -15,9 +14,8 @@ import org.springframework.stereotype.Component;
  * Story: TL-99
  */
 @Component
+@Slf4j
 public class CreatedTaskListener extends TaskToMessageListener {
-
-  private static final Logger LOGGER = LoggerFactory.getLogger(CreatedTaskListener.class);
 
   @Autowired
   public CreatedTaskListener(
@@ -36,7 +34,7 @@ public class CreatedTaskListener extends TaskToMessageListener {
       try {
         messageService.sendChannelMessage(projectName, formatter.format(event));
       } catch (MessageServiceException e) {
-        LOGGER.error(e.getMessage());
+        log.error(e.getMessage());
       }
     }
   }

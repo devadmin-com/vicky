@@ -11,6 +11,7 @@ import com.devadmin.vicky.MessageServiceException;
 import com.devadmin.vicky.controller.slack.Event;
 import com.devadmin.vicky.controller.slack.SlackApiEndpoints;
 import com.devadmin.vicky.controller.slack.config.SlackProperties;
+import lombok.extern.slf4j.Slf4j;
 import me.ramswaroop.jbot.core.slack.models.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,9 +21,8 @@ import org.springframework.web.client.RestTemplate;
 
 /** Implements a {@link MessageService} with slack as the underlying transport */
 @Service
+@Slf4j
 public class SlackMessageServiceImpl implements MessageService {
-
-  private static final Logger LOGGER = LoggerFactory.getLogger(SlackMessageServiceImpl.class);
 
   private final SlackProperties properties;
 
@@ -42,7 +42,9 @@ public class SlackMessageServiceImpl implements MessageService {
   public void sendChannelMessage(String channelName, String message)
       throws MessageServiceException {
 
+    log.info("SlackMessageService sendChannelMessage() method");
     try {
+      log.info("Trying to send channel message to {}", channelName);
       restTemplate.postForEntity(
           slackApiEndpoints.getChatPostMessageApi(),
           null,
@@ -51,7 +53,7 @@ public class SlackMessageServiceImpl implements MessageService {
           channelName,
           message);
     } catch (RestClientException e) {
-      LOGGER.error("Unable to post to given channel: {}", e);
+      log.error("Unable to post to given channel: {}", e);
       throw new MessageServiceException(e.getMessage(), e);
     }
   }
@@ -62,6 +64,9 @@ public class SlackMessageServiceImpl implements MessageService {
     // getting the event with HTTP POST request, then getting list of all members in slack
     // let's keep it this way for now (would be better to find a way to send DM by person name)
     // TODO handle pagination problem (we can have next_cursor)
+
+    log.info("SlackMessageService sendPrivateMessage() method");
+
     Event event =
         restTemplate
             .postForEntity(
@@ -75,6 +80,7 @@ public class SlackMessageServiceImpl implements MessageService {
       for (User person : event.getMembers()) {
         if (personName != null && person != null && personName.equals(person.getName())) {
           try {
+            log.info("Trying to send private message to {}", personName);
             restTemplate.postForEntity(
                 slackApiEndpoints.getChatPostMessageApi(),
                 null,
@@ -83,7 +89,7 @@ public class SlackMessageServiceImpl implements MessageService {
                 person.getId(),
                 message);
           } catch (RestClientException e) {
-            LOGGER.error("Unable to post to given person Id: {}", e);
+            log.error("Unable to post to given person Id: {}", e);
             throw new MessageServiceException(e.getMessage(), e);
           }
         }

@@ -8,17 +8,15 @@ package com.devadmin.vicky.listener;
 
 import com.devadmin.vicky.*;
 import com.devadmin.vicky.event.TaskEventModelWrapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 /** When a task is assigned to a user, send them a private message. Story TL-105 */
 @Component
+@Slf4j
 public class PMOnAssignListener extends TaskToMessageListener {
-
-  private static final Logger LOGGER = LoggerFactory.getLogger(PMOnAssignListener.class);
 
   @Autowired
   public PMOnAssignListener(
@@ -43,9 +41,10 @@ public class PMOnAssignListener extends TaskToMessageListener {
         String assignedTo = assignChangeLogItem.getAssignedTo();
         if (assignedTo != null) {
           try {
+            log.info("Trying to send private message to {} about assigned task", assignedTo);
             messageService.sendPrivateMessage(assignedTo, formatter.format(event));
           } catch (MessageServiceException e) {
-            LOGGER.error(e.getMessage());
+            log.error(e.getMessage());
           }
         }
       }

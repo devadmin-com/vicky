@@ -11,8 +11,7 @@ import com.devadmin.vicky.MessageServiceException;
 import com.devadmin.vicky.TaskEvent;
 import com.devadmin.vicky.TaskEventFormatter;
 import com.devadmin.vicky.event.TaskEventModelWrapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -23,9 +22,8 @@ import org.springframework.stereotype.Component;
  * <p>Story: TL-108
  */
 @Component
+@Slf4j
 public class CommentedTaskListener extends TaskToMessageListener {
-
-  private static final Logger LOGGER = LoggerFactory.getLogger(CommentedTaskListener.class);
 
   @Autowired
   public CommentedTaskListener(
@@ -45,10 +43,11 @@ public class CommentedTaskListener extends TaskToMessageListener {
             .getName()
             .equals(event.getTask().getAssignee())) { // don't send updates for own actions
       try {
+        log.info("Trying to send private message about commented task");
         messageService.sendPrivateMessage(
             event.getComment().getAuthor().getName(), formatter.format(event));
       } catch (MessageServiceException e) {
-        LOGGER.error(e.getMessage());
+        log.error(e.getMessage());
       }
     }
   }

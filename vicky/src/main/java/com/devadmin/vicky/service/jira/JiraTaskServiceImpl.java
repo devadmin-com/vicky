@@ -60,7 +60,7 @@ public class JiraTaskServiceImpl implements TaskService {
    * @param issue
    * @return issueModel which was converted from issue
    */
-  public static IssueModel convertIssueToIssueModel(Issue issue) {
+  private static IssueModel convertIssueToIssueModel(Issue issue) {
     IssueModel issueModel = new IssueModel();
 
     FieldModel fieldModel = getFieldModel(issue);

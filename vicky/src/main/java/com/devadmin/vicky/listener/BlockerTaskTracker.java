@@ -4,12 +4,12 @@ import com.devadmin.vicky.MessageService;
 import com.devadmin.vicky.MessageServiceException;
 import com.devadmin.vicky.Task;
 import com.devadmin.vicky.TaskService;
+import lombok.extern.slf4j.Slf4j;
 import net.rcarz.jiraclient.Comment;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+
 import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -24,9 +24,8 @@ import java.util.List;
  * <p>One instance of this class is needed per Blocker task
  */
 @Component
+@Slf4j
 public class BlockerTaskTracker {
-
-  private static final Logger logger = LoggerFactory.getLogger(BlockerTaskTracker.class);
 
   private static final long ONE_DAY = 1000L * 60L * 60L * 24L; // 24h
   private static final long SIX_HOURS = 1000L * 60L * 60L * 6L; // 6h
@@ -53,6 +52,7 @@ public class BlockerTaskTracker {
   @Scheduled(fixedDelay = ONE_HOUR)
   public void handleBlockerTasks() {
 
+    log.info("handleBlockerTasks() method");
     ZoneId defaultZoneId = ZoneId.systemDefault();
     LocalDateTime today = LocalDateTime.now();
     List<Task> tasks = jiraTaskService.getBlockerTasks();
@@ -61,6 +61,7 @@ public class BlockerTaskTracker {
       Comment lastComment = jiraTaskService.getLastCommentByTaskId(task.getId());
       String taskNameWithLink = "<" + task.getUrl() + "|" + task.getKey() + ">";
       if (lastComment != null) {
+        log.info("Last comment of {} is null", task.getDescription());
         Date commentCreatedDate = lastComment.getCreatedDate();
         Instant instant = commentCreatedDate.toInstant();
 
@@ -69,7 +70,7 @@ public class BlockerTaskTracker {
         long durationBetweenNowAndLastCommentCreation =
             Duration.between(lastCommentDateTime, today).toMillis();
         if (durationBetweenNowAndLastCommentCreation >= SIX_HOURS) {
-          sendPrivateMessage(task.getAssignee(),taskNameWithLink + " " + COMMENT_MESSAGE);
+          sendPrivateMessage(task.getAssignee(), taskNameWithLink + " " + COMMENT_MESSAGE);
         }
 
       } else {
@@ -92,13 +93,12 @@ public class BlockerTaskTracker {
    *
    * @param assignee the assignee to send the message to
    * @param message the message to send
-   *
    */
   private void sendPrivateMessage(String assignee, String message) {
     try {
       messageService.sendPrivateMessage(assignee, message);
     } catch (MessageServiceException e) {
-      logger.error("was not able to send private message about Blocker task", e.getMessage());
+      log.error("was not able to send private message about Blocker task", e.getMessage());
     }
   }
 }

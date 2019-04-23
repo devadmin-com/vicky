@@ -10,8 +10,7 @@ import com.devadmin.vicky.MessageServiceException;
 import com.devadmin.vicky.TaskEvent;
 import com.devadmin.vicky.TaskEventFormatter;
 import com.devadmin.vicky.event.TaskEventModelWrapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -24,9 +23,8 @@ import java.util.List;
  * <p>Story: TL-106
  */
 @Component
+@Slf4j
 public class AtReferenceListener extends TaskToMessageListener {
-
-  private static final Logger LOGGER = LoggerFactory.getLogger(AtReferenceListener.class);
 
   @Autowired
   public AtReferenceListener(
@@ -34,6 +32,7 @@ public class AtReferenceListener extends TaskToMessageListener {
       @Qualifier("SimpleFormatter") TaskEventFormatter taskEventFormatter) {
     super(messageService, taskEventFormatter);
   }
+
   @Override
   public void onApplicationEvent(TaskEventModelWrapper eventWrapper) {
     TaskEvent event = eventWrapper.getTaskEventModel();
@@ -48,9 +47,11 @@ public class AtReferenceListener extends TaskToMessageListener {
                 .getAuthor()
                 .getName())) { // don't send updates for comments you write yourself
           try {
+            log.info(
+                "Sending private message to {}, because he was mentioned in comment", atReference);
             messageService.sendPrivateMessage(atReference, formatter.format(event));
           } catch (MessageServiceException e) {
-            LOGGER.error(e.getMessage());
+            log.error(e.getMessage());
           }
         }
       }

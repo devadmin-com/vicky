@@ -9,21 +9,19 @@ package com.devadmin.vicky.listener;
 import com.devadmin.vicky.MessageService;
 import com.devadmin.vicky.TaskEventFormatter;
 import com.devadmin.vicky.event.TaskEventModelWrapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;
 
 /**
  * Base class for any listener which takes {@link TaskEventModelWrapper}s and sends messages to a
  * {@link MessageService}.
  */
+@Slf4j
 public abstract class TaskToMessageListener implements ApplicationListener<TaskEventModelWrapper> {
 
-  static final Logger LOGGER = LoggerFactory.getLogger(TaskToMessageListener.class);
+  MessageService messageService; // where we write to
 
-  protected MessageService messageService; // where we write to
-
-  protected final TaskEventFormatter formatter; // what we use to format tasks
+  final TaskEventFormatter formatter; // what we use to format tasks
 
   public TaskToMessageListener(
       MessageService messageService, TaskEventFormatter taskEventFormatter) {

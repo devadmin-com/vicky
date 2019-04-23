@@ -8,6 +8,7 @@ package com.devadmin.vicky.listener;
 
 import com.devadmin.vicky.*;
 import com.devadmin.vicky.event.TaskEventModelWrapper;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -20,9 +21,8 @@ import org.springframework.stereotype.Component;
  * <p>Story: TL-127
  */
 @Component
+@Slf4j
 public class LabeledTaskListener extends TaskToMessageListener {
-
-  private static final Logger LOGGER = LoggerFactory.getLogger(LabeledTaskListener.class);
 
   public LabeledTaskListener(
       MessageService messageService,
@@ -37,9 +37,10 @@ public class LabeledTaskListener extends TaskToMessageListener {
     if (event.getType() == TaskEventType.CREATED || event.getTask().isResolved()) {
       for (String label : event.getTask().getLabels()) {
         try {
+          log.info("Trying to send channel message about labeled task");
           messageService.sendChannelMessage(label, formatter.format(event));
         } catch (MessageServiceException e) {
-          LOGGER.error(e.getMessage());
+          log.error(e.getMessage());
         }
       }
     }
