@@ -7,16 +7,15 @@ import org.springframework.context.ApplicationEvent;
  *
  * <p>This allows listeners to not care about the implementation of the event model.
  */
-public abstract class EventModelWrapper<T> extends ApplicationEvent {
+abstract class EventModelWrapper<T> extends ApplicationEvent {
   private T eventModel;
-  private boolean assignee = false;
 
-  public EventModelWrapper(T eventModel) {
+  EventModelWrapper(T eventModel) {
     super(eventModel);
     this.eventModel = eventModel;
   }
 
-  public T getEventModel() {
+  T getEventModel() {
     return eventModel;
   }
 }
