@@ -13,11 +13,10 @@ import com.devadmin.vicky.controller.jira.model.IssueModel;
 import com.devadmin.vicky.controller.jira.model.JiraEventModel;
 import com.devadmin.vicky.event.TaskEventModelWrapper;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import net.rcarz.jiraclient.Comment;
 import net.rcarz.jiraclient.JiraClient;
 import net.rcarz.jiraclient.JiraException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -33,9 +32,8 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 @RequestMapping("event")
+@Slf4j
 public class JiraController {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(JiraController.class);
 
     private final ApplicationEventPublisher applicationEventPublisher;
 
@@ -58,7 +56,7 @@ public class JiraController {
                 jiraEventModel.setType(TaskEventType.UPDATED);
                 break;
 
-            case "comment_created":
+            case "comment_created":/*Do nothing*/
             case "comment_updated":
                 jiraEventModel.setType(TaskEventType.COMMENT);
                 break;
@@ -79,11 +77,10 @@ public class JiraController {
      * issueId and last comment to jiraEventModel
      */
     private void setLastComment(JiraEventModel jiraEventModel) {
-        List<Comment> comments = null;
         IssueModel task = jiraEventModel.getTask();
         try {
-            comments = jiraClient.getIssue(task.getId()).getComments();
-            if (comments.size() > 0) {
+            List<Comment> comments = jiraClient.getIssue(task.getId()).getComments();
+            if (!comments.isEmpty()) {
                 Comment comment = comments.get(comments.size() - 1);
                 CommentModel lastComment = convertCommentToCommentModel(comment);
                 task.setLastComment(lastComment);
@@ -91,7 +88,7 @@ public class JiraController {
                 task.setLastComment(getNoCommentModel());
             }
         } catch (JiraException e) {
-            LOGGER.error("Failed to retrieve issue by issueId: " + task.getId(), e);
+            log.error("Failed to retrieve issue by issueId: " + task.getId(), e);
         }
     }
 
