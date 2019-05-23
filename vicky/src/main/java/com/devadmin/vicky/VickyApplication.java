@@ -6,8 +6,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 /** Main class for Vicky application */
-@SpringBootApplication
-@ComponentScan("com.devadmin") // We need this because we use beans from Jira and Slack modules
+@SpringBootApplication(scanBasePackages = "com.devadmin")
 @EnableScheduling
 public class VickyApplication {
 
