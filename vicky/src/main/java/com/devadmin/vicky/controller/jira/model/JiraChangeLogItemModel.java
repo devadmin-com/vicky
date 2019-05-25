@@ -5,9 +5,11 @@ import com.devadmin.vicky.ChangeLogItem;
 import com.devadmin.vicky.ChangeType;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Data;
 
 /** @see ChangeLogItem */
 @JsonIgnoreProperties(ignoreUnknown = true)
+@Data
 public class JiraChangeLogItemModel implements AssignChangeLogItem {
 
   @JsonProperty("field")
@@ -30,62 +32,6 @@ public class JiraChangeLogItemModel implements AssignChangeLogItem {
 
   @JsonProperty("toString")
   private String toString;
-
-  public String getField() {
-    return field;
-  }
-
-  public void setField(String field) {
-    this.field = field;
-  }
-
-  public String getFieldType() {
-    return fieldType;
-  }
-
-  public void setFieldType(String fieldType) {
-    this.fieldType = fieldType;
-  }
-
-  public String getFieldId() {
-    return fieldId;
-  }
-
-  public void setFieldId(String fieldId) {
-    this.fieldId = fieldId;
-  }
-
-  public String getFrom() {
-    return from;
-  }
-
-  public void setFrom(String from) {
-    this.from = from;
-  }
-
-  public String getFromString() {
-    return fromString;
-  }
-
-  public void setFromString(String fromString) {
-    this.fromString = fromString;
-  }
-
-  public String getTo() {
-    return to;
-  }
-
-  public void setTo(String to) {
-    this.to = to;
-  }
-
-  public String getToString() {
-    return toString;
-  }
-
-  public void setToString(String toString) {
-    this.toString = toString;
-  }
 
   /** @return username of assignee */
   @Override

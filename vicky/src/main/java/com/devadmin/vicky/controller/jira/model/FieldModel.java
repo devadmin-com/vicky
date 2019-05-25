@@ -2,11 +2,13 @@ package com.devadmin.vicky.controller.jira.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Data;
 
 /**
  * This is the object which contains the information about fields which are describing jira issue
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
+@Data
 public class FieldModel {
 
   @JsonProperty("issuetype")
@@ -39,83 +41,4 @@ public class FieldModel {
   @JsonProperty("labels")
   private String[] labels;
 
-  public IssueTypeModel getIssueType() {
-    return issueType;
-  }
-
-  public void setIssueType(IssueTypeModel issueType) {
-    this.issueType = issueType;
-  }
-
-  public Long getTimespent() {
-    return timespent;
-  }
-
-  public void setTimespent(Long timespent) {
-    this.timespent = timespent;
-  }
-
-  public ProjectModel getProject() {
-    return project;
-  }
-
-  public void setProject(ProjectModel project) {
-    this.project = project;
-  }
-
-  public String getSummary() {
-    return summary;
-  }
-
-  public void setSummary(String summary) {
-    this.summary = summary;
-  }
-
-  public UserModel getAssignee() {
-    return assignee;
-  }
-
-  public void setAssignee(UserModel assignee) {
-    this.assignee = assignee;
-  }
-
-  public StatusModel getStatus() {
-    return status;
-  }
-
-  public void setStatus(StatusModel status) {
-    this.status = status;
-  }
-
-  public PriorityModel getPriority() {
-    return priority;
-  }
-
-  public void setPriority(PriorityModel priority) {
-    this.priority = priority;
-  }
-
-  public String getCreatedDate() {
-    return createdDate;
-  }
-
-  public void setCreatedDate(String createdDate) {
-    this.createdDate = createdDate;
-  }
-
-  public String getUpdatedDate() {
-    return updatedDate;
-  }
-
-  public void setUpdatedDate(String updatedDate) {
-    this.updatedDate = updatedDate;
-  }
-
-  public String[] getLabels() {
-    return labels;
-  }
-
-  public void setLabels(String[] labels) {
-    this.labels = labels;
-  }
 }
