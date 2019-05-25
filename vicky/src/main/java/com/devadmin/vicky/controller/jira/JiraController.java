@@ -19,10 +19,7 @@ import net.rcarz.jiraclient.JiraClient;
 import net.rcarz.jiraclient.JiraException;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -43,7 +40,9 @@ public class JiraController {
      * Endpoints which handles event from jir to path "/jira"
      */
     @PostMapping("/jira")
+    @CrossOrigin(origins = "*", allowedHeaders = "*", methods = {RequestMethod.POST, RequestMethod.GET})
     public ResponseEntity jiraEvent(@RequestBody JiraEventModel jiraEventModel) {
+        log.info("Accept request with task : {}", jiraEventModel.getTask().getDescription());
 
         setLastComment(jiraEventModel);
 
