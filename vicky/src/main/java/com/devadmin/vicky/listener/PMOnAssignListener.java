@@ -68,9 +68,9 @@ public class PMOnAssignListener extends TaskToMessageListener {
     /**
      * @param event               TaskEvent
      * @param assignChangeLogItem Change log
-     * @return True if actor and assigned are equal
+     * @return True if actor and assigned are equal or ticket was unassigned
      */
     private static boolean isOwnAction(final TaskEvent event, final AssignChangeLogItem assignChangeLogItem) {
-        return assignChangeLogItem.getAssignedTo().equals(event.getActor());
+        return assignChangeLogItem.getAssignedTo() == null || assignChangeLogItem.getAssignedTo().equals(event.getActor());
     }
 }
