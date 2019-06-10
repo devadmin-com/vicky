@@ -1,43 +1,22 @@
 package com.devadmin.vicky.controller.jira.config;
 
+import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
  * The configuration of JIRA...
- *
+ * <p>
  * <p>requires the following three keys in your application.yml:
- *
+ * <p>
  * <p>cloud-url: <yourdomain.atlassian.net> - the URL of the JIRA instance username: <your jira
  * username> password: <your jira password>
  */
 @ConfigurationProperties(prefix = "jira")
+@Data
 public class JiraProperties {
 
-  private String cloudUrl;
-  private String username;
-  private String password;
+    private String cloudUrl;
+    private String username;
+    private String password;
 
-  public String getCloudUrl() {
-    return cloudUrl;
-  }
-
-  public void setCloudUrl(String cloudUrl) {
-    this.cloudUrl = cloudUrl;
-  }
-
-  public String getUsername() {
-    return username;
-  }
-
-  public void setUsername(String username) {
-    this.username = username;
-  }
-
-  public String getPassword() {
-    return password;
-  }
-
-  public void setPassword(String password) {
-    this.password = password;
-  }
 }

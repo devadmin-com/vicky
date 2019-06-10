@@ -1,5 +1,6 @@
 package com.devadmin.vicky.controller.slack.config;
 
+import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.NestedConfigurationProperty;
 
@@ -14,46 +15,16 @@ import java.util.Map;
  * channel with the same name
  */
 @ConfigurationProperties(prefix = "slack")
+@Data
 public class SlackProperties {
 
   private String apiUrl;
   @NestedConfigurationProperty private Token token;
 
-  public String getApiUrl() {
-    return apiUrl;
-  }
-
-  public void setApiUrl(String apiUrl) {
-    this.apiUrl = apiUrl;
-  }
-
-  public Token getToken() {
-    return token;
-  }
-
-  public void setToken(Token token) {
-    this.token = token;
-  }
-
+  @Data
   public static class Token {
     private String bot;
     private String verification;
-
-    public String getBot() {
-      return bot;
-    }
-
-    public void setBot(String bot) {
-      this.bot = bot;
-    }
-
-    public String getVerification() {
-      return verification;
-    }
-
-    public void setVerification(String verification) {
-      this.verification = verification;
-    }
   }
 
   public static class Webhook {

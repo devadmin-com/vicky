@@ -3,40 +3,34 @@ package com.devadmin.vicky.service.jira;
 import com.devadmin.vicky.Task;
 import com.devadmin.vicky.TaskService;
 import com.devadmin.vicky.controller.jira.model.*;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.rcarz.jiraclient.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 @Slf4j
+@AllArgsConstructor
 public class JiraTaskServiceImpl implements TaskService {
 
     private static final String BLOCKER_TASKS_JQL = "status != closed AND priority = Blocker";
 
-    private JiraClient jiraClient;
-
-    @Autowired
-    public JiraTaskServiceImpl(JiraClient jiraClient) {
-        this.jiraClient = jiraClient;
-    }
+    private final JiraClient jiraClient;
 
     @Override
     public List<Task> getBlockerTasks() {
-        List<Task> tasks = null;
         try {
             Issue.SearchResult searchResult = jiraClient.searchIssues(BLOCKER_TASKS_JQL);
-            tasks =
-                    searchResult.issues.stream()
-                            .map(JiraTaskServiceImpl::convertIssueToIssueModel)
-                            .collect(Collectors.toList());
+            return searchResult.issues.stream()
+                    .map(JiraTaskServiceImpl::convertIssueToIssueModel)
+                    .collect(Collectors.toList());
         } catch (JiraException e) {
-            e.printStackTrace();
+            return Collections.emptyList();
         }
-        return tasks;
     }
 
     @Override
@@ -44,7 +38,7 @@ public class JiraTaskServiceImpl implements TaskService {
         Comment lastComment = null;
         try {
             List<Comment> comments = jiraClient.getIssue(taskId).getComments();
-            if (comments.size() > 0) {
+            if (!comments.isEmpty()) {
                 lastComment = comments.get(comments.size() - 1);
             }
         } catch (JiraException e) {

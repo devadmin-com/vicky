@@ -13,11 +13,12 @@ import com.devadmin.vicky.controller.slack.SlackApiEndpoints;
 import com.devadmin.vicky.controller.slack.config.SlackProperties;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import me.ramswaroop.jbot.core.slack.models.User;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
+
+import java.util.stream.Stream;
 
 /**
  * Implements a {@link MessageService} with slack as the underlying transport
@@ -66,7 +67,7 @@ public class SlackMessageServiceImpl implements MessageService {
         // let's keep it this way for now (would be better to find a way to send DM by person name)
         // TODO handle pagination problem (we can have next_cursor)
 
-        log.info("SlackMessageService sendPrivateMessage() method");
+        log.info("slack.send to {} message {}", personName, message);
 
         Event event =
                 restTemplate
@@ -76,10 +77,12 @@ public class SlackMessageServiceImpl implements MessageService {
                                 Event.class,
                                 properties.getToken().getBot())
                         .getBody();
+
         // looping through all members and getting the one whom we need to send PM
-        if (event.getMembers() != null) {
-            for (User person : event.getMembers()) {
-                if (personName != null && person != null && personName.equals(person.getName())) {
+        Stream.of(event.getMembers())
+                .filter(member -> member.getProfile().getEmail() != null && member.getProfile().getEmail().equals(personName))
+                .findFirst()
+                .ifPresent(member -> {
                     try {
                         log.info("Trying to send private message to {}", personName);
                         restTemplate.postForEntity(
@@ -87,14 +90,13 @@ public class SlackMessageServiceImpl implements MessageService {
                                 null,
                                 String.class,
                                 properties.getToken().getBot(),
-                                person.getId(),
+                                member.getId(),
                                 message);
                     } catch (RestClientException e) {
                         log.error("Unable to post to given person Id: {}", e);
-                        throw new MessageServiceException(e.getMessage(), e);
+                        throw e;
                     }
-                }
-            }
-        }
+                });
+
     }
 }
