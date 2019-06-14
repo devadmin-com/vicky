@@ -18,15 +18,11 @@ import net.rcarz.jiraclient.Comment;
 import net.rcarz.jiraclient.JiraClient;
 import net.rcarz.jiraclient.JiraException;
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.http.HttpRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Enumeration;
 import java.util.List;
-import java.util.Map;
-import java.util.function.Consumer;
 
 /**
  * This class contain methods which receive events from JIRA
