@@ -10,104 +10,114 @@ import java.util.List;
 
 class TestTask implements Task {
 
-  private final String TEST_PROJECT_NAME = "proj";
-  private List<String> labels;
+    private final String TEST_PROJECT_NAME = "proj";
+    private List<String> labels;
 
-  private TaskType type = TaskType.OTHER;
-  private TaskPriority priority;
-  private CommentModel lastComment;
-  private String assignee;
-  private FieldModel fieldModel;
+    private TaskType type = TaskType.OTHER;
+    private TaskPriority priority;
+    private CommentModel lastComment;
+    private String assignee;
+    private FieldModel fieldModel;
 
-  private boolean isResolved = false;
+    private boolean isResolved = false;
 
-  @Override
-  public String getId() {
-    return "1";
-  }
+    @Override
+    public String getStatus() {
+        return this.fieldModel.getStatus().getName();
+    }
 
-  @Override
-  public String getDescription() {
-    return "description";
-  }
+    @Override
+    public String getId() {
+        return "1";
+    }
 
-  @Override
-  public TaskPriority getPriority() {
-    return this.priority;
-  }
+    @Override
+    public String getDescription() {
+        return "description";
+    }
 
-  public void setPriority(TaskPriority priority) {
-    this.priority = priority;
-  }
+    @Override
+    public TaskPriority getPriority() {
+        return this.priority;
+    }
 
-  @Override
-  public String getProject() {
-    return TEST_PROJECT_NAME;
-  }
+    public void setPriority(TaskPriority priority) {
+        this.priority = priority;
+    }
 
-  @Override
-  public List<String> getLabels() {
-    return labels;
-  }
+    @Override
+    public String getProject() {
+        return TEST_PROJECT_NAME;
+    }
 
-  public void setLabels(List<String> labels) {
-    this.labels = labels;
-  }
+    @Override
+    public List<String> getLabels() {
+        return labels;
+    }
 
-  public TaskType getType() {
-    return type;
-  }
+    public void setLabels(List<String> labels) {
+        this.labels = labels;
+    }
 
-  public void setType(TaskType type) {
-    this.type = type;
-  }
+    public TaskType getType() {
+        return type;
+    }
 
-  /** @return true if task is resolved */
-  @Override
-  public Boolean isResolved() {
-    return isResolved;
-  }
+    public void setType(TaskType type) {
+        this.type = type;
+    }
 
-  public void setIsResolved() { isResolved = true;}
-  @Override
-  public String getAssignee() {
-    return assignee;
-  }
+    /**
+     * @return true if task is resolved
+     */
+    @Override
+    public Boolean isResolved() {
+        return isResolved;
+    }
 
-  public void setAssignee(String assignee) {
-    this.assignee = assignee;
-  }
+    public void setIsResolved() {
+        isResolved = true;
+    }
 
-  @Override
-  public String getUrl() {
-    return "https://devadmin.atlassian.net/browse/TL-000";
-  }
+    @Override
+    public String getAssignee() {
+        return assignee;
+    }
 
-  @Override
-  public String getSummary() {
-    return "Test Task";
-  }
+    public void setAssignee(String assignee) {
+        this.assignee = assignee;
+    }
 
-  @Override
-  public String getKey() {
-    return "TL-000";
-  }
+    @Override
+    public String getUrl() {
+        return "https://devadmin.atlassian.net/browse/TL-000";
+    }
 
-  public void setLastComment(CommentModel lastComment) {
-    this.lastComment = lastComment;
-  }
+    @Override
+    public String getSummary() {
+        return "Test Task";
+    }
 
-  @Override
-  public CommentModel getLastComment() {
-    return lastComment;
-  }
+    @Override
+    public String getKey() {
+        return "TL-000";
+    }
 
-  @Override
-  public FieldModel getFields() {
-    return fieldModel;
-  }
+    public void setLastComment(CommentModel lastComment) {
+        this.lastComment = lastComment;
+    }
 
-  public void setFieldModel(FieldModel fieldModel) {
-    this.fieldModel = fieldModel;
-  }
+    @Override
+    public CommentModel getLastComment() {
+        return lastComment;
+    }
+
+    @Override
+    public FieldModel getFields() {
+        return fieldModel;
+    }
+
+    public void setFieldModel(FieldModel fieldModel) {
+        this.fieldModel = fieldModel;
+    }
 }

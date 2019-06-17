@@ -11,55 +11,83 @@ import java.util.List;
 
 /**
  * A Generic task in some task tracking system...
- *
+ * <p>
  * <p>Abstracts away the task tracking system so we can view jira, asana, etc. the same way in our
  * code
  */
 public interface Task {
 
-  /**
-   * Unique identifier of task
-   *
-   * @return task ID
-   */
-  String getId();
+    /**
+     * Status
+     * @return status
+     */
+    String getStatus();
 
-  /** @return this task's description */
-  String getDescription();
+    /**
+     * Unique identifier of task
+     *
+     * @return task ID
+     */
+    String getId();
 
-  /** @return the priority of this task */
-  TaskPriority getPriority();
+    /**
+     * @return this task's description
+     */
+    String getDescription();
 
-  /** @return a string identifier of the project this task belongs to. */
-  String getProject();
+    /**
+     * @return the priority of this task
+     */
+    TaskPriority getPriority();
 
-  /**
-   * @return the URL of this task if they have appropriate permissions a user can view the task at
-   *     this URL in it's system
-   */
-  String getUrl();
+    /**
+     * @return a string identifier of the project this task belongs to.
+     */
+    String getProject();
 
-  /** @return the list of labels */
-  List<String> getLabels();
+    /**
+     * @return the URL of this task if they have appropriate permissions a user can view the task at
+     * this URL in it's system
+     */
+    String getUrl();
 
-  /** @return true if task is resolved */
-  Boolean isResolved();
+    /**
+     * @return the list of labels
+     */
+    List<String> getLabels();
 
-  /** @return status of task */
-  TaskType getType();
+    /**
+     * @return true if task is resolved
+     */
+    Boolean isResolved();
 
-  /** @return the username who assignee this task */
-  String getAssignee();
+    /**
+     * @return status of task
+     */
+    TaskType getType();
 
-  /** @return IssueKey which is consist of project key and issue number */
-  String getKey();
+    /**
+     * @return the username who assignee this task
+     */
+    String getAssignee();
 
-  /** @return Issue summary (one-line description) */
-  String getSummary();
+    /**
+     * @return IssueKey which is consist of project key and issue number
+     */
+    String getKey();
 
-  /** @return The last comment written on the task */
-  Comment getLastComment();
+    /**
+     * @return Issue summary (one-line description)
+     */
+    String getSummary();
 
-  /** @return fields of task*/
-  FieldModel getFields();
+    /**
+     * @return The last comment written on the task
+     */
+    Comment getLastComment();
+
+    /**
+     * @return fields of task
+     */
+    FieldModel getFields();
 }
