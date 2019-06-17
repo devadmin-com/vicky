@@ -5,6 +5,7 @@ import com.devadmin.vicky.TaskPriority;
 import com.devadmin.vicky.TaskType;
 import com.devadmin.vicky.controller.jira.model.AuthorModel;
 import com.devadmin.vicky.controller.jira.model.CommentModel;
+import com.devadmin.vicky.controller.jira.model.FieldModel;
 import com.devadmin.vicky.format.SimpleTaskEventFormatter;
 import com.devadmin.vicky.listener.AtReferenceListener;
 import org.junit.Test;
@@ -32,6 +33,8 @@ public class AtReferenceListenerTest extends TaskListenerTest {
     comment.setAuthor(authorModel);
 
     TestTask testTask = new TestTask();
+    testTask.setFieldModel(new FieldModel());
+    testTask.setStatus("Test status");
     testTask.setType(TaskType.OTHER);
     testTask.setPriority(TaskPriority.OTHER);
 
@@ -57,6 +60,8 @@ public class AtReferenceListenerTest extends TaskListenerTest {
     comment.setAuthor(authorModel);
 
     TestTask testTask = new TestTask();
+    testTask.setFieldModel(new FieldModel());
+    testTask.setStatus("Test status");
     testTask.setType(TaskType.OTHER);
 
     TestTaskEventModel testEventModel = new TestTaskEventModel();

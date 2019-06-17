@@ -4,6 +4,7 @@ import com.devadmin.vicky.TaskEventFormatter;
 import com.devadmin.vicky.TaskType;
 import com.devadmin.vicky.controller.jira.model.AuthorModel;
 import com.devadmin.vicky.controller.jira.model.CommentModel;
+import com.devadmin.vicky.controller.jira.model.FieldModel;
 import com.devadmin.vicky.format.SimpleTaskEventFormatter;
 import com.devadmin.vicky.listener.ResolvedTaskListener;
 import org.junit.Test;
@@ -11,61 +12,69 @@ import org.junit.Test;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-/** Test class for {@link ResolvedTaskListenerTest} */
+/**
+ * Test class for {@link ResolvedTaskListenerTest}
+ */
 public class ResolvedTaskListenerTest extends TaskListenerTest {
 
-  @Override
-  TaskEventFormatter getTaskEventFormatter() {
-    return new SimpleTaskEventFormatter();
-  }
+    @Override
+    TaskEventFormatter getTaskEventFormatter() {
+        return new SimpleTaskEventFormatter();
+    }
 
-  /** Tests that the event was not handled if task isn't resolved */
-  @Test
-  public void eventShouldNotBeHandledIfTaskIsNotResolvedTest() {
+    /**
+     * Tests that the event was not handled if task isn't resolved
+     */
+    @Test
+    public void eventShouldNotBeHandledIfTaskIsNotResolvedTest() {
 
-    createContext();
+        createContext();
 
-    TestTask testTask = new TestTask();
-    testTask.setType(TaskType.OTHER);
-    TestTaskEventModel testEventModel = new TestTaskEventModel();
-    testEventModel.setTask(testTask);
+        TestTask testTask = new TestTask();
+        testTask.setType(TaskType.OTHER);
+        TestTaskEventModel testEventModel = new TestTaskEventModel();
+        testEventModel.setTask(testTask);
 
-    publish(testEventModel);
+        publish(testEventModel);
 
-    assertFalse(testMessageService.wasChannelMsged());
-    assertFalse(testMessageService.wasPMed());
-  }
+        assertFalse(testMessageService.wasChannelMsged());
+        assertFalse(testMessageService.wasPMed());
+    }
 
-  /** Tests that the event handled if task is resolved */
-  @Test
-  public void eventShouldBeHandledIfTaskIsResolvedTest() {
+    /**
+     * Tests that the event handled if task is resolved
+     */
+    @Test
+    public void eventShouldBeHandledIfTaskIsResolvedTest() {
 
-    createContext();
+        createContext();
 
-    CommentModel commentModel = new CommentModel();
-    commentModel.setBody("Some Test Comment");
-    AuthorModel authorModel = new AuthorModel();
-    authorModel.setDisplayName("serpento");
-    commentModel.setAuthor(authorModel);
+        CommentModel commentModel = new CommentModel();
+        commentModel.setBody("Some Test Comment");
+        AuthorModel authorModel = new AuthorModel();
+        authorModel.setDisplayName("serpento");
+        commentModel.setAuthor(authorModel);
 
-    TestTask testTask = new TestTask();
-    testTask.setIsResolved();
-    testTask.setLastComment(commentModel);
+        TestTask testTask = new TestTask();
+        testTask.setFieldModel(new FieldModel());
+        testTask.setStatus("Test status");
+        testTask.setIsResolved();
+        testTask.setLastComment(commentModel);
 
-    TestTaskEventModel testEventModel = new TestTaskEventModel();
-    testEventModel.setTask(testTask);
+        TestTaskEventModel testEventModel = new TestTaskEventModel();
+        testEventModel.setTask(testTask);
 
-    publish(testEventModel);
+        publish(testEventModel);
 
-    assertTrue(testMessageService.wasChannelMsged());
-    assertFalse(testMessageService.wasPMed());
-  }
+        assertTrue(testMessageService.wasChannelMsged());
+        assertFalse(testMessageService.wasPMed());
+    }
 
-  // private methods
-  private void createContext() {
-    ResolvedTaskListener listener =
-        new ResolvedTaskListener(testMessageService, taskEventFormatter);
-    context.addApplicationListener(listener);
-    context.refresh();
-  }
+    // private methods
+    private void createContext() {
+        ResolvedTaskListener listener =
+                new ResolvedTaskListener(testMessageService, taskEventFormatter);
+        context.addApplicationListener(listener);
+        context.refresh();
+    }
 }

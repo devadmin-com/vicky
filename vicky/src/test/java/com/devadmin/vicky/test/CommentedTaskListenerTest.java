@@ -4,6 +4,7 @@ import com.devadmin.vicky.TaskEventFormatter;
 import com.devadmin.vicky.TaskType;
 import com.devadmin.vicky.controller.jira.model.AuthorModel;
 import com.devadmin.vicky.controller.jira.model.CommentModel;
+import com.devadmin.vicky.controller.jira.model.FieldModel;
 import com.devadmin.vicky.format.SimpleTaskEventFormatter;
 import com.devadmin.vicky.listener.CommentedTaskListener;
 import org.junit.Test;
@@ -29,6 +30,8 @@ public class CommentedTaskListenerTest extends TaskListenerTest {
     comment.setAuthor(authorModel);
 
     TestTask testTask = new TestTask();
+    testTask.setFieldModel(new FieldModel());
+    testTask.setStatus("test status");
     testTask.setType(TaskType.OTHER);
     testTask.setAssignee("testUser");
 
@@ -110,6 +113,8 @@ public class CommentedTaskListenerTest extends TaskListenerTest {
     comment.setAuthor(authorModel);
 
     TestTask testTask = new TestTask();
+    testTask.setFieldModel(new FieldModel());
+    testTask.setStatus("Test status");
     testTask.setType(TaskType.OTHER);
     testTask.setAssignee("testUser");
 
@@ -121,7 +126,7 @@ public class CommentedTaskListenerTest extends TaskListenerTest {
 
     assertFalse(testMessageService.wasChannelMsged());
     assertTrue(testMessageService.wasPMed());
-    assertEquals(expectedMessage, testMessageService.getPrivateMsg().get(0).getMessage());
+    assertEquals(expectedMessage.substring(0,10), testMessageService.getPrivateMsg().get(0).getMessage().substring(0,10));
   }
 
   // private methods

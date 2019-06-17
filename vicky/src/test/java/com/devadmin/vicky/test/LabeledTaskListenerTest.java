@@ -6,6 +6,7 @@ import com.devadmin.vicky.TaskPriority;
 import com.devadmin.vicky.TaskType;
 import com.devadmin.vicky.controller.jira.model.AuthorModel;
 import com.devadmin.vicky.controller.jira.model.CommentModel;
+import com.devadmin.vicky.controller.jira.model.FieldModel;
 import com.devadmin.vicky.format.SimpleTaskEventFormatter;
 import com.devadmin.vicky.listener.LabeledTaskListener;
 import org.junit.Test;
@@ -16,72 +17,80 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
-/** Test class for {@link com.devadmin.vicky.listener.LabeledTaskListener} */
+/**
+ * Test class for {@link com.devadmin.vicky.listener.LabeledTaskListener}
+ */
 public class LabeledTaskListenerTest extends TaskListenerTest {
 
-  @Override
-  TaskEventFormatter getTaskEventFormatter() {
-    return new SimpleTaskEventFormatter();
-  }
+    @Override
+    TaskEventFormatter getTaskEventFormatter() {
+        return new SimpleTaskEventFormatter();
+    }
 
-  /** Tests that the event was not handled if task isn't contain label */
-  @Test
-  public void eventShouldNotBeHandledWithoutLabelsTest() {
+    /**
+     * Tests that the event was not handled if task isn't contain label
+     */
+    @Test
+    public void eventShouldNotBeHandledWithoutLabelsTest() {
 
-    createContext();
+        createContext();
 
-    TestTask testTask = new TestTask();
-    testTask.setLabels(new ArrayList<>());
-    testTask.setPriority(TaskPriority.OTHER);
-    testTask.setType(TaskType.OTHER);
-    TestTaskEventModel testEventModel = new TestTaskEventModel();
-    testEventModel.setType(TaskEventType.CREATED);
-    testEventModel.setTask(testTask);
+        TestTask testTask = new TestTask();
+        testTask.setLabels(new ArrayList<>());
+        testTask.setPriority(TaskPriority.OTHER);
+        testTask.setType(TaskType.OTHER);
+        TestTaskEventModel testEventModel = new TestTaskEventModel();
+        testEventModel.setType(TaskEventType.CREATED);
+        testEventModel.setTask(testTask);
 
-    publish(testEventModel);
+        publish(testEventModel);
 
-    assertFalse(testMessageService.wasChannelMsged());
-    assertFalse(testMessageService.wasPMed());
-  }
+        assertFalse(testMessageService.wasChannelMsged());
+        assertFalse(testMessageService.wasPMed());
+    }
 
-  /** Tests that the message was sent to channel which has the same name as Label */
-  @Test
-  public void shouldSendChannelMessageWithTheNameOfLabelTest() {
+    /**
+     * Tests that the message was sent to channel which has the same name as Label
+     */
+    @Test
+    public void shouldSendChannelMessageWithTheNameOfLabelTest() {
 
-    createContext();
+        createContext();
 
-    List<String> labels = Arrays.asList("label1", "label2");
+        List<String> labels = Arrays.asList("label1", "label2");
 
-    CommentModel commentModel = new CommentModel();
-    commentModel.setBody("Some Test Comment");
-    AuthorModel authorModel = new AuthorModel();
-    authorModel.setDisplayName("serpento");
-    commentModel.setAuthor(authorModel);
+        CommentModel commentModel = new CommentModel();
+        commentModel.setBody("Some Test Comment");
+        AuthorModel authorModel = new AuthorModel();
+        authorModel.setDisplayName("serpento");
+        commentModel.setAuthor(authorModel);
 
-    TestTask testTask = new TestTask();
-    testTask.setLabels(labels);
-    testTask.setPriority(TaskPriority.OTHER);
-    testTask.setType(TaskType.OTHER);
-    testTask.setLastComment(commentModel);
+        TestTask testTask = new TestTask();
+        testTask.setFieldModel(new FieldModel());
+        testTask.setLabels(labels);
+        testTask.setPriority(TaskPriority.OTHER);
+        testTask.setType(TaskType.OTHER);
+        testTask.setLastComment(commentModel);
+        testTask.setStatus("test status");
 
-    TestTaskEventModel testEventModel = new TestTaskEventModel();
+        TestTaskEventModel testEventModel = new TestTaskEventModel();
 
-    testEventModel.setType(TaskEventType.CREATED);
-    testEventModel.setTask(testTask);
+        testEventModel.setType(TaskEventType.CREATED);
+        testEventModel.setTask(testTask);
 
-    publish(testEventModel);
+        publish(testEventModel);
 
-    assertTrue(testMessageService.wasChannelMsged());
-    assertTrue(testMessageService.wasChannelMsged("label1"));
-    assertTrue(testMessageService.wasChannelMsged("label2"));
-    assertEquals(2, testMessageService.getChannelMessageCount()); // should send two messages
-    assertFalse(testMessageService.wasPMed());
-  }
+        assertTrue(testMessageService.wasChannelMsged());
+        assertTrue(testMessageService.wasChannelMsged("label1"));
+        assertTrue(testMessageService.wasChannelMsged("label2"));
+        assertEquals(2, testMessageService.getChannelMessageCount()); // should send two messages
+        assertFalse(testMessageService.wasPMed());
+    }
 
-  // private methods
-  private void createContext() {
-    LabeledTaskListener listener = new LabeledTaskListener(testMessageService, taskEventFormatter);
-    context.addApplicationListener(listener);
-    context.refresh();
-  }
+    // private methods
+    private void createContext() {
+        LabeledTaskListener listener = new LabeledTaskListener(testMessageService, taskEventFormatter);
+        context.addApplicationListener(listener);
+        context.refresh();
+    }
 }

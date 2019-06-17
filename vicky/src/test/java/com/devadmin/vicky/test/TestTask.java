@@ -5,6 +5,7 @@ import com.devadmin.vicky.TaskPriority;
 import com.devadmin.vicky.TaskType;
 import com.devadmin.vicky.controller.jira.model.CommentModel;
 import com.devadmin.vicky.controller.jira.model.FieldModel;
+import com.devadmin.vicky.controller.jira.model.StatusModel;
 
 import java.util.List;
 
@@ -24,6 +25,12 @@ class TestTask implements Task {
     @Override
     public String getStatus() {
         return this.fieldModel.getStatus().getName();
+    }
+
+    public void setStatus(final String status) {
+        final StatusModel statusModel = new StatusModel();
+        statusModel.setName(status);
+        this.fieldModel.setStatus(statusModel);
     }
 
     @Override
