@@ -29,7 +29,7 @@ public class SimpleTaskEventFormatter implements TaskEventFormatter {
                 getIcon(task),
                 task.getUrl(),
                 task.getKey(),
-                task.getStatus().toString(),
+                task.getStatus(),
                 task.getSummary(),
                 task.getAssignee());
     }
