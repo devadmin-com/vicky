@@ -1,0 +1,25 @@
+# spring application properties
+spring:
+  jackson:
+    property-naming-strategy: SNAKE_CASE
+logging:
+  level:
+    com.devadmin: INFO
+
+
+# jira integration
+jira:
+  cloud-url: <yourdomain.atlassian.net>
+  username: <your jira username>
+  password: <your jira password>
+# slack integration
+slack:
+  api-url: https://slack.com/api
+  token:
+    bot: <your slack bot token>
+    verification: <your slack slash command token>
+
+# server properties
+server:
+  tomcat:
+    uri-encoding: UTF-8

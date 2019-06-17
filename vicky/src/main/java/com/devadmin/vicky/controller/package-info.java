@@ -1,6 +1,2 @@
-/**
- * This package contain vicky controllers
- *
- * @todo why do we need this package? why is this not in com.devadmin.vicky.bot?
- */
+/** This package contain vicky controllers and models */
 package com.devadmin.vicky.controller;

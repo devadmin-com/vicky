@@ -1,6 +1,6 @@
 buildscript {
     ext {
-        springBootVersion = '2.1.0.RELEASE'
+        springBootVersion = '2.1.1.RELEASE'
     }
     repositories {
         jcenter()
@@ -28,11 +28,15 @@ version = '0.0.1.SNAPSHOT'
 repositories {
     mavenCentral()
     mavenLocal()
+    maven { url "https://jitpack.io" }
 }
 
 ext {
     slackIntegrationVersion = '0.0.1.SNAPSHOT'
     jiraIntegrationVersion = '0.0.1.SNAPSHOT'
+
+    dozerVersion = '5.5.1'
+    lombokVersion = '1.18.4'
 
     slf4jVersion = '1.7.25'
     logbackVersion = '1.2.3'
@@ -40,10 +44,16 @@ ext {
 }
 
 dependencies {
-    compile "com.devadmin:jira:${jiraIntegrationVersion}"
-    compile "com.devadmin:slack:${slackIntegrationVersion}"
-    implementation'org.springframework.boot:spring-boot-starter-web'
-    implementation'org.springframework.boot:spring-boot-starter'
+    compile("me.ramswaroop.jbot:jbot:4.1.2-rc.1")
+
+
+    implementation 'com.github.gumruyanzh:jira-client:master-SNAPSHOT'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter'
+
+    compileOnly 'org.projectlombok:lombok:1.18.6'
+    annotationProcessor 'org.projectlombok:lombok:1.18.6'
+
     annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
 
     compile "org.slf4j:slf4j-api:${slf4jVersion}"
