@@ -7,14 +7,14 @@ import java.util.List;
 
 public class TestChangeLog implements ChangeLog {
 
-  private List<ChangeLogItem> items;
+    private List<ChangeLogItem> items;
 
-  @Override
-  public List<ChangeLogItem> getItems() {
-    return items;
-  }
+    @Override
+    public List<ChangeLogItem> getItems() {
+        return items;
+    }
 
-  public void setItems(List<ChangeLogItem> items) {
-    this.items = items;
-  }
+    public void setItems(List<ChangeLogItem> items) {
+        this.items = items;
+    }
 }

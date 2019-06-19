@@ -12,103 +12,111 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-/** Test class for {@link com.devadmin.vicky.listener.AtReferenceListener} */
+/**
+ * Test class for {@link com.devadmin.vicky.listener.AtReferenceListener}
+ */
 public class AtReferenceListenerTest extends TaskListenerTest {
 
-  @Override
-  TaskEventFormatter getTaskEventFormatter() {
-    return new SimpleTaskEventFormatter();
-  }
+    @Override
+    TaskEventFormatter getTaskEventFormatter() {
+        return new SimpleTaskEventFormatter();
+    }
 
-  /** tests that the event was sent */
-  @Test
-  public void itShouldPassWhenHasReferenceTest() {
-    createContext();
+    /**
+     * tests that the event was sent
+     */
+    @Test
+    public void itShouldPassWhenHasReferenceTest() {
+        createContext();
 
-    CommentModel comment = new CommentModel();
-    comment.setBody("What is this [~serpento] ?");
-    AuthorModel authorModel = new AuthorModel();
-    authorModel.setDisplayName("serpento");
-    authorModel.setName("testUser");
-    comment.setAuthor(authorModel);
+        CommentModel comment = new CommentModel();
+        comment.setBody("What is this [~serpento] ?");
+        AuthorModel authorModel = new AuthorModel();
+        authorModel.setDisplayName("serpento");
+        authorModel.setName("testUser");
+        comment.setAuthor(authorModel);
 
-    TestTask testTask = new TestTask();
-    testTask.setFieldModel(new FieldModel());
-    testTask.setStatus("Test status");
-    testTask.setType(TaskType.OTHER);
-    testTask.setPriority(TaskPriority.OTHER);
+        TestTask testTask = new TestTask();
+        testTask.setFieldModel(new FieldModel());
+        testTask.setStatus("Test status");
+        testTask.setType(TaskType.OTHER);
+        testTask.setPriority(TaskPriority.OTHER);
 
-    TestTaskEventModel testEventModel = new TestTaskEventModel();
-    testEventModel.setComment(comment);
-    testEventModel.setTask(testTask);
+        TestTaskEventModel testEventModel = new TestTaskEventModel();
+        testEventModel.setComment(comment);
+        testEventModel.setTask(testTask);
 
-    publish(testEventModel);
+        publish(testEventModel);
 
-    assertFalse(testMessageService.wasChannelMsged());
-    assertTrue(testMessageService.wasPMed());
-  }
+        assertFalse(testMessageService.wasChannelMsged());
+        assertTrue(testMessageService.wasPMed());
+    }
 
-  /** tests that the event was sent */
-  @Test
-  public void testMultiplyAtReferencesInComment() {
-    createContext();
+    /**
+     * tests that the event was sent
+     */
+    @Test
+    public void testMultiplyAtReferencesInComment() {
+        createContext();
 
-    CommentModel comment = new CommentModel();
-    comment.setBody("What is this [~serpento] and [~vvorski]?");
-    AuthorModel authorModel = new AuthorModel();
-    authorModel.setName("testUser");
-    comment.setAuthor(authorModel);
+        CommentModel comment = new CommentModel();
+        comment.setBody("What is this [~serpento] and [~vvorski]?");
+        AuthorModel authorModel = new AuthorModel();
+        authorModel.setName("testUser");
+        comment.setAuthor(authorModel);
 
-    TestTask testTask = new TestTask();
-    testTask.setFieldModel(new FieldModel());
-    testTask.setStatus("Test status");
-    testTask.setType(TaskType.OTHER);
+        TestTask testTask = new TestTask();
+        testTask.setFieldModel(new FieldModel());
+        testTask.setStatus("Test status");
+        testTask.setType(TaskType.OTHER);
 
-    TestTaskEventModel testEventModel = new TestTaskEventModel();
-    testEventModel.setComment(comment);
-    testEventModel.setTask(testTask);
+        TestTaskEventModel testEventModel = new TestTaskEventModel();
+        testEventModel.setComment(comment);
+        testEventModel.setTask(testTask);
 
-    publish(testEventModel);
+        publish(testEventModel);
 
-    assertFalse(testMessageService.wasChannelMsged());
-    assertTrue(testMessageService.wasPMed());
-    assertEquals(2, testMessageService.getPrivateMessageCount());
-  }
+        assertFalse(testMessageService.wasChannelMsged());
+        assertTrue(testMessageService.wasPMed());
+        assertEquals(2, testMessageService.getPrivateMessageCount());
+    }
 
-  /** Tests that handler will not get the event with wrong type */
-  @Test
-  public void eventShouldNotBeHandledWithNoReferenceTest() {
+    /**
+     * Tests that handler will not get the event with wrong type
+     */
+    @Test
+    public void eventShouldNotBeHandledWithNoReferenceTest() {
 
-    createContext();
+        createContext();
 
-    AuthorModel authorModel = new AuthorModel();
-    authorModel.setName("serpento");
+        AuthorModel authorModel = new AuthorModel();
+        authorModel.setName("serpento");
 
-    CommentModel comment = new CommentModel();
-    comment.setBody("Hello world!");
+        CommentModel comment = new CommentModel();
+        comment.setBody("Hello world!");
 
-    TestTask testTask = new TestTask();
-    testTask.setType(TaskType.OTHER);
-    testTask.setPriority(TaskPriority.OTHER);
+        TestTask testTask = new TestTask();
+        testTask.setType(TaskType.OTHER);
+        testTask.setPriority(TaskPriority.OTHER);
 
-    TestTaskEventModel testEventModel = new TestTaskEventModel();
-    testEventModel.setComment(comment);
-    testEventModel.setTask(testTask);
+        TestTaskEventModel testEventModel = new TestTaskEventModel();
+        testEventModel.setComment(comment);
+        testEventModel.setTask(testTask);
 
-    publish(testEventModel);
+        publish(testEventModel);
 
-    assertFalse(testMessageService.wasChannelMsged());
-    assertFalse(testMessageService.wasPMed());
-  }
+        assertFalse(testMessageService.wasChannelMsged());
+        assertFalse(testMessageService.wasPMed());
+    }
 
-  // private methods
-  private void createContext() {
-    AtReferenceListener atReferenceListener =
-        new AtReferenceListener(testMessageService, taskEventFormatter);
-    // CommentedTaskListener commentedTaskListener = new CommentedTaskListener(testMessageService,
-    // taskEventFormatter);
-    context.addApplicationListener(atReferenceListener);
-    // context.addApplicationListener(commentedTaskListener);
-    context.refresh();
-  }
+    // private methods
+    private void createContext() {
+        AtReferenceListener atReferenceListener =
+                new AtReferenceListener(testMessageService, taskEventFormatter);
+        // CommentedTaskListener commentedTaskListener = new CommentedTaskListener(testMessageService,
+        // taskEventFormatter);
+        context.addApplicationListener(atReferenceListener);
+        // context.addApplicationListener(commentedTaskListener);
+        context.refresh();
+    }
 }

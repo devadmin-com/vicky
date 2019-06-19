@@ -110,13 +110,13 @@ class TestTask implements Task {
         return "TL-000";
     }
 
-    public void setLastComment(CommentModel lastComment) {
-        this.lastComment = lastComment;
-    }
-
     @Override
     public CommentModel getLastComment() {
         return lastComment;
+    }
+
+    public void setLastComment(CommentModel lastComment) {
+        this.lastComment = lastComment;
     }
 
     @Override

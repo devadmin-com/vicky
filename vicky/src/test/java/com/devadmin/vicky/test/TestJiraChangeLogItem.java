@@ -11,32 +11,32 @@ import com.devadmin.vicky.ChangeType;
  */
 public class TestJiraChangeLogItem implements AssignChangeLogItem {
 
-  private String field;
-  private String to;
+    private String field;
+    private String to;
 
-  public String getField() {
-    return field;
-  }
+    public String getField() {
+        return field;
+    }
 
-  public void setField(String field) {
-    this.field = field;
-  }
+    public void setField(String field) {
+        this.field = field;
+    }
 
-  public String getTo() {
-    return to;
-  }
+    public String getTo() {
+        return to;
+    }
 
-  public void setTo(String to) {
-    this.to = to;
-  }
+    public void setTo(String to) {
+        this.to = to;
+    }
 
-  @Override
-  public String getAssignedTo() {
-    return to;
-  }
+    @Override
+    public String getAssignedTo() {
+        return to;
+    }
 
-  @Override
-  public ChangeType getChangeType() {
-    return "assignee".equals(field) ? ChangeType.ASSIGN : ChangeType.DEFAULT;
-  }
+    @Override
+    public ChangeType getChangeType() {
+        return "assignee".equals(field) ? ChangeType.ASSIGN : ChangeType.DEFAULT;
+    }
 }
