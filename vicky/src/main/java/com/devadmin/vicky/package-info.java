@@ -1,2 +1,4 @@
-/** This is main package for vicky application */
+/**
+ * This is main package for vicky application
+ */
 package com.devadmin.vicky;

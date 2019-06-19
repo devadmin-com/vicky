@@ -11,34 +11,34 @@ import lombok.Data;
 @Data
 public class FieldModel {
 
-  @JsonProperty("issuetype")
-  private IssueTypeModel issueType;
+    @JsonProperty("issuetype")
+    private IssueTypeModel issueType;
 
-  @JsonProperty("timespent")
-  private Long timespent;
+    @JsonProperty("timespent")
+    private Long timespent;
 
-  @JsonProperty("project")
-  private ProjectModel project;
+    @JsonProperty("project")
+    private ProjectModel project;
 
-  @JsonProperty("summary")
-  private String summary;
+    @JsonProperty("summary")
+    private String summary;
 
-  @JsonProperty("assignee")
-  private UserModel assignee;
+    @JsonProperty("assignee")
+    private UserModel assignee;
 
-  @JsonProperty("status")
-  private StatusModel status;
+    @JsonProperty("status")
+    private StatusModel status;
 
-  @JsonProperty("priority")
-  private PriorityModel priority;
+    @JsonProperty("priority")
+    private PriorityModel priority;
 
-  @JsonProperty("created")
-  private String createdDate;
+    @JsonProperty("created")
+    private String createdDate;
 
-  @JsonProperty("updated")
-  private String updatedDate;
+    @JsonProperty("updated")
+    private String updatedDate;
 
-  @JsonProperty("labels")
-  private String[] labels;
+    @JsonProperty("labels")
+    private String[] labels;
 
 }

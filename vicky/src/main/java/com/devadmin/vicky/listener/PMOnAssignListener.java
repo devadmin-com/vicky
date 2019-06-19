@@ -36,29 +36,32 @@ public class PMOnAssignListener extends TaskToMessageListener {
     public void onApplicationEvent(TaskEventModelWrapper eventWrapper) {
 
         TaskEvent event = eventWrapper.getTaskEventModel();
-        for (ChangeLogItem changeLogItem : event.getChangeLog().getItems()) {
-            // don't send updates for own actions
-            if (changeLogItem.getChangeType() == ChangeType.ASSIGN && !isOwnAction(event, (AssignChangeLogItem) changeLogItem)) {
-                if (eventWrapper.getEventModel() instanceof JiraEventModel) {
-                    Optional.ofNullable((JiraEventModel) eventWrapper.getEventModel())
-                            .map(JiraEventModel::getIssue)
-                            .map(IssueModel::getFields)
-                            .map(FieldModel::getAssignee)
-                            .filter(assignee -> assignee.getEmailAddress() != null)
-                            .ifPresent(assignee -> {
-                                try {
-                                    log.info("Trying to send private message to {} about assigned task", assignee.getEmailAddress());
-                                    messageService.sendPrivateMessage(assignee.getEmailAddress(), formatter.format(event));
-                                } catch (MessageServiceException e) {
-                                    log.error(e.getMessage());
-                                }
-                            });
-                } else {
-                    //it was done for testing, I don't know why , need to remove in future
-                    try {
-                        messageService.sendPrivateMessage("testUser", "my friend");
-                    } catch (MessageServiceException e) {
-                        throw new RuntimeException(e);
+
+        if (event != null && event.getChangeLog() != null) {
+            for (ChangeLogItem changeLogItem : event.getChangeLog().getItems()) {
+                // don't send updates for own actions
+                if (changeLogItem.getChangeType() == ChangeType.ASSIGN && !isOwnAction(event, (AssignChangeLogItem) changeLogItem)) {
+                    if (eventWrapper.getEventModel() instanceof JiraEventModel) {
+                        Optional.ofNullable((JiraEventModel) eventWrapper.getEventModel())
+                                .map(JiraEventModel::getIssue)
+                                .map(IssueModel::getFields)
+                                .map(FieldModel::getAssignee)
+                                .filter(assignee -> assignee.getEmailAddress() != null)
+                                .ifPresent(assignee -> {
+                                    try {
+                                        log.info("Trying to send private message to {} about assigned task", assignee.getEmailAddress());
+                                        messageService.sendPrivateMessage(assignee.getEmailAddress(), formatter.format(event));
+                                    } catch (MessageServiceException e) {
+                                        log.error(e.getMessage());
+                                    }
+                                });
+                    } else {
+                        //it was done for testing, I don't know why , need to remove in future
+                        try {
+                            messageService.sendPrivateMessage("testUser", "my friend");
+                        } catch (MessageServiceException e) {
+                            throw new RuntimeException(e);
+                        }
                     }
                 }
             }

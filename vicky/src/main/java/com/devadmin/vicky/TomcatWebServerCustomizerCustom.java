@@ -7,15 +7,15 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class TomcatWebServerCustomizerCustom
-    implements WebServerFactoryCustomizer<TomcatServletWebServerFactory> {
+        implements WebServerFactoryCustomizer<TomcatServletWebServerFactory> {
 
-  @Override
-  public void customize(TomcatServletWebServerFactory factory) {
-    factory.addConnectorCustomizers(
-        (TomcatConnectorCustomizer)
-            connector -> {
-              connector.setAttribute("relaxedPathChars", "<>[\\]^`{|}");
-              connector.setAttribute("relaxedQueryChars", "<>[\\\\]^`{|}");
-            });
-  }
+    @Override
+    public void customize(TomcatServletWebServerFactory factory) {
+        factory.addConnectorCustomizers(
+                (TomcatConnectorCustomizer)
+                        connector -> {
+                            connector.setAttribute("relaxedPathChars", "<>[\\]^`{|}");
+                            connector.setAttribute("relaxedQueryChars", "<>[\\\\]^`{|}");
+                        });
+    }
 }

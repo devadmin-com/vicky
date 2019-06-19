@@ -8,8 +8,8 @@ package com.devadmin.vicky;
  * eventModel when we receive different event which not described above
  */
 public enum TaskEventType {
-  CREATED,
-  UPDATED,
-  COMMENT,
-  DEFAULT
+    CREATED,
+    UPDATED,
+    COMMENT,
+    DEFAULT
 }

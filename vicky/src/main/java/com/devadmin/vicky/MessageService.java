@@ -11,19 +11,19 @@ package com.devadmin.vicky;
  */
 public interface MessageService {
 
-  /**
-   * Sends a message to the specified channel
-   *
-   * @param channelName the name (identifier) of the channel to send the message to.
-   * @param message the message to send
-   */
-  void sendChannelMessage(String channelName, String message) throws MessageServiceException;
+    /**
+     * Sends a message to the specified channel
+     *
+     * @param channelName the name (identifier) of the channel to send the message to.
+     * @param message     the message to send
+     */
+    void sendChannelMessage(String channelName, String message) throws MessageServiceException;
 
-  /**
-   * Sends a direct private message to a person
-   *
-   * @param personName the name (identifier) of the person to send the message to
-   * @param message the message to send
-   */
-  void sendPrivateMessage(String personName, String message) throws MessageServiceException;
+    /**
+     * Sends a direct private message to a person
+     *
+     * @param personName the name (identifier) of the person to send the message to
+     * @param message    the message to send
+     */
+    void sendPrivateMessage(String personName, String message) throws MessageServiceException;
 }

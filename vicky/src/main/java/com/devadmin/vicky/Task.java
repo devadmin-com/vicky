@@ -19,6 +19,7 @@ public interface Task {
 
     /**
      * Status
+     *
      * @return status
      */
     String getStatus();

@@ -11,6 +11,8 @@ package com.devadmin.vicky;
  */
 public interface ChangeLogItem {
 
-  /** @return what kind of change happened (ex: priority, reporter, status, etc.) */
-  ChangeType getChangeType();
+    /**
+     * @return what kind of change happened (ex: priority, reporter, status, etc.)
+     */
+    ChangeType getChangeType();
 }

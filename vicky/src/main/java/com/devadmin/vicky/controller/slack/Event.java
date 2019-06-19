@@ -2,7 +2,9 @@ package com.devadmin.vicky.controller.slack;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import me.ramswaroop.jbot.core.slack.models.*;
+import me.ramswaroop.jbot.core.slack.models.Bot;
+import me.ramswaroop.jbot.core.slack.models.Channel;
+import me.ramswaroop.jbot.core.slack.models.User;
 
 /**
  * Object which helps to send private channel message

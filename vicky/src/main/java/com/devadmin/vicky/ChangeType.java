@@ -5,6 +5,6 @@ package com.devadmin.vicky;
  * assignment
  */
 public enum ChangeType {
-  ASSIGN,
-  DEFAULT;
+    ASSIGN,
+    DEFAULT;
 }

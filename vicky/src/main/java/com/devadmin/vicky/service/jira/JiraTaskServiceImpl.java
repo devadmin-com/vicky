@@ -21,32 +21,6 @@ public class JiraTaskServiceImpl implements TaskService {
 
     private final JiraClient jiraClient;
 
-    @Override
-    public List<Task> getBlockerTasks() {
-        try {
-            Issue.SearchResult searchResult = jiraClient.searchIssues(BLOCKER_TASKS_JQL);
-            return searchResult.issues.stream()
-                    .map(JiraTaskServiceImpl::convertIssueToIssueModel)
-                    .collect(Collectors.toList());
-        } catch (JiraException e) {
-            return Collections.emptyList();
-        }
-    }
-
-    @Override
-    public Comment getLastCommentByTaskId(String taskId) {
-        Comment lastComment = null;
-        try {
-            List<Comment> comments = jiraClient.getIssue(taskId).getComments();
-            if (!comments.isEmpty()) {
-                lastComment = comments.get(comments.size() - 1);
-            }
-        } catch (JiraException e) {
-            log.error("There was a problem getting issue from jira", e.getMessage());
-        }
-        return lastComment;
-    }
-
     /**
      * @param issue Issue
      * @return issueModel which was converted from issue
@@ -139,5 +113,31 @@ public class JiraTaskServiceImpl implements TaskService {
         }
 
         return userModel;
+    }
+
+    @Override
+    public List<Task> getBlockerTasks() {
+        try {
+            Issue.SearchResult searchResult = jiraClient.searchIssues(BLOCKER_TASKS_JQL);
+            return searchResult.issues.stream()
+                    .map(JiraTaskServiceImpl::convertIssueToIssueModel)
+                    .collect(Collectors.toList());
+        } catch (JiraException e) {
+            return Collections.emptyList();
+        }
+    }
+
+    @Override
+    public Comment getLastCommentByTaskId(String taskId) {
+        Comment lastComment = null;
+        try {
+            List<Comment> comments = jiraClient.getIssue(taskId).getComments();
+            if (!comments.isEmpty()) {
+                lastComment = comments.get(comments.size() - 1);
+            }
+        } catch (JiraException e) {
+            log.error("There was a problem getting issue from jira", e.getMessage());
+        }
+        return lastComment;
     }
 }

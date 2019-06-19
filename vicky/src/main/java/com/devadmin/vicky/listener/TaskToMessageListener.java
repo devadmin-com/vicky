@@ -19,13 +19,13 @@ import org.springframework.context.ApplicationListener;
 @Slf4j
 public abstract class TaskToMessageListener implements ApplicationListener<TaskEventModelWrapper> {
 
-  final MessageService messageService; // where we write to
+    final MessageService messageService; // where we write to
 
-  final TaskEventFormatter formatter; // what we use to format tasks
+    final TaskEventFormatter formatter; // what we use to format tasks
 
-  public TaskToMessageListener(
-      MessageService messageService, TaskEventFormatter taskEventFormatter) {
-    this.messageService = messageService;
-    this.formatter = taskEventFormatter;
-  }
+    public TaskToMessageListener(
+            MessageService messageService, TaskEventFormatter taskEventFormatter) {
+        this.messageService = messageService;
+        this.formatter = taskEventFormatter;
+    }
 }

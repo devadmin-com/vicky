@@ -12,13 +12,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 @JBot
 public class SlackController extends Bot {
 
-  /** Slack properties from application.yml file. */
-  private final SlackProperties properties;
+    /**
+     * Slack properties from application.yml file.
+     */
+    private final SlackProperties properties;
 
-  /** @param properties from application.yml. */
-  @Autowired
-  public SlackController(SlackProperties properties) {
-    this.properties = properties;
-  }
+    /**
+     * @param properties from application.yml.
+     */
+    @Autowired
+    public SlackController(SlackProperties properties) {
+        this.properties = properties;
+    }
 
 }

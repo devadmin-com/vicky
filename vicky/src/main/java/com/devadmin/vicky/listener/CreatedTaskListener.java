@@ -10,32 +10,32 @@ import org.springframework.stereotype.Component;
 /**
  * On issue create or resolve send update to project's channel (if one exists).
  * <p>If no channel exists for project nothing is done.
- *
+ * <p>
  * Story: TL-99
  */
 @Component
 @Slf4j
 public class CreatedTaskListener extends TaskToMessageListener {
 
-  @Autowired
-  public CreatedTaskListener(
-      MessageService messageService,
-      @Qualifier("SimpleFormatter") TaskEventFormatter taskEventFormatter) {
-    super(messageService, taskEventFormatter);
-  }
-
-  @Override
-  public void onApplicationEvent(TaskEventModelWrapper eventWrapper) {
-    TaskEvent event = eventWrapper.getTaskEventModel();
-
-    if (event.getType() == TaskEventType.CREATED) {
-      String projectName = event.getTask().getProject();
-
-      try {
-        messageService.sendChannelMessage(projectName, formatter.format(event));
-      } catch (MessageServiceException e) {
-        log.error(e.getMessage());
-      }
+    @Autowired
+    public CreatedTaskListener(
+            MessageService messageService,
+            @Qualifier("SimpleFormatter") TaskEventFormatter taskEventFormatter) {
+        super(messageService, taskEventFormatter);
     }
-  }
+
+    @Override
+    public void onApplicationEvent(TaskEventModelWrapper eventWrapper) {
+        TaskEvent event = eventWrapper.getTaskEventModel();
+
+        if (event.getType() == TaskEventType.CREATED) {
+            String projectName = event.getTask().getProject();
+
+            try {
+                messageService.sendChannelMessage(projectName, formatter.format(event));
+            } catch (MessageServiceException e) {
+                log.error(e.getMessage());
+            }
+        }
+    }
 }
