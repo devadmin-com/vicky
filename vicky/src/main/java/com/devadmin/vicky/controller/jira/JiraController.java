@@ -21,7 +21,6 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -42,7 +41,7 @@ public class JiraController {
      */
     @PostMapping("/jira")
     @CrossOrigin(origins = "*", allowedHeaders = "*", methods = {RequestMethod.POST, RequestMethod.GET})
-    public ResponseEntity jiraEvent(@RequestBody JiraEventModel jiraEventModel, final HttpServletRequest request) {
+    public ResponseEntity jiraEvent(@RequestBody JiraEventModel jiraEventModel) {
         log.info("Accept request with task : {}", jiraEventModel.getTask().getDescription());
 
         setLastComment(jiraEventModel);

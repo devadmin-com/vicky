@@ -7,6 +7,7 @@
 package com.devadmin.vicky.format;
 
 import com.devadmin.vicky.TaskEvent;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Component;
 
 /**
@@ -17,11 +18,20 @@ public class SummaryTaskEventFormatter extends SimpleTaskEventFormatter {
 
     @Override
     public String format(TaskEvent event) {
-        return String.format(
-                "%s %s %s ➠ %s",
-                super.formatBase(event),
-                super.getShortDescription(event),
-                super.getLastCommenter(event),
-                super.getLastComment(event));
+        final String lastComment = super.getLastComment(event);
+        if (StringUtils.isNotBlank(lastComment)) {
+            return String.format(
+                    "%s %s %s ➠ %s",
+                    super.formatBase(event),
+                    super.getShortDescription(event),
+                    super.getLastCommenter(event),
+                    super.getLastComment(event));
+        } else {//task without comment
+            return String.format(
+                    "%s %s ",
+                    super.formatBase(event),
+                    super.getShortDescription(event)
+            );
+        }
     }
 }

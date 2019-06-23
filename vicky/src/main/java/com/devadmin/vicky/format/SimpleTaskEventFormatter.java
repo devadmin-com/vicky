@@ -7,6 +7,7 @@
 package com.devadmin.vicky.format;
 
 import com.devadmin.vicky.*;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Component;
 
 /**
@@ -42,7 +43,11 @@ public class SimpleTaskEventFormatter implements TaskEventFormatter {
         String commenter = getLastCommenter(event);
         String lastComment = getLastComment(event);
 
-        return String.format("%s\n %s ➠ %s", formatBase(event), commenter, lastComment);
+        if (StringUtils.isNotBlank(lastComment)) {
+            return String.format("%s\n %s ➠ %s", formatBase(event), commenter, lastComment);
+        } else {//task was created without any comments
+            return String.format("%s\n ", formatBase(event));
+        }
     }
 
     /**

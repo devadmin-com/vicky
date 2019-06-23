@@ -20,7 +20,7 @@ public class CreatedTaskListener extends TaskToMessageListener {
     @Autowired
     public CreatedTaskListener(
             MessageService messageService,
-            @Qualifier("SimpleFormatter") TaskEventFormatter taskEventFormatter) {
+            @Qualifier("SummaryFormatter") TaskEventFormatter taskEventFormatter) {
         super(messageService, taskEventFormatter);
     }
 
