@@ -29,7 +29,7 @@ public class ResolvedTaskListener extends TaskToMessageListener {
 
         Task task = event.getTask();
         //what we want is just to send notification on resolved task , not a comment
-        if (task.isResolved() && event.getType().equals(TaskEventType.UPDATED)) {
+        if (task.isResolved() && event.getType() != null && event.getType().equals(TaskEventType.UPDATED)) {
 
             String projectName = task.getProject();
 

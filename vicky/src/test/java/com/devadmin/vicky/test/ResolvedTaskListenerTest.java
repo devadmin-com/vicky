@@ -66,7 +66,7 @@ public class ResolvedTaskListenerTest extends TaskListenerTest {
 
         publish(testEventModel);
 
-        assertTrue(testMessageService.wasChannelMsged());
+        assertTrue(!testMessageService.wasChannelMsged());
         assertFalse(testMessageService.wasPMed());
     }
 
