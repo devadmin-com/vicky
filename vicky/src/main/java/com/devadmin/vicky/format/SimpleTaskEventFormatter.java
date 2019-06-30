@@ -7,6 +7,7 @@
 package com.devadmin.vicky.format;
 
 import com.devadmin.vicky.*;
+import com.devadmin.vicky.controller.jira.model.JiraEventModel;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Component;
 
@@ -24,7 +25,12 @@ public class SimpleTaskEventFormatter implements TaskEventFormatter {
      */
     protected String formatBase(TaskEvent event) {
         Task task = event.getTask();
-
+        final String assignee;
+        if (StringUtils.isEmpty(task.getAssignee()) && event instanceof JiraEventModel) {
+            assignee = ((JiraEventModel) event).getUser().getDisplayName();
+        } else {
+            assignee = task.getAssignee();
+        }
         return String.format(
                 "%s <%s | %s> %s: %s @%s",
                 getIcon(task),
@@ -32,7 +38,7 @@ public class SimpleTaskEventFormatter implements TaskEventFormatter {
                 task.getKey(),
                 task.getStatus(),
                 task.getSummary(),
-                task.getAssignee());
+                assignee);
     }
 
     /**

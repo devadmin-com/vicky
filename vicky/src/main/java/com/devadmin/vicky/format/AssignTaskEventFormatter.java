@@ -6,6 +6,8 @@
 package com.devadmin.vicky.format;
 
 import com.devadmin.vicky.TaskEvent;
+import com.devadmin.vicky.controller.jira.model.JiraEventModel;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Component;
 
 /**
@@ -18,6 +20,13 @@ public class AssignTaskEventFormatter extends SimpleTaskEventFormatter {
 
     @Override
     public String format(TaskEvent event) {
-        return String.format("%s assigned to you: %s", event.getActor(), super.format(event));
+        final String displayName;
+        if (StringUtils.isEmpty(event.getActor()) && event instanceof JiraEventModel) {
+            //self assign
+            displayName = ((JiraEventModel) event).getUser().getDisplayName();
+        } else {
+            displayName = event.getActor();
+        }
+        return String.format("%s assigned to you: %s", displayName, super.format(event));
     }
 }
