@@ -47,7 +47,7 @@ dependencies {
     compile("me.ramswaroop.jbot:jbot:4.1.2-rc.1")
 
 
-    implementation 'com.github.gumruyanzh:jira-client:master-SNAPSHOT'
+    implementation 'com.github.devadmin-com:jira-client:master-SNAPSHOT'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter'
 
