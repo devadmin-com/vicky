@@ -1,0 +1,36 @@
+# spring application properties
+spring:
+  jackson:
+    property-naming-strategy: SNAKE_CASE
+logging:
+  level:
+    com.devadmin: INFO
+
+
+# jira integration
+jira:
+  cloud-url: https://devadmin.atlassian.net
+  username: lollipop@devadmin.com
+  password: FXtTYFJpN0LA5DMsgMvW9E3B
+
+# slack integration
+slack:
+  api-url: https://slack.com/api
+  token:
+    bot: xoxb-3666444034-479068848033-WaDUY8SfsiEZNQw65SsKOLcR
+    verification: wdwRLHJvrHVyBq60DmGsq0z4
+
+# server properties
+server:
+  tomcat:
+    uri-encoding: UTF-8
+
+debug:
+  message-service:
+    additional-information: mrfox
+
+statuses:
+  available:
+    emoji: ':rocket:'
+    text: Available
+    expiration: 8
