@@ -30,12 +30,14 @@ public class ResolvedTaskListener extends TaskToMessageListener {
         Task task = event.getTask();
         //what we want is just to send notification on resolved task , not a comment
         if (task.isResolved() && event.getType() != null && event.getType().equals(TaskEventType.UPDATED)) {
-
             String projectName = task.getProject();
-
             try {
-                log.info("Trying to send private message about resolved task");
-                messageService.sendChannelMessage(projectName, formatter.format(event));
+                if (!this.shouldSkip(eventWrapper)) {
+                    log.info("Trying to send private message about resolved task");
+                    messageService.sendChannelMessage(projectName, formatter.format(event));
+                } else {
+                    log.info("Event {} doesn't send notification", eventWrapper.getEventModel());
+                }
             } catch (MessageServiceException e) {
                 log.error(e.getMessage());
             }
