@@ -27,12 +27,15 @@ public class CreatedTaskListener extends TaskToMessageListener {
     @Override
     public void onApplicationEvent(TaskEventModelWrapper eventWrapper) {
         TaskEvent event = eventWrapper.getTaskEventModel();
-
         if (event.getType() == TaskEventType.CREATED) {
             String projectName = event.getTask().getProject();
 
             try {
-                messageService.sendChannelMessage(projectName, formatter.format(event));
+                if (!this.shouldSkip(eventWrapper)) {
+                    messageService.sendChannelMessage(projectName, formatter.format(event));
+                } else {
+                    log.info("Event {} doesn't send notification", eventWrapper.getEventModel());
+                }
             } catch (MessageServiceException e) {
                 log.error(e.getMessage());
             }
