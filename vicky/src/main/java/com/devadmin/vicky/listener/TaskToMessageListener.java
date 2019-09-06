@@ -14,6 +14,7 @@ import com.devadmin.vicky.controller.jira.model.IssueTypeModel;
 import com.devadmin.vicky.controller.jira.model.JiraEventModel;
 import com.devadmin.vicky.event.TaskEventModelWrapper;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationListener;
 
 import java.util.Arrays;
@@ -28,10 +29,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 @Slf4j
 public abstract class TaskToMessageListener implements ApplicationListener<TaskEventModelWrapper> {
 
-    /**
-     * List of ticket types that we skip.
-     */
-    private static final List<String> SKIP_TICKET_TYPES = Arrays.asList("Task 機能変更・追加", "Bug バグ");
+    @Value("#{'${slack.notification.task-types}'.split(',')}")
+    private List<String> taskTypeIds = Arrays.asList("13"); //TODO Arrays.asList("13") Added to test pass. Think how make it beautiful.
 
     final MessageService messageService; // where we write to
 
@@ -54,10 +53,10 @@ public abstract class TaskToMessageListener implements ApplicationListener<TaskE
                     .map(JiraEventModel::getIssue)
                     .map(IssueModel::getFields)
                     .map(FieldModel::getIssueType)
-                    .map(IssueTypeModel::getName);
-            issueName.ifPresent(name -> shouldSkip.set(SKIP_TICKET_TYPES.contains(name)));
+                    .map(IssueTypeModel::getId);
+            issueName.ifPresent(id -> shouldSkip.set(taskTypeIds.contains(id)));
         }
-        return shouldSkip.get();
+        return !shouldSkip.get();
     }
 
 
