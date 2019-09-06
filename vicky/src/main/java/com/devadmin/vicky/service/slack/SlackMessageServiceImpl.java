@@ -12,7 +12,6 @@ import com.devadmin.vicky.controller.slack.Event;
 import com.devadmin.vicky.controller.slack.SlackApiEndpoints;
 import com.devadmin.vicky.controller.slack.config.SlackProperties;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -40,7 +39,7 @@ public class SlackMessageServiceImpl implements MessageService {
 
     private final RestTemplate restTemplate;
 
-    @Value("${debug.message-service.additional-information:EMPTY}")
+    @Value("${debug.message-service.additional-information:}")
     private String additionalMessageInformation;
 
     /**
@@ -48,30 +47,19 @@ public class SlackMessageServiceImpl implements MessageService {
      */
     @Override
     public void sendChannelMessage(String channelName, String message)
-            throws MessageServiceException {
+    throws MessageServiceException {
 
         log.info("SlackMessageService sendChannelMessage() method");
         try {
             log.info("Trying to send channel message to {}", channelName);
-            if (StringUtils.isNotEmpty(additionalMessageInformation) && !additionalMessageInformation.equals("EMPTY")) {
-                final ResponseEntity<String> response = restTemplate.postForEntity(
-                        slackApiEndpoints.getChatPostMessageApi(),
-                        null,
-                        String.class,
-                        properties.getToken().getBot(),
-                        channelName,
-                        message + " " + additionalMessageInformation);
-                log.info("Response from slack message service is {}", response.getBody());
-            } else {
-                final ResponseEntity<String> response = restTemplate.postForEntity(
-                        slackApiEndpoints.getChatPostMessageApi(),
-                        null,
-                        String.class,
-                        properties.getToken().getBot(),
-                        channelName,
-                        message);
-                log.info("Response from slack message service is {}", response.getBody());
-            }
+            final ResponseEntity<String> response = restTemplate.postForEntity(
+                    slackApiEndpoints.getChatPostMessageApi(),
+                    null,
+                    String.class,
+                    properties.getToken().getBot(),
+                    channelName,
+                    message + " " + additionalMessageInformation);
+            log.info("Response from slack message service is {}", response.getBody());
         } catch (RestClientException e) {
             log.error("Unable to post to given channel: {}", e);
             throw new MessageServiceException(e.getMessage(), e);
@@ -100,23 +88,23 @@ public class SlackMessageServiceImpl implements MessageService {
 
         // looping through all members and getting the one whom we need to send PM
         Stream.of(event.getMembers())
-                .filter(member -> member.getProfile().getEmail() != null && member.getProfile().getEmail().equals(personName))
-                .findFirst()
-                .ifPresent(member -> {
-                    try {
-                        log.info("Trying to send private message to {}", personName);
-                        restTemplate.postForEntity(
-                                slackApiEndpoints.getChatPostMessageApi(),
-                                null,
-                                String.class,
-                                properties.getToken().getBot(),
-                                member.getId(),
-                                message + " " + additionalMessageInformation);
-                    } catch (RestClientException e) {
-                        log.error("Unable to post to given person Id: {}", e);
-                        throw e;
-                    }
-                });
+              .filter(member -> member.getProfile().getEmail() != null && member.getProfile().getEmail().equals(personName))
+              .findFirst()
+              .ifPresent(member -> {
+                  try {
+                      log.info("Trying to send private message to {}", personName);
+                      restTemplate.postForEntity(
+                              slackApiEndpoints.getChatPostMessageApi(),
+                              null,
+                              String.class,
+                              properties.getToken().getBot(),
+                              member.getId(),
+                              message + " " + additionalMessageInformation);
+                  } catch (RestClientException e) {
+                      log.error("Unable to post to given person Id: {}", e);
+                      throw e;
+                  }
+              });
 
     }
 }
