@@ -4,14 +4,17 @@ import com.devadmin.vicky.controller.slack.config.SlackProperties;
 import me.ramswaroop.jbot.core.common.JBot;
 import me.ramswaroop.jbot.core.slack.models.Bot;
 import me.ramswaroop.jbot.core.slack.models.Profile;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.HttpClientBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpServletRequest;
-import java.time.LocalDateTime;
-
 /**
  * This controller is responsible for interactions with Slack Bot ex. sending DM to Bot
  * this is the bean we use to have a socket connection with SLACK
@@ -44,12 +47,32 @@ public class CommandsController extends Bot {
     }
 
     @PostMapping("/hello")
-    public Object setAvailableStatus(@RequestParam(name = "token") String token) {
+    public void setAvailableStatus(@RequestParam(name = "token") String token) {
         Profile profile = new Profile();
 
         profile.setStatusEmoji(statusAvailableEmoji);
         profile.setStatusText(statusAvailableText);
 
+        HttpClient httpClient = HttpClientBuilder.create().build();
+        try {
+
+            HttpPost request = new HttpPost("https://slack.com/api/users.profile.set");
+            StringEntity params = new StringEntity("profile={\"status_text\": "+ profile.getStatusText() +", \"status_emoji\": "+ profile.getStatusEmoji() +" }");
+
+            request.addHeader("content-type", "application/x-www-form-urlencoded");
+            request.setEntity(params);
+            HttpResponse response = httpClient.execute(request);
+
+            //handle response here...
+
+        }catch (Exception ex) {
+
+            //handle exception here
+
+        } finally {
+            //Deprecated
+            httpClient.getConnectionManager().shutdown();
+        }
         // https://slack.com/api/users.profile.set body = {
         //   "profile": {
         //        "status_text": "riding a train",
@@ -57,5 +80,6 @@ public class CommandsController extends Bot {
         //        "status_expiration": 1532627506
         //    }
         // }
+
     }
 }
