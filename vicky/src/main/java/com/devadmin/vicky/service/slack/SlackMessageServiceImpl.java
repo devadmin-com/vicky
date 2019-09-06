@@ -11,8 +11,8 @@ import com.devadmin.vicky.MessageServiceException;
 import com.devadmin.vicky.controller.slack.Event;
 import com.devadmin.vicky.controller.slack.SlackApiEndpoints;
 import com.devadmin.vicky.controller.slack.config.SlackProperties;
-import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
@@ -25,14 +25,22 @@ import java.util.stream.Stream;
  */
 @Service
 @Slf4j
-@AllArgsConstructor
 public class SlackMessageServiceImpl implements MessageService {
+
+    public SlackMessageServiceImpl(SlackProperties properties, SlackApiEndpoints slackApiEndpoints, RestTemplate restTemplate) {
+        this.properties = properties;
+        this.slackApiEndpoints = slackApiEndpoints;
+        this.restTemplate = restTemplate;
+    }
 
     private final SlackProperties properties;
 
     private final SlackApiEndpoints slackApiEndpoints;
 
     private final RestTemplate restTemplate;
+
+    @Value("${debug.message-service.additional-information}")
+    private String additionalMessageInformation;
 
     /**
      * @see MessageService#sendChannelMessage(String, String)
@@ -50,7 +58,7 @@ public class SlackMessageServiceImpl implements MessageService {
                     String.class,
                     properties.getToken().getBot(),
                     channelName,
-                    message);
+                    message + " " + additionalMessageInformation);
             log.info("Response from slack message service is {}", response.getBody());
         } catch (RestClientException e) {
             log.error("Unable to post to given channel: {}", e);
@@ -91,7 +99,7 @@ public class SlackMessageServiceImpl implements MessageService {
                                 String.class,
                                 properties.getToken().getBot(),
                                 member.getId(),
-                                message);
+                                message + " " + additionalMessageInformation);
                     } catch (RestClientException e) {
                         log.error("Unable to post to given person Id: {}", e);
                         throw e;
