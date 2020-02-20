@@ -25,12 +25,6 @@ public class SimpleTaskEventFormatter implements TaskEventFormatter {
      */
     protected String formatBase(TaskEvent event) {
         Task task = event.getTask();
-        final String assignee;
-        if (StringUtils.isEmpty(task.getAssignee()) && event instanceof JiraEventModel) {
-            assignee = ((JiraEventModel) event).getUser().getDisplayName();
-        } else {
-            assignee = task.getAssignee();
-        }
         return String.format(
                 "%s <%s | %s> %s: %s @%s",
                 getIcon(task),
@@ -38,7 +32,7 @@ public class SimpleTaskEventFormatter implements TaskEventFormatter {
                 task.getKey(),
                 task.getStatus(),
                 task.getSummary(),
-                assignee);
+                task.getAssignee());
     }
 
     /**

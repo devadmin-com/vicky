@@ -20,13 +20,7 @@ public class AssignTaskEventFormatter extends SimpleTaskEventFormatter {
 
     @Override
     public String format(TaskEvent event) {
-        final String displayName;
-        if (StringUtils.isEmpty(event.getActor()) && event instanceof JiraEventModel) {
-            //self assign
-            displayName = ((JiraEventModel) event).getUser().getDisplayName();
-        } else {
-            displayName = event.getActor();
-        }
+        final String displayName = ((JiraEventModel) event).getUser().getDisplayName();
         return String.format("%s assigned to you: %s", displayName, super.format(event));
     }
 }

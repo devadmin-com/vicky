@@ -6,17 +6,21 @@ import com.devadmin.vicky.TaskPriority;
 import com.devadmin.vicky.TaskType;
 import com.devadmin.vicky.controller.jira.model.AuthorModel;
 import com.devadmin.vicky.controller.jira.model.CommentModel;
-import com.devadmin.vicky.controller.jira.model.FieldModel;
+import com.devadmin.vicky.controller.jira.model.IssueModel;
+import com.devadmin.vicky.controller.jira.model.JiraEventModel;
 import com.devadmin.vicky.format.SimpleTaskEventFormatter;
 import com.devadmin.vicky.listener.CreatedTaskListener;
 import org.junit.Test;
 
+import java.util.Collections;
+
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
 
 /**
  * Test class for {@link CreatedTaskListener}
  */
-public class ProjectTaskListenerTest extends TaskListenerTest {
+public class CreatedTaskListenerTest extends TaskListenerTest {
 
     @Override
     TaskEventFormatter getTaskEventFormatter() {
@@ -26,31 +30,26 @@ public class ProjectTaskListenerTest extends TaskListenerTest {
     /**
      * tests that the event was sent
      */
-//    @Test
+    @Test
     public void basicTest() {
-        // check that we get the right MessageService
-        String id = "bob";
-
         createContext();
 
-        TestTaskEventModel testEventModel = getTestTaskEventModel(TaskEventType.CREATED);
-        publish(testEventModel);
+        JiraEventModel jiraEventModel = getTestTaskEventModel(TaskEventType.CREATED);
+        publish(jiraEventModel);
 
-        assertEquals(
-                1, testMessageService.getChannelMessageCount()); // should call the method just 1 time
-        assertTrue(
-                testMessageService.wasChannelMsged()); // check that a message was sent to the channel
+        assertEquals(1, testMessageService.getChannelMessageCount()); // should call the method just 1 time
+        assertTrue(testMessageService.wasChannelMsged()); // check that a message was sent to the channel
         assertFalse(testMessageService.wasPMed()); // check that a message was NOT sent privately
     }
 
     /**
      * Tests that handler gets the event and send the right message
      */
-//    @Test
+    @Test
     public void eventShouldBeHandledByThisHandlerTest() {
         createContext();
 
-        TestTaskEventModel testEventModel = getTestTaskEventModel(TaskEventType.CREATED);
+        JiraEventModel testEventModel = getTestTaskEventModel(TaskEventType.CREATED);
         publish(testEventModel);
 
         assertTrue(testMessageService.wasChannelMsged());
@@ -65,7 +64,7 @@ public class ProjectTaskListenerTest extends TaskListenerTest {
 
         createContext();
 
-        TestTaskEventModel testEventModel = getTestTaskEventModel(TaskEventType.COMMENT);
+        JiraEventModel testEventModel = getTestTaskEventModel(TaskEventType.COMMENT);
         publish(testEventModel);
 
         assertFalse(testMessageService.wasChannelMsged());
@@ -75,23 +74,21 @@ public class ProjectTaskListenerTest extends TaskListenerTest {
     /**
      * Tests that handler will handle the event with correct type
      */
-//    @Test
+    @Test
     public void eventShouldBeHandledWithCorrectTypeTest() {
 
         createContext();
 
-        TestTaskEventModel testEventModel = getTestTaskEventModel(TaskEventType.CREATED);
+        JiraEventModel testEventModel = getTestTaskEventModel(TaskEventType.CREATED);
         publish(testEventModel);
 
         assertTrue(testMessageService.wasChannelMsged());
         assertFalse(testMessageService.wasPMed());
     }
 
-    // private methods
-
-    private TestTaskEventModel getTestTaskEventModel(TaskEventType type) {
-        TestTaskEventModel testEventModel = new TestTaskEventModel();
-        testEventModel.setType(type);
+    private JiraEventModel getTestTaskEventModel(TaskEventType type) {
+        JiraEventModel jiraEventModel = new JiraEventModel();
+        jiraEventModel.setType(type);
 
         CommentModel commentModel = new CommentModel();
         commentModel.setBody("Some Test Comment");
@@ -99,18 +96,18 @@ public class ProjectTaskListenerTest extends TaskListenerTest {
         authorModel.setDisplayName("serpento");
         commentModel.setAuthor(authorModel);
 
-        TestTask testTask = new TestTask();
-        testTask.setFieldModel(new FieldModel());
-        testTask.setStatus("Test status");
-        testTask.setPriority(TaskPriority.OTHER);
-        testTask.setType(TaskType.OTHER);
-        testTask.setLastComment(commentModel);
-        testEventModel.setTask(testTask);
-        return testEventModel;
+        IssueModel issueModel = mock(IssueModel.class, RETURNS_DEEP_STUBS);
+        when(issueModel.getFields().getIssueType().getId()).thenReturn("13");
+        when(issueModel.getStatus()).thenReturn("Test status");
+        when(issueModel.getPriority()).thenReturn(TaskPriority.OTHER);
+        when(issueModel.getType()).thenReturn(TaskType.OTHER);
+        when(issueModel.getLastComment()).thenReturn(commentModel);
+        jiraEventModel.setIssue(issueModel);
+        return jiraEventModel;
     }
 
     private void createContext() {
-        CreatedTaskListener listener = new CreatedTaskListener(testMessageService, taskEventFormatter);
+        CreatedTaskListener listener = new CreatedTaskListener(testMessageService, taskEventFormatter, Collections.singletonList("13"));
         context.addApplicationListener(listener);
         context.refresh();
     }

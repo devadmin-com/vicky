@@ -5,7 +5,10 @@ import com.devadmin.vicky.event.TaskEventModelWrapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 /**
  * On issue resolve send update to project's channel (if one exists).
@@ -17,10 +20,10 @@ import org.springframework.stereotype.Component;
 public class ResolvedTaskListener extends TaskToMessageListener {
 
     @Autowired
-    public ResolvedTaskListener(
-            MessageService messageService,
-            @Qualifier("SimpleFormatter") TaskEventFormatter taskEventFormatter) {
-        super(messageService, taskEventFormatter);
+    public ResolvedTaskListener(MessageService messageService,
+                                @Qualifier("SimpleFormatter") TaskEventFormatter taskEventFormatter,
+                                @Value("#{'${slack.notification.task-types.resolvedTask}'.split(',')}")List<String> taskTypeIds) {
+        super(messageService, taskEventFormatter, taskTypeIds);
     }
 
     @Override

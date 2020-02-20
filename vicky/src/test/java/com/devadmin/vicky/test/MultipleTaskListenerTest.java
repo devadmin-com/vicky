@@ -1,12 +1,9 @@
 package com.devadmin.vicky.test;
 
-import com.devadmin.vicky.ChangeLogItem;
 import com.devadmin.vicky.TaskEventType;
 import com.devadmin.vicky.TaskPriority;
 import com.devadmin.vicky.TaskType;
-import com.devadmin.vicky.controller.jira.model.AuthorModel;
-import com.devadmin.vicky.controller.jira.model.CommentModel;
-import com.devadmin.vicky.controller.jira.model.FieldModel;
+import com.devadmin.vicky.controller.jira.model.*;
 import com.devadmin.vicky.listener.AtReferenceListener;
 import com.devadmin.vicky.listener.CreatedTaskListener;
 import com.devadmin.vicky.listener.LabeledTaskListener;
@@ -15,10 +12,12 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.*;
 
 /**
  * Test class for {@link CreatedTaskListener}
@@ -28,13 +27,12 @@ public class MultipleTaskListenerTest extends TaskListenerTest {
     /**
      * tests that the event was sent
      */
-//    @Test
+    @Test
     public void basicTest() {
-
         createContext();
 
-        TestTaskEventModel testEventModel = getTestTaskEventModel(TaskEventType.CREATED);
-        publish(testEventModel);
+        JiraEventModel jiraEventModel = getTestTaskEventModel(TaskEventType.CREATED);
+        publish(jiraEventModel);
 
         assertTrue(testMessageService.wasChannelMsged());
         assertTrue(testMessageService.wasPMed());
@@ -42,29 +40,29 @@ public class MultipleTaskListenerTest extends TaskListenerTest {
         assertNotNull(testMessageService.getPrivateMsg());
         assertTrue(testMessageService.getChannelMsg().size() > 0);
         assertTrue(testMessageService.getPrivateMsg().size() > 0);
-        assertTrue(testMessageService.wasChannelMsged("proj"));
         assertTrue(testMessageService.wasChannelMsged("label1"));
         assertTrue(testMessageService.wasChannelMsged("label2"));
     }
 
-    // private methods
+    private JiraEventModel getTestTaskEventModel(TaskEventType type) {
 
-    private TestTaskEventModel getTestTaskEventModel(TaskEventType type) {
-
-        TestTaskEventModel testEventModel = new TestTaskEventModel();
-        testEventModel.setType(type);
+        JiraEventModel jiraEventModel = spy(JiraEventModel.class);
+        UserModel userModel = new UserModel();
+        userModel.setName("some user");
+        jiraEventModel.setUser(userModel);
+        jiraEventModel.setType(type);
 
         //  from PMOnAssign test
-        TestJiraChangeLogItem item = new TestJiraChangeLogItem();
+        JiraChangeLogItemModel item = new JiraChangeLogItemModel();
         item.setField("assignee");
         item.setTo("testUser");
 
-        List<ChangeLogItem> itemList = new ArrayList<>();
+        List<JiraChangeLogItemModel> itemList = new ArrayList<>();
         itemList.add(item);
 
-        TestChangeLog testChangelog = new TestChangeLog();
-        testChangelog.setItems(itemList);
-        testEventModel.setChangelog(testChangelog);
+        ChangeLogModel changeLogModel = new ChangeLogModel();
+        changeLogModel.setItems(itemList);
+        jiraEventModel.setChangeLog(changeLogModel);
 
         CommentModel commentModel = new CommentModel();
         commentModel.setBody("Some Test Comment");
@@ -72,29 +70,27 @@ public class MultipleTaskListenerTest extends TaskListenerTest {
         authorModel.setDisplayName("serpento");
         commentModel.setAuthor(authorModel);
 
-        // from labeled
+        UserModel assignee = new UserModel();
+        assignee.setEmailAddress("devadmin@devadmin.com");
         List<String> labels = Arrays.asList("label1", "label2");
-        TestTask testTask = new TestTask();
-        testTask.setFieldModel(new FieldModel());
-        testTask.setStatus("Test test");
-        testTask.setLabels(labels);
-        testTask.setPriority(TaskPriority.OTHER);
-        testTask.setType(TaskType.OTHER);
-        testTask.setLastComment(commentModel);
-        testEventModel.setTask(testTask);
+        IssueModel issueModel = mock(IssueModel.class, RETURNS_DEEP_STUBS);
+        when(issueModel.getFields().getIssueType().getId()).thenReturn("13");
+        when(issueModel.getFields().getAssignee()).thenReturn(assignee);
+        when(issueModel.getStatus()).thenReturn("Test test");
+        when(issueModel.getLabels()).thenReturn(labels);
+        when(issueModel.getPriority()).thenReturn(TaskPriority.OTHER);
+        when(issueModel.getType()).thenReturn(TaskType.OTHER);
+        when(issueModel.getLastComment()).thenReturn(commentModel);
+        jiraEventModel.setIssue(issueModel);
 
-        return testEventModel;
+        return jiraEventModel;
     }
 
     private void createContext() {
-        CreatedTaskListener projectTaskListener =
-                new CreatedTaskListener(testMessageService, taskEventFormatter);
-        PMOnAssignListener pmOnAssignListener =
-                new PMOnAssignListener(testMessageService, taskEventFormatter);
-        AtReferenceListener atReferenceListener =
-                new AtReferenceListener(testMessageService, taskEventFormatter);
-        LabeledTaskListener labeledTaskListener =
-                new LabeledTaskListener(testMessageService, taskEventFormatter);
+        CreatedTaskListener projectTaskListener = new CreatedTaskListener(testMessageService, taskEventFormatter, Collections.singletonList("13"));
+        PMOnAssignListener pmOnAssignListener = new PMOnAssignListener(testMessageService, taskEventFormatter, Collections.singletonList("13"));
+        AtReferenceListener atReferenceListener = new AtReferenceListener(testMessageService, taskEventFormatter, Collections.singletonList("13"));
+        LabeledTaskListener labeledTaskListener = new LabeledTaskListener(testMessageService, taskEventFormatter, Collections.singletonList("13"));
         context.addApplicationListener(projectTaskListener);
         context.addApplicationListener(pmOnAssignListener);
         context.addApplicationListener(atReferenceListener);
