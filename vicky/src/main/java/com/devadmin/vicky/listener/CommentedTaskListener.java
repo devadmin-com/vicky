@@ -14,7 +14,10 @@ import com.devadmin.vicky.event.TaskEventModelWrapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 /**
  * If task commented and commenter and assignee is not the same user send assignee PM message
@@ -26,10 +29,10 @@ import org.springframework.stereotype.Component;
 public class CommentedTaskListener extends TaskToMessageListener {
 
     @Autowired
-    public CommentedTaskListener(
-            MessageService messageService,
-            @Qualifier("SimpleFormatter") TaskEventFormatter taskEventFormatter) {
-        super(messageService, taskEventFormatter);
+    public CommentedTaskListener(MessageService messageService,
+                                 @Qualifier("SimpleFormatter") TaskEventFormatter taskEventFormatter,
+                                 @Value("#{'${slack.notification.task-types.commentedTask}'.split(',')}") List<String> taskTypeIds) {
+        super(messageService, taskEventFormatter, taskTypeIds);
     }
 
     @Override

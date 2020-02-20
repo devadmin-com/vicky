@@ -9,6 +9,8 @@ import com.devadmin.vicky.format.SimpleTaskEventFormatter;
 import com.devadmin.vicky.listener.ResolvedTaskListener;
 import org.junit.Test;
 
+import java.util.Collections;
+
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -72,8 +74,7 @@ public class ResolvedTaskListenerTest extends TaskListenerTest {
 
     // private methods
     private void createContext() {
-        ResolvedTaskListener listener =
-                new ResolvedTaskListener(testMessageService, taskEventFormatter);
+        ResolvedTaskListener listener = new ResolvedTaskListener(testMessageService, taskEventFormatter, Collections.singletonList("13"));
         context.addApplicationListener(listener);
         context.refresh();
     }

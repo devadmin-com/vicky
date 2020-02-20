@@ -14,8 +14,10 @@ import com.devadmin.vicky.event.TaskEventModelWrapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -26,10 +28,10 @@ import java.util.Optional;
 public class PMOnAssignListener extends TaskToMessageListener {
 
     @Autowired
-    public PMOnAssignListener(
-            MessageService messageService,
-            @Qualifier("AssignFormatter") TaskEventFormatter taskEventFormatter) {
-        super(messageService, taskEventFormatter);
+    public PMOnAssignListener(MessageService messageService,
+                              @Qualifier("AssignFormatter") TaskEventFormatter taskEventFormatter,
+                              @Value("#{'${slack.notification.task-types.pmOnAssign}'.split(',')}") List<String> taskTypeIds) {
+        super(messageService, taskEventFormatter, taskTypeIds);
     }
 
     @Override
@@ -41,28 +43,19 @@ public class PMOnAssignListener extends TaskToMessageListener {
             for (ChangeLogItem changeLogItem : event.getChangeLog().getItems()) {
                 // don't send updates for own actions
                 if (changeLogItem.getChangeType() == ChangeType.ASSIGN && !isOwnAction(event, (AssignChangeLogItem) changeLogItem)) {
-                    if (eventWrapper.getEventModel() instanceof JiraEventModel) {
-                        Optional.ofNullable((JiraEventModel) eventWrapper.getEventModel())
-                                .map(JiraEventModel::getIssue)
-                                .map(IssueModel::getFields)
-                                .map(FieldModel::getAssignee)
-                                .filter(assignee -> assignee.getEmailAddress() != null)
-                                .ifPresent(assignee -> {
-                                    try {
-                                        log.info("Trying to send private message to {} about assigned task", assignee.getEmailAddress());
-                                        messageService.sendPrivateMessage(assignee.getEmailAddress(), formatter.format(event));
-                                    } catch (MessageServiceException e) {
-                                        log.error(e.getMessage());
-                                    }
-                                });
-                    } else {
-                        //it was done for testing, I don't know why , need to remove in future
-                        try {
-                            messageService.sendPrivateMessage("testUser", "my friend");
-                        } catch (MessageServiceException e) {
-                            throw new RuntimeException(e);
-                        }
-                    }
+                    Optional.ofNullable((JiraEventModel) eventWrapper.getEventModel())
+                            .map(JiraEventModel::getIssue)
+                            .map(IssueModel::getFields)
+                            .map(FieldModel::getAssignee)
+                            .filter(assignee -> assignee.getEmailAddress() != null)
+                            .ifPresent(assignee -> {
+                                try {
+                                    log.info("Trying to send private message to {} about assigned task", assignee.getEmailAddress());
+                                    messageService.sendPrivateMessage(assignee.getEmailAddress(), formatter.format(event));
+                                } catch (MessageServiceException e) {
+                                    log.error(e.getMessage());
+                                }
+                            });
                 }
             }
         }

@@ -29,17 +29,14 @@ import java.util.concurrent.atomic.AtomicBoolean;
 @Slf4j
 public abstract class TaskToMessageListener implements ApplicationListener<TaskEventModelWrapper> {
 
-    @Value("#{'${slack.notification.task-types}'.split(',')}")
-    private List<String> taskTypeIds = Arrays.asList("13"); //TODO Arrays.asList("13") Added to test pass. Think how make it beautiful.
-
+    private List<String> taskTypeIds;
     final MessageService messageService; // where we write to
-
     final TaskEventFormatter formatter; // what we use to format tasks
 
-    public TaskToMessageListener(
-            MessageService messageService, TaskEventFormatter taskEventFormatter) {
+    public TaskToMessageListener(MessageService messageService, TaskEventFormatter taskEventFormatter, List<String> taskTypeIds) {
         this.messageService = messageService;
         this.formatter = taskEventFormatter;
+        this.taskTypeIds = taskTypeIds;
     }
 
     /**
@@ -47,17 +44,15 @@ public abstract class TaskToMessageListener implements ApplicationListener<TaskE
      * @return True if event should be skipped
      */
     protected boolean shouldSkip(TaskEventModelWrapper modelWrapper) {
-        final AtomicBoolean shouldSkip = new AtomicBoolean(false);
-        if (modelWrapper.getEventModel() instanceof JiraEventModel) {
-            final Optional<String> issueName = Optional.ofNullable(((JiraEventModel) modelWrapper.getEventModel()))
-                    .map(JiraEventModel::getIssue)
-                    .map(IssueModel::getFields)
-                    .map(FieldModel::getIssueType)
-                    .map(IssueTypeModel::getId);
-            issueName.ifPresent(id -> shouldSkip.set(taskTypeIds.contains(id)));
-        }
-        return !shouldSkip.get();
+        final Optional<String> issueName = Optional.ofNullable(((JiraEventModel) modelWrapper.getEventModel()))
+                .map(JiraEventModel::getIssue)
+                .map(IssueModel::getFields)
+                .map(FieldModel::getIssueType)
+                .map(IssueTypeModel::getId);
+        return !(issueName.isPresent() && taskTypeIds.contains(issueName.get()));
     }
+
+
 
 
 }

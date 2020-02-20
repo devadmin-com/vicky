@@ -4,18 +4,18 @@ import com.devadmin.vicky.TaskEventFormatter;
 import com.devadmin.vicky.TaskEventType;
 import com.devadmin.vicky.TaskPriority;
 import com.devadmin.vicky.TaskType;
-import com.devadmin.vicky.controller.jira.model.AuthorModel;
-import com.devadmin.vicky.controller.jira.model.CommentModel;
-import com.devadmin.vicky.controller.jira.model.FieldModel;
+import com.devadmin.vicky.controller.jira.model.*;
 import com.devadmin.vicky.format.SimpleTaskEventFormatter;
 import com.devadmin.vicky.listener.LabeledTaskListener;
 import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
 
 /**
  * Test class for {@link com.devadmin.vicky.listener.LabeledTaskListener}
@@ -65,20 +65,20 @@ public class LabeledTaskListenerTest extends TaskListenerTest {
         authorModel.setDisplayName("serpento");
         commentModel.setAuthor(authorModel);
 
-        TestTask testTask = new TestTask();
-        testTask.setFieldModel(new FieldModel());
-        testTask.setLabels(labels);
-        testTask.setPriority(TaskPriority.OTHER);
-        testTask.setType(TaskType.OTHER);
-        testTask.setLastComment(commentModel);
-        testTask.setStatus("test status");
+        IssueModel issueModel = mock(IssueModel.class, RETURNS_DEEP_STUBS);
+        when(issueModel.getFields().getIssueType().getId()).thenReturn("13");
+        when(issueModel.getLabels()).thenReturn(labels);
+        when(issueModel.getPriority()).thenReturn(TaskPriority.OTHER);
+        when(issueModel.getType()).thenReturn(TaskType.OTHER);
+        when(issueModel.getLastComment()).thenReturn(commentModel);
+        when(issueModel.getStatus()).thenReturn("test status");
 
-        TestTaskEventModel testEventModel = new TestTaskEventModel();
+        JiraEventModel jiraEventModel = new JiraEventModel();
 
-        testEventModel.setType(TaskEventType.CREATED);
-        testEventModel.setTask(testTask);
+        jiraEventModel.setType(TaskEventType.CREATED);
+        jiraEventModel.setIssue(issueModel);
 
-        publish(testEventModel);
+        publish(jiraEventModel);
 
         assertTrue(testMessageService.wasChannelMsged());
         assertTrue(testMessageService.wasChannelMsged("label1"));
@@ -89,7 +89,7 @@ public class LabeledTaskListenerTest extends TaskListenerTest {
 
     // private methods
     private void createContext() {
-        LabeledTaskListener listener = new LabeledTaskListener(testMessageService, taskEventFormatter);
+        LabeledTaskListener listener = new LabeledTaskListener(testMessageService, taskEventFormatter, Collections.singletonList("13"));
         context.addApplicationListener(listener);
         context.refresh();
     }

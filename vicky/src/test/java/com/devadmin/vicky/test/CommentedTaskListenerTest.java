@@ -9,6 +9,8 @@ import com.devadmin.vicky.format.SimpleTaskEventFormatter;
 import com.devadmin.vicky.listener.CommentedTaskListener;
 import org.junit.Test;
 
+import java.util.Collections;
+
 import static org.junit.Assert.*;
 
 public class CommentedTaskListenerTest extends TaskListenerTest {
@@ -139,8 +141,7 @@ public class CommentedTaskListenerTest extends TaskListenerTest {
 
     // private methods
     private void createContext() {
-        CommentedTaskListener listener =
-                new CommentedTaskListener(testMessageService, taskEventFormatter);
+        CommentedTaskListener listener = new CommentedTaskListener(testMessageService, taskEventFormatter, Collections.singletonList("13"));
         context.addApplicationListener(listener);
         context.refresh();
     }

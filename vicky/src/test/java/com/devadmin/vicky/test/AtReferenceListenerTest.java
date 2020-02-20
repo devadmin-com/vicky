@@ -3,14 +3,16 @@ package com.devadmin.vicky.test;
 import com.devadmin.vicky.TaskEventFormatter;
 import com.devadmin.vicky.TaskPriority;
 import com.devadmin.vicky.TaskType;
-import com.devadmin.vicky.controller.jira.model.AuthorModel;
-import com.devadmin.vicky.controller.jira.model.CommentModel;
-import com.devadmin.vicky.controller.jira.model.FieldModel;
+import com.devadmin.vicky.controller.jira.model.*;
 import com.devadmin.vicky.format.SimpleTaskEventFormatter;
 import com.devadmin.vicky.listener.AtReferenceListener;
 import org.junit.Test;
 
+import java.util.Collections;
+
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
  * Test class for {@link com.devadmin.vicky.listener.AtReferenceListener}
@@ -57,6 +59,7 @@ public class AtReferenceListenerTest extends TaskListenerTest {
      */
     @Test
     public void testMultiplyAtReferencesInComment() {
+        //Arrange
         createContext();
 
         CommentModel comment = new CommentModel();
@@ -65,17 +68,19 @@ public class AtReferenceListenerTest extends TaskListenerTest {
         authorModel.setName("testUser");
         comment.setAuthor(authorModel);
 
-        TestTask testTask = new TestTask();
-        testTask.setFieldModel(new FieldModel());
-        testTask.setStatus("Test status");
-        testTask.setType(TaskType.OTHER);
+        IssueModel issueModel = mock(IssueModel.class);
+        when(issueModel.getFields()).thenReturn(new FieldModel());
+        when(issueModel.getStatus()).thenReturn("Test status");
+        when(issueModel.getType()).thenReturn(TaskType.OTHER);
 
-        TestTaskEventModel testEventModel = new TestTaskEventModel();
-        testEventModel.setComment(comment);
-        testEventModel.setTask(testTask);
+        JiraEventModel jiraEventModel = new JiraEventModel();
+        jiraEventModel.setComment(comment);
+        jiraEventModel.setIssue(issueModel);
 
-        publish(testEventModel);
+        //Act
+        publish(jiraEventModel);
 
+        //Assert
         assertFalse(testMessageService.wasChannelMsged());
         assertTrue(testMessageService.wasPMed());
         assertEquals(2, testMessageService.getPrivateMessageCount());
@@ -109,14 +114,9 @@ public class AtReferenceListenerTest extends TaskListenerTest {
         assertFalse(testMessageService.wasPMed());
     }
 
-    // private methods
     private void createContext() {
-        AtReferenceListener atReferenceListener =
-                new AtReferenceListener(testMessageService, taskEventFormatter);
-        // CommentedTaskListener commentedTaskListener = new CommentedTaskListener(testMessageService,
-        // taskEventFormatter);
+        AtReferenceListener atReferenceListener = new AtReferenceListener(testMessageService, taskEventFormatter, Collections.singletonList("13"));
         context.addApplicationListener(atReferenceListener);
-        // context.addApplicationListener(commentedTaskListener);
         context.refresh();
     }
 }
