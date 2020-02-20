@@ -3,18 +3,40 @@ Vicky is a robot which sends JIRA activity to relevant slack
 intelligently mapping JIRA task projects, lables and assignee to slack channels 
 and people.
 
-# Building, Installing, Running
-## Requirements
+# Getting Started
+## Building, Installing, Running Manually
+### Requirements
 * Java 8 or higher
 * gradle 4.10.2 or higher
 
-## How to run & modify
+### How to run & modify
   - clone the project
   - open it with Intellij Idea as gradle project
   - Enable auto-import for gradle
 
-### Important: application.yml !!
+#### Important: application.yml !!
   - Configure *application.yml* file instead of *sample-application.yml* 
+
+## Running via Docker
+### Prerequisites
+* Webserver with valid HTTPS URL (e.g. https://vicky.example.com/)
+* Configured to proxy requests to http://localhost:8080
+### Preparation
+* Create a new folder
+    mkdir vicky-docker
+* Go to folder
+    cd vicky-docker
+* Copy [Dockerfile](https://github.com/devadmin-com/vicky/blob/master/vicky/src/main/resources/Dockerfile) to new folder
+* Create src folder
+    mkdir src
+* Copy [sample-application.yml](https://github.com/devadmin-com/vicky/blob/master/vicky/src/main/resources/sample-application.yml) to src as application.yml
+* Edit src/application.yml and add JIRA credentials and Slack tokens
+### Building
+* Build project
+    docker build --no-cache -t vicky-docker .
+### Running
+* Start instance
+    docker run -dit --restart always -p 127.0.0.1:8080:8080 -p 5005:5005 vicky-docker
 
 # Connecting to Slack
 * Create a New app in slack https://api.slack.com/apps?new_app=1
@@ -30,5 +52,8 @@ and people.
 
 # Features
 See [Feature Specification Document](https://docs.google.com/document/d/1ue_Lk8OrZuKWIhliexv4FjrXPWXoNo9Oohpaej8pdVo/edit)
+
+# License
+See the [LICENSE](https://github.com/devadmin-com/vicky/blob/master/LICENSE) file.
 
 # Enjoy ;)
