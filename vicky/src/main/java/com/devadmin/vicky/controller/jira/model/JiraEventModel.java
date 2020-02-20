@@ -23,9 +23,6 @@ public class JiraEventModel implements TaskEvent {
     @JsonProperty("webhookEvent")
     private String webhookEvent;
 
-    @JsonProperty("issue_event_type_name")
-    private String issueEventTypeName;
-
     @JsonProperty("user")
     private UserModel user;
 
