@@ -1,4 +1,4 @@
-# Vicky
+# [Vicky](https://devadmin-com.github.io/vicky/)
 Vicky is a robot which sends JIRA activity to relevant slack 
 intelligently mapping JIRA task projects, lables and assignee to slack channels 
 and people.
