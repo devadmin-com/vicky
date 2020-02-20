@@ -77,9 +77,10 @@ public class IssueModel implements Task {
         return fields.getStatus().getDescription();
     }
 
+    // we don't use priority, only tasks type
     @Override
     public TaskPriority getPriority() {
-        return fields.getPriority().getName().equals("BLOCKER") ? TaskPriority.BLOCKER : TaskPriority.OTHER;
+        return TaskPriority.OTHER;
     }
 
     @Override

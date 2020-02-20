@@ -10,6 +10,8 @@ import com.devadmin.vicky.*;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Component;
 
+import javax.validation.constraints.NotNull;
+
 /**
  * Implements standard formatting of @TaskEventModelWrapper for sending to a @MessageService
  */
@@ -75,24 +77,19 @@ public class SimpleTaskEventFormatter implements TaskEventFormatter {
     /**
      * @return the icon to use when displaying this task
      */
-    private String getIcon(Task task) {
-        assert (task != null);
+    private String getIcon(@NotNull Task task) {
 
-        if (task.getPriority() == TaskPriority.BLOCKER) {
-            return "‼️";
-        } else {
-            assert (task.getType() != null);
+        TaskType taskType = task.getType() != null ? task.getType() : TaskType.OTHER;
 
-            switch (task.getType()) {
-                case OPERATIONS:
-                    return "⚙";
-                case URGENT_BUG:
-                    return "⚡";
-                case BLOCKER:
-                    return ":fire::fire::fire::fire::fire:";
-                default:
-                    return ":rocket:";
-            }
+        switch (task.getType()) {
+            case OPERATIONS:
+                return "⚙";
+            case URGENT_BUG:
+                return "⚡";
+            case BLOCKER:
+                return "‼:fire::fire::fire:‼";
+            default:
+                return ":rocket:";
         }
     }
 
