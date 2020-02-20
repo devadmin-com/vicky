@@ -59,9 +59,9 @@ public class TestMessageService implements MessageService {
      * @see MessageService#sendPrivateMessage(String, String)
      */
     @Override
-    public void sendPrivateMessage(String personName, String message) throws MessageServiceException {
+    public void sendPrivateMessage(String personEmail, String message) throws MessageServiceException {
         this.privateMessageCount++;
-        privateMsg.add(new Message(personName, message));
+        privateMsg.add(new Message(personEmail, message));
     }
 
     /**

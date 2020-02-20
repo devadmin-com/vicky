@@ -7,7 +7,6 @@
 package com.devadmin.vicky.format;
 
 import com.devadmin.vicky.*;
-import com.devadmin.vicky.controller.jira.model.JiraEventModel;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Component;
 
@@ -32,7 +31,7 @@ public class SimpleTaskEventFormatter implements TaskEventFormatter {
                 task.getKey(),
                 task.getStatus(),
                 task.getSummary(),
-                task.getAssignee());
+                task.getFields().getAssignee().getDisplayName());
     }
 
     /**
@@ -89,6 +88,8 @@ public class SimpleTaskEventFormatter implements TaskEventFormatter {
                     return "⚙";
                 case URGENT_BUG:
                     return "⚡";
+                case BLOCKER:
+                    return ":fire::fire::fire::fire::fire:";
                 default:
                     return ":rocket:";
             }
