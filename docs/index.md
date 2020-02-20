@@ -96,3 +96,5 @@ Keep on re-bugging about this every 6 hours - so get message at 24, 30, 36, 42â€
 When an issue assigned to a user is commented, send them an update on slack private message send message formatted as simple format (see Message Formatting above)
 
 
+![Vicky](https://devadmin-com.github.io/vicky/vicky-image.png)
+
