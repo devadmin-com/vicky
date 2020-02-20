@@ -32,9 +32,9 @@ public class BlockerTaskTracker {
     private static final long SIX_HOURS = 1000L * 60L * 60L * 6L; // 6h
     private static final long ONE_HOUR = 1000L * 60L * 60L; // 1h
     private static final String COMMENT_MESSAGE =
-            "This ticket has not been commented for more than 6 hours";
+            " This ticket has not been commented for more than 6 hours";
     private static final String CREATION_MESSAGE =
-            "This ticket has not been commented for more than 24 hours";
+            " WARNING!! This ticket has not been commented for more than 24 hours, anyone who see this message, please inform assignee";
 
     private TaskService jiraTaskService;
 
@@ -65,7 +65,7 @@ public class BlockerTaskTracker {
                 long durationBetweenNowAndLastCommentCreation =
                         Duration.between(lastCommentDateTime, today).toMillis();
                 if (durationBetweenNowAndLastCommentCreation >= SIX_HOURS) {
-                    sendPrivateMessage(task.getAssignee(), taskNameWithLink + " " + COMMENT_MESSAGE);
+                    sendPrivateMessage(task.getFields().getAssignee().getEmailAddress(), taskNameWithLink + " " + COMMENT_MESSAGE);
                 }
 
             } else {
@@ -77,7 +77,7 @@ public class BlockerTaskTracker {
                 long durationBetweenNowAndTaskCreation =
                         Duration.between(creationDateTime, today).toMillis();
                 if (durationBetweenNowAndTaskCreation >= ONE_DAY) {
-                    sendPrivateMessage(task.getAssignee(), taskNameWithLink + CREATION_MESSAGE);
+                    sendPrivateMessage(task.getFields().getAssignee().getEmailAddress(), taskNameWithLink + CREATION_MESSAGE);
                 }
             }
         }
