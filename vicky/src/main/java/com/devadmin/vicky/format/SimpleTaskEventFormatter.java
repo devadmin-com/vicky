@@ -111,7 +111,7 @@ public class SimpleTaskEventFormatter implements TaskEventFormatter {
             commenter = event.getComment().getAuthor().getDisplayName();
         }
 
-        return commenter == null ? "Vicky" : commenter;
+        return commenter;
     }
 
     /**
@@ -125,15 +125,15 @@ public class SimpleTaskEventFormatter implements TaskEventFormatter {
 
         if (event.getComment() == null) {
             Comment comment = task.getLastComment();
-            String truncatedComment = truncateComment(comment.getBody());
 
-            lastComment =
-                    comment.getBody() == null
-                            ? "This task does not contain comment"
-                            : truncatedComment.replace("[~", "@").replace("]", "");
+            if (comment == null || comment.getBody() == null) {
+                lastComment = "This task does not contain comment";
+            } else {
+                String truncatedComment = truncateComment(comment.getBody());
+                lastComment = truncatedComment.replace("[~", "@").replace("]", "");
+            }
         } else {
-            lastComment =
-                    truncateComment(event.getComment().getBody()).replace("[~", "@").replace("]", "");
+            lastComment = truncateComment(event.getComment().getBody()).replace("[~", "@").replace("]", "");
         }
 
         return lastComment;
