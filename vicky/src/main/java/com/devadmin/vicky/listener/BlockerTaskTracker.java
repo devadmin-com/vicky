@@ -48,37 +48,16 @@ public class BlockerTaskTracker {
     public void handleBlockerTasks() {
 
         log.info("handleBlockerTasks() method");
-        ZoneId defaultZoneId = ZoneId.systemDefault();
-        LocalDateTime today = LocalDateTime.now();
+        LocalDateTime currentTime = LocalDateTime.now();
         List<Task> tasks = jiraTaskService.getBlockerTasks();
 
         for (Task task : tasks) {
             Comment lastComment = jiraTaskService.getLastCommentByTaskId(task.getId());
             String taskNameWithLink = "<" + task.getUrl() + "|" + task.getKey() + ">";
             if (lastComment != null) {
-                log.info("Last comment of {} is null", task.getDescription());
-                Date commentCreatedDate = lastComment.getCreatedDate();
-                Instant instant = commentCreatedDate.toInstant();
-
-                LocalDateTime lastCommentDateTime = instant.atZone(defaultZoneId).toLocalDateTime();
-
-                long durationBetweenNowAndLastCommentCreation =
-                        Duration.between(lastCommentDateTime, today).toMillis();
-                if (durationBetweenNowAndLastCommentCreation >= SIX_HOURS) {
-                    sendPrivateMessage(task.getFields().getAssignee().getEmailAddress(), taskNameWithLink + " " + COMMENT_MESSAGE);
-                }
-
+                checkAndWarnIfNoCommentsForLongTime(task, lastComment, currentTime, taskNameWithLink);
             } else {
-                String taskCreatedDate = task.getFields().getCreatedDate();
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEE MMM dd HH:mm:ss zzz yyyy");
-
-                LocalDateTime creationDateTime = LocalDateTime.parse(taskCreatedDate, formatter);
-
-                long durationBetweenNowAndTaskCreation =
-                        Duration.between(creationDateTime, today).toMillis();
-                if (durationBetweenNowAndTaskCreation >= ONE_DAY) {
-                    sendPrivateMessage(task.getFields().getAssignee().getEmailAddress(), taskNameWithLink + CREATION_MESSAGE);
-                }
+                checkAndWarnIfNoWorkForLongTime(task, currentTime, taskNameWithLink);
             }
         }
     }
@@ -95,5 +74,53 @@ public class BlockerTaskTracker {
         } catch (MessageServiceException e) {
             log.error("was not able to send private message about Blocker task", e.getMessage());
         }
+    }
+
+    private void checkAndWarnIfNoCommentsForLongTime(Task task, Comment lastComment, LocalDateTime currentTime, String taskNameWithLink) {
+        long durationBetweenNowAndLastCommentCreation = secondsSinceLastComment(task, lastComment, currentTime);
+
+        if (shouldSendNoCommentWarning(durationBetweenNowAndLastCommentCreation)) {
+            sendPrivateMessage(task.getFields().getAssignee().getEmailAddress(), taskNameWithLink + " " + COMMENT_MESSAGE);
+        }
+    }
+
+    private void checkAndWarnIfNoWorkForLongTime(Task task, LocalDateTime currentTime, String taskNameWithLink) {
+        long secondsBetweenNowAndTaskCreation = secondsSinceIssueCreated(task, currentTime);
+
+        if (shouldSendTicketStillOpenWarning(secondsBetweenNowAndTaskCreation)) {
+            sendPrivateMessage(task.getFields().getAssignee().getEmailAddress(), taskNameWithLink + CREATION_MESSAGE);
+        }
+    }
+
+    private Long secondsSinceLastComment(Task task, Comment lastComment, LocalDateTime currentTime) {
+        log.info("Last comment of {} is null", task.getDescription());
+
+        ZoneId currentZoneId = ZoneId.systemDefault();
+        Date commentCreatedDate = lastComment.getCreatedDate();
+        Instant instant = commentCreatedDate.toInstant();
+        LocalDateTime lastCommentDateTime = instant.atZone(currentZoneId).toLocalDateTime();
+
+        long durationBetweenNowAndLastCommentCreation = Duration.between(lastCommentDateTime, currentTime).toMillis();
+
+        return durationBetweenNowAndLastCommentCreation;
+    }
+
+    private Long secondsSinceIssueCreated(Task task, LocalDateTime currentTime) {
+        String taskCreatedDate = task.getFields().getCreatedDate();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEE MMM dd HH:mm:ss zzz yyyy");
+        LocalDateTime creationDateTime = LocalDateTime.parse(taskCreatedDate, formatter);
+
+        long secondsBetweenNowAndTaskCreation =
+                Duration.between(creationDateTime, currentTime).toMillis();
+
+        return secondsBetweenNowAndTaskCreation;
+    }
+
+    private boolean shouldSendNoCommentWarning(Long secondsPassedSinceLastComment) {
+        return secondsPassedSinceLastComment >= SIX_HOURS;
+    }
+
+    private boolean shouldSendTicketStillOpenWarning(Long secondsSinceTicketWasCreated) {
+        return secondsSinceTicketWasCreated >= ONE_DAY;
     }
 }
