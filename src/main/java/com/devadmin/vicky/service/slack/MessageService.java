@@ -5,8 +5,6 @@
  */
 package com.devadmin.vicky.service.slack;
 
-import com.devadmin.vicky.MessageServiceException;
-
 /**
  * A generic messaging service. Allows writing string messages to a named channel or privately to a
  * person.
