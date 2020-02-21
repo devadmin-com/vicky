@@ -46,8 +46,7 @@ public class TestMessageService implements MessageService {
      * @see MessageService#sendChannelMessage(String, String)
      */
     @Override
-    public void sendChannelMessage(String channelName, String message)
-            throws MessageServiceException {
+    public void sendChannelMessage(String channelName, String message) {
         this.channelMessageCount++;
         setLastMessage(message);
         channelMsg.add(new Message(channelName, message));
@@ -59,7 +58,7 @@ public class TestMessageService implements MessageService {
      * @see MessageService#sendPrivateMessage(String, String)
      */
     @Override
-    public void sendPrivateMessage(String personEmail, String message) throws MessageServiceException {
+    public void sendPrivateMessage(String personEmail, String message) {
         this.privateMessageCount++;
         privateMsg.add(new Message(personEmail, message));
     }

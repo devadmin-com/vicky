@@ -36,7 +36,7 @@ public class AtReferenceListenerTest extends TaskListenerTest {
         CommentModel comment = new CommentModel();
         comment.setBody("What is this [~serpento] ?");
         AuthorModel authorModel = new AuthorModel();
-        authorModel.setDisplayName("serpento");
+        authorModel.setDisplayName("testUserName");
         authorModel.setName("testUser");
         comment.setAuthor(authorModel);
 

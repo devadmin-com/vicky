@@ -156,7 +156,7 @@ public class CommentedTaskListenerTest extends TaskListenerTest {
 
     // private methods
     private void createContext() {
-        CommentedTaskListener listener = new CommentedTaskListener(testMessageService, taskEventFormatter, Collections.singletonList("13"));
+        CommentedTaskListener listener = new CommentedTaskListener(testMessageService, taskEventFormatter, Collections.singletonList("13"), eventService);
         context.addApplicationListener(listener);
         context.refresh();
     }

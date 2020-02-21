@@ -42,7 +42,7 @@ public class CreatedTaskListener extends TaskToMessageListener {
     }
 
     private boolean shouldListenerReactOnEvent(TaskEvent event, TaskEventModelWrapper eventWrapper) {
-        return event.getType() == TaskEventType.CREATED && this.shouldSkip(eventWrapper);
+        return event.getType() == TaskEventType.CREATED && !this.shouldSkip(eventWrapper);
     }
 
     private void sendMessage(TaskEvent event) {

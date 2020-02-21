@@ -12,6 +12,8 @@ import com.devadmin.vicky.format.SimpleTaskEventFormatter;
 import com.devadmin.vicky.listener.CreatedTaskListener;
 import org.junit.Test;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Collections;
 
 import static org.junit.Assert.*;
@@ -35,6 +37,7 @@ public class CreatedTaskListenerTest extends TaskListenerTest {
         createContext();
 
         JiraEventModel jiraEventModel = getTestTaskEventModel(TaskEventType.CREATED);
+        jiraEventModel.setTimeStamp(Timestamp.valueOf(LocalDateTime.now()).getTime());
         publish(jiraEventModel);
 
         assertEquals(1, testMessageService.getChannelMessageCount()); // should call the method just 1 time
