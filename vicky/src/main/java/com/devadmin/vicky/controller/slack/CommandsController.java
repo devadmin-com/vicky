@@ -1,5 +1,9 @@
 package com.devadmin.vicky.controller.slack;
 
+import com.devadmin.vicky.MessageService;
+import com.devadmin.vicky.MessageServiceException;
+import com.devadmin.vicky.TaskEventFormatter;
+import com.devadmin.vicky.service.slack.*;
 import com.devadmin.vicky.controller.slack.config.SlackProperties;
 import me.ramswaroop.jbot.core.common.JBot;
 import me.ramswaroop.jbot.core.slack.models.Bot;
@@ -10,11 +14,19 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * This controller is responsible for interactions with Slack Bot ex. sending DM to Bot
  * this is the bean we use to have a socket connection with SLACK
@@ -44,6 +56,31 @@ public class CommandsController extends Bot {
     @Autowired
     public CommandsController(SlackProperties properties) {
         this.properties = properties;
+    }
+
+    @Autowired
+    MessageService messageService;
+    @PostMapping("/bye")
+    public void sayByeToEveryone(HttpServletRequest request){
+        ModelAndView user = getParameters(request);
+        try {
+            messageService.sendChannelMessage("vicky", "test bye message from ");
+        } catch (MessageServiceException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @RequestMapping(value = "/get", method= RequestMethod.GET)
+    public ModelAndView getParameters(HttpServletRequest request){
+        Enumeration enumeration = request.getParameterNames();
+        Map<String, Object> modelMap = new HashMap<>();
+        while(enumeration.hasMoreElements()){
+            String parameterName = enumeration.nextElement().toString();
+            modelMap.put(parameterName, request.getParameter(parameterName));
+        }
+        ModelAndView modelAndView = new ModelAndView("sample");
+        modelAndView.addObject("parameters", modelMap);
+        return modelAndView;
     }
 
     @PostMapping("/hello")

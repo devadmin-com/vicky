@@ -17,8 +17,8 @@ jira:
 slack:
   api-url: https://slack.com/api
   token:
-    bot: xoxb-3666444034-479068848033-WaDUY8SfsiEZNQw65SsKOLcR
-    verification: wdwRLHJvrHVyBq60DmGsq0z4
+    bot: xoxb-3666444034-964922925542-cr9rtpPSI9noPWnaz8LgWGBX
+    verification: Fbz2SfIz92M8VGnOxYeFp5el
 
 # server properties
 server:
