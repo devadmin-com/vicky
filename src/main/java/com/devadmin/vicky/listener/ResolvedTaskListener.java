@@ -1,6 +1,5 @@
 package com.devadmin.vicky.listener;
 
-import com.devadmin.vicky.*;
 import com.devadmin.vicky.event.TaskEventModelWrapper;
 import com.devadmin.vicky.format.TaskEventFormatter;
 import com.devadmin.vicky.model.jira.task.Task;
@@ -27,7 +26,7 @@ public class ResolvedTaskListener extends TaskToMessageListener {
     @Autowired
     public ResolvedTaskListener(MessageService messageService,
                                 @Qualifier("SimpleFormatter") TaskEventFormatter taskEventFormatter,
-                                @Value("#{'${slack.notification.task-types.resolvedTask}'.split(',')}")List<String> taskTypeIds) {
+                                @Value("#{'${slack.notification.task-types.resolvedTask}'.split(',')}") List<String> taskTypeIds) {
         super(messageService, taskEventFormatter, taskTypeIds);
     }
 
@@ -36,15 +35,19 @@ public class ResolvedTaskListener extends TaskToMessageListener {
         TaskEvent event = eventWrapper.getTaskEventModel();
 
         Task task = event.getTask();
-        //what we want is just to send notification on resolved task , not a comment
-        if (task.isResolved() && event.getType() != null && event.getType().equals(TaskEventType.UPDATED)) {
+
+        if (shouldListenerReactOnEvent(event, task, eventWrapper)) {
             String projectName = task.getProject();
-            if (!this.shouldSkip(eventWrapper)) {
-                log.info("Trying to send private message about resolved task");
-                messageService.sendChannelMessage(projectName, formatter.format(event));
-            } else {
-                log.info("Event {} doesn't send notification", eventWrapper.getEventModel());
-            }
+            log.info("Trying to send private message about resolved task");
+
+            messageService.sendChannelMessage(projectName, formatter.format(event));
+        } else {
+            log.info("Event {} doesn't send notification", eventWrapper.getEventModel());
         }
+    }
+
+    //what we want is just to send notification on resolved task , not a comment
+    private boolean shouldListenerReactOnEvent(TaskEvent event, Task task, TaskEventModelWrapper eventWrapper) {
+        return task.isResolved() && event.getType() != null && event.getType().equals(TaskEventType.UPDATED) && !this.shouldSkip(eventWrapper);
     }
 }
