@@ -9,11 +9,13 @@ package com.devadmin.vicky.format;
 import com.devadmin.vicky.model.jira.comment.Comment;
 import com.devadmin.vicky.model.jira.task.Task;
 import com.devadmin.vicky.model.jira.task.TaskEvent;
-import com.devadmin.vicky.model.jira.task.TaskType;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import javax.validation.constraints.NotNull;
+import java.util.Properties;
 
 /**
  * Implements standard formatting of @TaskEventModelWrapper for sending to a @MessageService
@@ -21,8 +23,12 @@ import javax.validation.constraints.NotNull;
 @Component("SimpleFormatter")
 public class SimpleTaskEventFormatter implements TaskEventFormatter {
 
-    // all comments are cut off at this length for display
-    static final int COMMENT_CUT_LENGTH = 256;
+    @Autowired
+    @Qualifier("issueTypeIdToIconsMapping")
+    private Properties issueTypeIdToIconsMapping;
+
+    private static final int COMMENT_CUT_LENGTH = 256; // all comments are cut off at this length for display
+    private static final String DEFAULT_ICON_KEY = "default";
 
     /**
      * composes basic part of message (without comment)
@@ -36,7 +42,7 @@ public class SimpleTaskEventFormatter implements TaskEventFormatter {
                 task.getKey(),
                 task.getStatus(),
                 task.getSummary(),
-                task.getFields().getAssignee().getDisplayName());
+                task.getAssignee());
     }
 
     /**
@@ -81,19 +87,11 @@ public class SimpleTaskEventFormatter implements TaskEventFormatter {
      * @return the icon to use when displaying this task
      */
     private String getIcon(@NotNull Task task) {
-
-        TaskType taskType = task.getType() != null ? task.getType() : TaskType.OTHER;
-
-        switch (task.getType()) {
-            case OPERATIONS:
-                return "⚙";
-            case URGENT_BUG:
-                return "⚡";
-            case BLOCKER:
-                return "‼:fire::fire::fire:‼";
-            default:
-                return ":rocket:";
+        String icon = issueTypeIdToIconsMapping.getProperty(task.getTypeId());
+        if(icon == null){
+            icon = issueTypeIdToIconsMapping.getProperty(DEFAULT_ICON_KEY);
         }
+        return icon != null ? icon : "";
     }
 
     /**

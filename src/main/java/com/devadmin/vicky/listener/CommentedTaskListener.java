@@ -33,10 +33,8 @@ public class CommentedTaskListener extends TaskToMessageListener {
     @Autowired
     public CommentedTaskListener(MessageService messageService,
                                  @Qualifier("SimpleFormatter") TaskEventFormatter taskEventFormatter,
-                                 @Value("#{'${slack.notification.task-types.commentedTask}'.split(',')}") List<String> taskTypeIds,
                                  EventService eventService) {
-
-        super(messageService, taskEventFormatter, taskTypeIds);
+        super(messageService, taskEventFormatter);
         this.eventService = eventService;
     }
 

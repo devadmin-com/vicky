@@ -32,9 +32,8 @@ public class AtReferenceListener extends TaskToMessageListener {
     @Autowired
     public AtReferenceListener(MessageService messageService,
                                @Qualifier("SimpleFormatter") TaskEventFormatter taskEventFormatter,
-                               @Value("#{'${slack.notification.task-types.atReference}'.split(',')}") List<String> taskTypeIds,
                                EventService eventService) {
-        super(messageService, taskEventFormatter, taskTypeIds);
+        super(messageService, taskEventFormatter);
         this.eventService = eventService;
     }
 
