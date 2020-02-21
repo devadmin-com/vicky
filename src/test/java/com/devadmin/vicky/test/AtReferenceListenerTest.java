@@ -131,7 +131,7 @@ public class AtReferenceListenerTest extends TaskListenerTest {
     }
 
     private void createContext() {
-        AtReferenceListener atReferenceListener = new AtReferenceListener(testMessageService, taskEventFormatter, Collections.singletonList("13"));
+        AtReferenceListener atReferenceListener = new AtReferenceListener(testMessageService, taskEventFormatter, Collections.singletonList("13"), eventService);
         context.addApplicationListener(atReferenceListener);
         context.refresh();
     }

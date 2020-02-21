@@ -1,17 +1,19 @@
 package com.devadmin.vicky.test;
 
+import com.devadmin.vicky.listener.AtReferenceListener;
+import com.devadmin.vicky.listener.CreatedTaskListener;
+import com.devadmin.vicky.listener.LabeledTaskListener;
+import com.devadmin.vicky.listener.PMOnAssignListener;
+import com.devadmin.vicky.model.jira.AuthorModel;
+import com.devadmin.vicky.model.jira.JiraEventModel;
+import com.devadmin.vicky.model.jira.UserModel;
+import com.devadmin.vicky.model.jira.changelog.ChangeLogModel;
+import com.devadmin.vicky.model.jira.changelog.JiraChangeLogItemModel;
 import com.devadmin.vicky.model.jira.comment.CommentModel;
 import com.devadmin.vicky.model.jira.task.IssueModel;
 import com.devadmin.vicky.model.jira.task.TaskEventType;
 import com.devadmin.vicky.model.jira.task.TaskPriority;
 import com.devadmin.vicky.model.jira.task.TaskType;
-import com.devadmin.vicky.listener.AtReferenceListener;
-import com.devadmin.vicky.listener.CreatedTaskListener;
-import com.devadmin.vicky.listener.LabeledTaskListener;
-import com.devadmin.vicky.listener.PMOnAssignListener;
-import com.devadmin.vicky.model.jira.*;
-import com.devadmin.vicky.model.jira.changelog.ChangeLogModel;
-import com.devadmin.vicky.model.jira.changelog.JiraChangeLogItemModel;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -93,7 +95,7 @@ public class MultipleTaskListenerTest extends TaskListenerTest {
     private void createContext() {
         CreatedTaskListener projectTaskListener = new CreatedTaskListener(testMessageService, taskEventFormatter, Collections.singletonList("13"));
         PMOnAssignListener pmOnAssignListener = new PMOnAssignListener(testMessageService, taskEventFormatter, Collections.singletonList("13"));
-        AtReferenceListener atReferenceListener = new AtReferenceListener(testMessageService, taskEventFormatter, Collections.singletonList("13"));
+        AtReferenceListener atReferenceListener = new AtReferenceListener(testMessageService, taskEventFormatter, Collections.singletonList("13"), eventService);
         LabeledTaskListener labeledTaskListener = new LabeledTaskListener(testMessageService, taskEventFormatter, Collections.singletonList("13"));
         context.addApplicationListener(projectTaskListener);
         context.addApplicationListener(pmOnAssignListener);

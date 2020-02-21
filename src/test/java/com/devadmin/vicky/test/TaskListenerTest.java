@@ -4,6 +4,7 @@ import com.devadmin.vicky.model.jira.task.TaskEvent;
 import com.devadmin.vicky.format.TaskEventFormatter;
 import com.devadmin.vicky.event.TaskEventModelWrapper;
 import com.devadmin.vicky.format.SimpleTaskEventFormatter;
+import com.devadmin.vicky.service.EventService;
 import org.junit.Before;
 import org.springframework.context.support.StaticApplicationContext;
 
@@ -13,6 +14,7 @@ import org.springframework.context.support.StaticApplicationContext;
 public class TaskListenerTest {
     StaticApplicationContext context;
     TestMessageService testMessageService;
+    EventService eventService;
 
     TaskEventFormatter taskEventFormatter;
 
@@ -36,5 +38,6 @@ public class TaskListenerTest {
         context = new StaticApplicationContext();
         testMessageService = new TestMessageService();
         taskEventFormatter = getTaskEventFormatter();
+        eventService = new EventService();
     }
 }

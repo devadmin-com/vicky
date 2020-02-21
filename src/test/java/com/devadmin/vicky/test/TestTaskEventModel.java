@@ -70,6 +70,11 @@ public class TestTaskEventModel implements TaskEvent {
     }
 
     @Override
+    public String getEmailAutor() {
+        return "mail@mail.com";
+    }
+
+    @Override
     public String toString() {
         return "TestTaskEventModel{" + "type=" + type + '}';
     }
