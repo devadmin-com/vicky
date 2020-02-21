@@ -1,6 +1,7 @@
 package com.devadmin.vicky.test;
 
 import com.devadmin.vicky.format.TaskEventFormatter;
+import com.devadmin.vicky.model.jira.UserModel;
 import com.devadmin.vicky.model.jira.task.TaskType;
 import com.devadmin.vicky.model.jira.AuthorModel;
 import com.devadmin.vicky.model.jira.comment.CommentModel;
@@ -30,14 +31,19 @@ public class CommentedTaskListenerTest extends TaskListenerTest {
         CommentModel comment = new CommentModel();
         comment.setBody("This is a simple comment");
         AuthorModel authorModel = new AuthorModel();
-        authorModel.setName("serpento");
+        authorModel.setDisplayName("serpento");
         comment.setAuthor(authorModel);
 
         TestTask testTask = new TestTask();
-        testTask.setFieldModel(new FieldModel());
+        FieldModel fieldModel = new FieldModel();
+        UserModel userModel = new UserModel();
+        userModel.setDisplayName("testDisplayName");
+        fieldModel.setAssignee(userModel);
+        testTask.setFieldModel(fieldModel);
         testTask.setStatus("test status");
         testTask.setType(TaskType.OTHER);
         testTask.setAssignee("testUser");
+
 
         TestTaskEventModel testEventModel = new TestTaskEventModel();
         testEventModel.setComment(comment);
@@ -59,10 +65,15 @@ public class CommentedTaskListenerTest extends TaskListenerTest {
         CommentModel comment = new CommentModel();
         comment.setBody("This is a simple comment");
         AuthorModel authorModel = new AuthorModel();
-        authorModel.setName("testUser");
+        authorModel.setDisplayName("testUser");
         comment.setAuthor(authorModel);
 
         TestTask testTask = new TestTask();
+        FieldModel fieldModel = new FieldModel();
+        UserModel userModel = new UserModel();
+        userModel.setDisplayName("testUser");
+        fieldModel.setAssignee(userModel);
+        testTask.setFieldModel(fieldModel);
         testTask.setType(TaskType.OTHER);
         testTask.setAssignee("testUser");
 
@@ -123,7 +134,11 @@ public class CommentedTaskListenerTest extends TaskListenerTest {
         comment.setAuthor(authorModel);
 
         TestTask testTask = new TestTask();
-        testTask.setFieldModel(new FieldModel());
+        FieldModel fieldModel = new FieldModel();
+        UserModel userModel = new UserModel();
+        userModel.setDisplayName("testUser");
+        fieldModel.setAssignee(userModel);
+        testTask.setFieldModel(fieldModel);
         testTask.setStatus("Test status");
         testTask.setType(TaskType.OTHER);
         testTask.setAssignee("testUser");
