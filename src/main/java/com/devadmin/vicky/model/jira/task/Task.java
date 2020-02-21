@@ -38,11 +38,6 @@ public interface Task {
     String getDescription();
 
     /**
-     * @return the priority of this task
-     */
-    TaskPriority getPriority();
-
-    /**
      * @return a string identifier of the project this task belongs to.
      */
     String getProject();
@@ -66,7 +61,7 @@ public interface Task {
     /**
      * @return status of task
      */
-    TaskType getType();
+    String getTypeId();
 
     /**
      * @return the username who assignee this task

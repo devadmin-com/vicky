@@ -76,12 +76,6 @@ public class IssueModel implements Task {
         return fields.getStatus().getDescription();
     }
 
-    // we don't use priority, only tasks type
-    @Override
-    public TaskPriority getPriority() {
-        return TaskPriority.OTHER;
-    }
-
     @Override
     public String getProject() {
         return getFields().getProject().getName();
@@ -106,17 +100,8 @@ public class IssueModel implements Task {
     }
 
     @Override
-    public TaskType getType() {
-        switch (this.fields.getIssueType().getName()) {
-            case "Operations 運営":
-                return TaskType.OPERATIONS;
-            case "Urgent Bug 緊急バグ":
-                return TaskType.URGENT_BUG;
-            case "Blocker":
-                return TaskType.BLOCKER;
-            default:
-                return TaskType.OTHER;
-        }
+    public String getTypeId() {
+        return fields.getIssueType().getId();
     }
 
     @Override
