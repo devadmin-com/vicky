@@ -36,6 +36,8 @@ public class AtReferenceListener extends TaskToMessageListener {
 
         if (commentNotEmpty(event)) {
             sendMessageToReferencedPersons(event);
+        } else{
+            log.warn("Ignore empty comment");
         }
     }
 
