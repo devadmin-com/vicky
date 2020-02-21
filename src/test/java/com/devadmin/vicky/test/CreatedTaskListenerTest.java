@@ -68,6 +68,7 @@ public class CreatedTaskListenerTest extends TaskListenerTest {
         createContext();
 
         JiraEventModel testEventModel = getTestTaskEventModel(TaskEventType.COMMENT);
+        testEventModel.setTimeStamp(Timestamp.valueOf(LocalDateTime.now()).getTime());
         publish(testEventModel);
 
         assertFalse(testMessageService.wasChannelMsged());
