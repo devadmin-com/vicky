@@ -29,6 +29,11 @@ public class AuthorModel {
     @JsonProperty("avatarUrls")
     private AvatarUrlModel avatarUrlModel;
 
+    //    https://id.atlassian.com/manage-profile/profile-and-visibility
+    //    All users should have visibility level for email "Anyone"
+    @JsonProperty("emailAddress")
+    private String emailAddress;
+
     @JsonProperty("displayName")
     private String displayName;
 

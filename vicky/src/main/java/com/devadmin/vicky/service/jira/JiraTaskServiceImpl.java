@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class JiraTaskServiceImpl implements TaskService {
 
-    private static final String BLOCKER_TASKS_JQL = "status != closed AND priority = Blocker";
+    private static final String BLOCKER_TASKS_JQL = "issuetype = Blocker and status != closed";
 
     private final JiraClient jiraClient;
 
@@ -50,7 +50,6 @@ public class JiraTaskServiceImpl implements TaskService {
             fieldModel.setCreatedDate(issue.getCreatedDate().toString());
             fieldModel.setUpdatedDate(issue.getUpdatedDate().toString());
             fieldModel.setLabels(issue.getLabels().toArray(new String[0]));
-
         }
         return fieldModel;
     }
@@ -107,7 +106,6 @@ public class JiraTaskServiceImpl implements TaskService {
             userModel.setName(user.getName());
             userModel.setEmailAddress(user.getEmail());
             userModel.setDisplayName(user.getDisplayName());
-
         } catch (NullPointerException e) {
             log.error("Exception on getting assignee", e.getMessage());
         }

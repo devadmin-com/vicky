@@ -26,7 +26,6 @@ slack:
       labeledTask: <comma-separated task ids you want to process in this listener>
       pmOnAssign: <comma-separated task ids you want to process in this listener>
       resolvedTask: <comma-separated task ids you want to process in this listener>
-
 # server properties
 server:
   tomcat:

@@ -7,9 +7,10 @@
 package com.devadmin.vicky.format;
 
 import com.devadmin.vicky.*;
-import com.devadmin.vicky.controller.jira.model.JiraEventModel;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Component;
+
+import javax.validation.constraints.NotNull;
 
 /**
  * Implements standard formatting of @TaskEventModelWrapper for sending to a @MessageService
@@ -32,7 +33,7 @@ public class SimpleTaskEventFormatter implements TaskEventFormatter {
                 task.getKey(),
                 task.getStatus(),
                 task.getSummary(),
-                task.getAssignee());
+                task.getFields().getAssignee().getDisplayName());
     }
 
     /**
@@ -76,22 +77,19 @@ public class SimpleTaskEventFormatter implements TaskEventFormatter {
     /**
      * @return the icon to use when displaying this task
      */
-    private String getIcon(Task task) {
-        assert (task != null);
+    private String getIcon(@NotNull Task task) {
 
-        if (task.getPriority() == TaskPriority.BLOCKER) {
-            return "‼️";
-        } else {
-            assert (task.getType() != null);
+        TaskType taskType = task.getType() != null ? task.getType() : TaskType.OTHER;
 
-            switch (task.getType()) {
-                case OPERATIONS:
-                    return "⚙";
-                case URGENT_BUG:
-                    return "⚡";
-                default:
-                    return ":rocket:";
-            }
+        switch (task.getType()) {
+            case OPERATIONS:
+                return "⚙";
+            case URGENT_BUG:
+                return "⚡";
+            case BLOCKER:
+                return "‼:fire::fire::fire:‼";
+            default:
+                return ":rocket:";
         }
     }
 
@@ -110,7 +108,7 @@ public class SimpleTaskEventFormatter implements TaskEventFormatter {
             commenter = event.getComment().getAuthor().getDisplayName();
         }
 
-        return commenter == null ? "Vicky" : commenter;
+        return commenter;
     }
 
     /**
@@ -124,15 +122,15 @@ public class SimpleTaskEventFormatter implements TaskEventFormatter {
 
         if (event.getComment() == null) {
             Comment comment = task.getLastComment();
-            String truncatedComment = truncateComment(comment.getBody());
 
-            lastComment =
-                    comment.getBody() == null
-                            ? "This task does not contain comment"
-                            : truncatedComment.replace("[~", "@").replace("]", "");
+            if (comment == null || comment.getBody() == null) {
+                lastComment = "This task does not contain comment";
+            } else {
+                String truncatedComment = truncateComment(comment.getBody());
+                lastComment = truncatedComment.replace("[~", "@").replace("]", "");
+            }
         } else {
-            lastComment =
-                    truncateComment(event.getComment().getBody()).replace("[~", "@").replace("]", "");
+            lastComment = truncateComment(event.getComment().getBody()).replace("[~", "@").replace("]", "");
         }
 
         return lastComment;

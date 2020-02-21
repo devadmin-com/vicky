@@ -43,12 +43,12 @@ public class CommentedTaskListener extends TaskToMessageListener {
                 && !event
                 .getComment()
                 .getAuthor()
-                .getName()
-                .equals(event.getTask().getAssignee())) { // don't send updates for own actions
+                .getDisplayName()
+                .equals(event.getTask().getFields().getAssignee().getDisplayName())) { // don't send updates for own actions
             try {
                 log.info("Trying to send private message about commented task");
                 messageService.sendPrivateMessage(
-                        event.getComment().getAuthor().getName(), formatter.format(event));
+                        event.getComment().getAuthor().getEmailAddress(), formatter.format(event));
             } catch (MessageServiceException e) {
                 log.error(e.getMessage());
             }

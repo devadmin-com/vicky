@@ -6,5 +6,6 @@ package com.devadmin.vicky;
 public enum TaskType {
     OPERATIONS,
     URGENT_BUG,
+    BLOCKER,
     OTHER
 }

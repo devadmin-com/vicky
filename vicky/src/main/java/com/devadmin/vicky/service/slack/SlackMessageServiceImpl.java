@@ -27,27 +27,24 @@ import java.util.stream.Stream;
 @Slf4j
 public class SlackMessageServiceImpl implements MessageService {
 
+    private final SlackProperties properties;
+    private final SlackApiEndpoints slackApiEndpoints;
+    private final RestTemplate restTemplate;
+    @Value("${debug.message-service.additional-information:}")
+    private String additionalMessageInformation;
+
     public SlackMessageServiceImpl(SlackProperties properties, SlackApiEndpoints slackApiEndpoints, RestTemplate restTemplate) {
         this.properties = properties;
         this.slackApiEndpoints = slackApiEndpoints;
         this.restTemplate = restTemplate;
     }
 
-    private final SlackProperties properties;
-
-    private final SlackApiEndpoints slackApiEndpoints;
-
-    private final RestTemplate restTemplate;
-
-    @Value("${debug.message-service.additional-information:}")
-    private String additionalMessageInformation;
-
     /**
      * @see MessageService#sendChannelMessage(String, String)
      */
     @Override
     public void sendChannelMessage(String channelName, String message)
-    throws MessageServiceException {
+            throws MessageServiceException {
 
         log.info("SlackMessageService sendChannelMessage() method");
         try {
@@ -70,12 +67,12 @@ public class SlackMessageServiceImpl implements MessageService {
      * @see MessageService#sendPrivateMessage(String, String)
      */
     @Override
-    public void sendPrivateMessage(String personName, String message) throws MessageServiceException {
+    public void sendPrivateMessage(String personEmail, String message) throws MessageServiceException {
         // getting the event with HTTP POST request, then getting list of all members in slack
         // let's keep it this way for now (would be better to find a way to send DM by person name)
         // TODO handle pagination problem (we can have next_cursor)
 
-        log.info("slack.send to {} message {}", personName, message);
+        log.info("slack.send to {} message {}", personEmail, message);
 
         Event event =
                 restTemplate
@@ -88,23 +85,23 @@ public class SlackMessageServiceImpl implements MessageService {
 
         // looping through all members and getting the one whom we need to send PM
         Stream.of(event.getMembers())
-              .filter(member -> member.getProfile().getEmail() != null && member.getProfile().getEmail().equals(personName))
-              .findFirst()
-              .ifPresent(member -> {
-                  try {
-                      log.info("Trying to send private message to {}", personName);
-                      restTemplate.postForEntity(
-                              slackApiEndpoints.getChatPostMessageApi(),
-                              null,
-                              String.class,
-                              properties.getToken().getBot(),
-                              member.getId(),
-                              message + " " + additionalMessageInformation);
-                  } catch (RestClientException e) {
-                      log.error("Unable to post to given person Id: {}", e);
-                      throw e;
-                  }
-              });
-
+                .filter(member ->
+                        member.getProfile().getEmail() != null && member.getProfile().getEmail().equals(personEmail))
+                .findFirst()
+                .ifPresent(member -> {
+                    try {
+                        log.info("Trying to send private message to {}", personEmail);
+                        restTemplate.postForEntity(
+                                slackApiEndpoints.getChatPostMessageApi(),
+                                null,
+                                String.class,
+                                properties.getToken().getBot(),
+                                member.getId(),
+                                message + " " + additionalMessageInformation);
+                    } catch (RestClientException e) {
+                        log.error("Unable to post to given person Id: {}", e);
+                        throw e;
+                    }
+                });
     }
 }

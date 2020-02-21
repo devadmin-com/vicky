@@ -89,7 +89,6 @@ public class JiraController {
         } catch (JiraException e) {
             log.error("Failed to retrieve issue by issueId: " + task.getId(), e);
         }
-
     }
 
     /**

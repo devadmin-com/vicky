@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-
 /**
  * This is the object which contains the information about jira issue
  */
@@ -78,9 +77,10 @@ public class IssueModel implements Task {
         return fields.getStatus().getDescription();
     }
 
+    // we don't use priority, only tasks type
     @Override
     public TaskPriority getPriority() {
-        return fields.getPriority().getName().equals("BLOCKER") ? TaskPriority.BLOCKER : TaskPriority.OTHER;
+        return TaskPriority.OTHER;
     }
 
     @Override
@@ -113,6 +113,8 @@ public class IssueModel implements Task {
                 return TaskType.OPERATIONS;
             case "Urgent Bug 緊急バグ":
                 return TaskType.URGENT_BUG;
+            case "Blocker":
+                return TaskType.BLOCKER;
             default:
                 return TaskType.OTHER;
         }
