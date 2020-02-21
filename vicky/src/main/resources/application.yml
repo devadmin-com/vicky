@@ -17,9 +17,16 @@ jira:
 slack:
   api-url: https://slack.com/api
   token:
-    bot: xoxb-3666444034-964922925542-cr9rtpPSI9noPWnaz8LgWGBX
-    verification: Fbz2SfIz92M8VGnOxYeFp5el
-
+    bot: xoxb-3666444034-964922925542-I1c7DPZox8ORUkQWg51ekMU2
+    verification: bU520K0ZNUoDvrNTsNMlghP7
+  notification:
+    task-types:
+      atReference: 13,10100
+      commentedTask: 13,10100
+      createdTask: 13,10100
+      labeledTask: 13,10100
+      pmOnAssign: 13,10100
+      resolvedTask: 13,10100
 # server properties
 server:
   tomcat:

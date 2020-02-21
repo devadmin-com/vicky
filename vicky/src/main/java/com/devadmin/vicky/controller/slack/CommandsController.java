@@ -3,6 +3,7 @@ package com.devadmin.vicky.controller.slack;
 import com.devadmin.vicky.MessageService;
 import com.devadmin.vicky.MessageServiceException;
 import com.devadmin.vicky.TaskEventFormatter;
+import com.devadmin.vicky.controller.slack.model.UserModel;
 import com.devadmin.vicky.service.slack.*;
 import com.devadmin.vicky.controller.slack.config.SlackProperties;
 import me.ramswaroop.jbot.core.common.JBot;
@@ -60,27 +61,16 @@ public class CommandsController extends Bot {
 
     @Autowired
     MessageService messageService;
+
     @PostMapping("/bye")
     public void sayByeToEveryone(HttpServletRequest request){
-        ModelAndView user = getParameters(request);
+        UserModel userModel = new UserModel();
+        userModel.paramsToUserModel(userModel.getParameters(request));
         try {
-            messageService.sendChannelMessage("vicky", "test bye message from ");
+            messageService.sendChannelMessage("vicky", "test bye message from " + userModel.getUserName() + ". " + userModel.getText());
         } catch (MessageServiceException e) {
             e.printStackTrace();
         }
-    }
-
-    @RequestMapping(value = "/get", method= RequestMethod.GET)
-    public ModelAndView getParameters(HttpServletRequest request){
-        Enumeration enumeration = request.getParameterNames();
-        Map<String, Object> modelMap = new HashMap<>();
-        while(enumeration.hasMoreElements()){
-            String parameterName = enumeration.nextElement().toString();
-            modelMap.put(parameterName, request.getParameter(parameterName));
-        }
-        ModelAndView modelAndView = new ModelAndView("sample");
-        modelAndView.addObject("parameters", modelMap);
-        return modelAndView;
     }
 
     @PostMapping("/hello")
