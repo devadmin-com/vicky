@@ -9,15 +9,11 @@ package com.devadmin.vicky.listener;
 import com.devadmin.vicky.event.TaskEventModelWrapper;
 import com.devadmin.vicky.format.TaskEventFormatter;
 import com.devadmin.vicky.model.jira.task.TaskEvent;
-import com.devadmin.vicky.service.EventService;
 import com.devadmin.vicky.service.slack.MessageService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 /**
  * If task commented and commenter and assignee is not the same user send assignee PM message
@@ -28,14 +24,9 @@ import java.util.List;
 @Slf4j
 public class CommentedTaskListener extends TaskToMessageListener {
 
-    private EventService eventService;
-
     @Autowired
-    public CommentedTaskListener(MessageService messageService,
-                                 @Qualifier("SimpleFormatter") TaskEventFormatter taskEventFormatter,
-                                 EventService eventService) {
+    public CommentedTaskListener(MessageService messageService, @Qualifier("SimpleFormatter") TaskEventFormatter taskEventFormatter) {
         super(messageService, taskEventFormatter);
-        this.eventService = eventService;
     }
 
     @Override
@@ -52,11 +43,11 @@ public class CommentedTaskListener extends TaskToMessageListener {
     }
 
     private boolean isOwnActions(TaskEvent event) {
-        return eventService.getEventAutorName(event).equals(event.getTask().getAssignee());
+        return event.getEventAuthorName().equals(event.getTask().getAssignee());
     }
 
     private void sendPrivateMessage(TaskEvent event) {
-        String emalToSent = event.getEmailAutor();
+        String emalToSent = event.getEmailAuthor();
         log.info("Trying to send private message about commented task to mail {}", emalToSent);
 
         messageService.sendPrivateMessage(emalToSent, formatter.format(event));

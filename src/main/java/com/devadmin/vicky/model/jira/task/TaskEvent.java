@@ -6,8 +6,8 @@
 
 package com.devadmin.vicky.model.jira.task;
 
-import com.devadmin.vicky.model.jira.comment.Comment;
 import com.devadmin.vicky.model.jira.changelog.ChangeLog;
+import com.devadmin.vicky.model.jira.comment.Comment;
 
 import java.util.Date;
 
@@ -58,5 +58,7 @@ public interface TaskEvent {
     /**
      * @return the user who performed the email autor of this event
      */
-    String getEmailAutor();
+    String getEmailAuthor();
+
+    String getEventAuthorName();
 }

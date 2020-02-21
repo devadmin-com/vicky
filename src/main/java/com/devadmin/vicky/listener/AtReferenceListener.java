@@ -8,12 +8,10 @@ package com.devadmin.vicky.listener;
 import com.devadmin.vicky.event.TaskEventModelWrapper;
 import com.devadmin.vicky.format.TaskEventFormatter;
 import com.devadmin.vicky.model.jira.task.TaskEvent;
-import com.devadmin.vicky.service.EventService;
 import com.devadmin.vicky.service.slack.MessageService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -27,14 +25,9 @@ import java.util.List;
 @Slf4j
 public class AtReferenceListener extends TaskToMessageListener {
 
-    private EventService eventService;
-
     @Autowired
-    public AtReferenceListener(MessageService messageService,
-                               @Qualifier("SimpleFormatter") TaskEventFormatter taskEventFormatter,
-                               EventService eventService) {
+    public AtReferenceListener(MessageService messageService, @Qualifier("SimpleFormatter") TaskEventFormatter taskEventFormatter) {
         super(messageService, taskEventFormatter);
-        this.eventService = eventService;
     }
 
     @Override
@@ -47,7 +40,7 @@ public class AtReferenceListener extends TaskToMessageListener {
     }
 
     private boolean isOwnMessage(String atReference, TaskEvent event) {
-        return atReference.equals(eventService.getEventAutorName(event));
+        return atReference.equals(event.getEventAuthorName());
     }
 
     private void sendMessageToReferencedPersons(TaskEvent event) {
