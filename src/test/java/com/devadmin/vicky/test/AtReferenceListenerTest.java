@@ -71,7 +71,15 @@ public class AtReferenceListenerTest extends TaskListenerTest {
         comment.setAuthor(authorModel);
 
         IssueModel issueModel = mock(IssueModel.class);
-        when(issueModel.getFields()).thenReturn(new FieldModel());
+
+        TestTask testTask = new TestTask();
+        FieldModel fieldModel = new FieldModel();
+        UserModel userModel = new UserModel();
+        userModel.setDisplayName("testDisplayName");
+        fieldModel.setAssignee(userModel);
+        testTask.setFieldModel(fieldModel);
+
+        when(issueModel.getFields()).thenReturn(fieldModel);
         when(issueModel.getStatus()).thenReturn("Test status");
         when(issueModel.getType()).thenReturn(TaskType.OTHER);
 
