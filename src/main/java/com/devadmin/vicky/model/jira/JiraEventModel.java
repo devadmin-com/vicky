@@ -67,10 +67,6 @@ public class JiraEventModel implements TaskEvent {
         return new Date(timeStamp);
     }
 
-    public String getEventAutorName() {
-        return this.comment.getAuthor().getDisplayName();
-    }
-
     public String getEmailAutor() {
         return this.comment.getAuthor().getEmailAddress();
     }
