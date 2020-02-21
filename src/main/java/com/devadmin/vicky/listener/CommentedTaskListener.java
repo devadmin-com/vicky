@@ -29,10 +29,8 @@ import java.util.List;
 public class CommentedTaskListener extends TaskToMessageListener {
 
     @Autowired
-    public CommentedTaskListener(MessageService messageService,
-                                 @Qualifier("SimpleFormatter") TaskEventFormatter taskEventFormatter,
-                                 @Value("#{'${slack.notification.task-types.commentedTask}'.split(',')}") List<String> taskTypeIds) {
-        super(messageService, taskEventFormatter, taskTypeIds);
+    public CommentedTaskListener(MessageService messageService, @Qualifier("SimpleFormatter") TaskEventFormatter taskEventFormatter) {
+        super(messageService, taskEventFormatter);
     }
 
     @Override
@@ -44,7 +42,7 @@ public class CommentedTaskListener extends TaskToMessageListener {
                 .getComment()
                 .getAuthor()
                 .getDisplayName()
-                .equals(event.getTask().getFields().getAssignee().getDisplayName())) { // don't send updates for own actions
+                .equals(event.getTask().getAssignee())) { // don't send updates for own actions
             try {
                 log.info("Trying to send private message about commented task");
                 messageService.sendPrivateMessage(

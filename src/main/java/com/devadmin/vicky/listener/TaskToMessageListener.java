@@ -16,6 +16,7 @@ import com.devadmin.vicky.event.TaskEventModelWrapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,6 +35,12 @@ public abstract class TaskToMessageListener implements ApplicationListener<TaskE
         this.messageService = messageService;
         this.formatter = taskEventFormatter;
         this.taskTypeIds = taskTypeIds;
+    }
+
+    public TaskToMessageListener(MessageService messageService, TaskEventFormatter formatter) {
+        this.messageService = messageService;
+        this.formatter = formatter;
+        this.taskTypeIds = new ArrayList<>();
     }
 
     /**

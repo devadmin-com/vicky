@@ -28,10 +28,8 @@ import java.util.List;
 public class AtReferenceListener extends TaskToMessageListener {
 
     @Autowired
-    public AtReferenceListener(MessageService messageService,
-                               @Qualifier("SimpleFormatter") TaskEventFormatter taskEventFormatter,
-                               @Value("#{'${slack.notification.task-types.atReference}'.split(',')}")List<String> taskTypeIds) {
-        super(messageService, taskEventFormatter, taskTypeIds);
+    public AtReferenceListener(MessageService messageService, @Qualifier("SimpleFormatter") TaskEventFormatter taskEventFormatter) {
+        super(messageService, taskEventFormatter);
     }
 
     @Override

@@ -33,10 +33,8 @@ import java.util.Optional;
 public class PMOnAssignListener extends TaskToMessageListener {
 
     @Autowired
-    public PMOnAssignListener(MessageService messageService,
-                              @Qualifier("AssignFormatter") TaskEventFormatter taskEventFormatter,
-                              @Value("#{'${slack.notification.task-types.pmOnAssign}'.split(',')}") List<String> taskTypeIds) {
-        super(messageService, taskEventFormatter, taskTypeIds);
+    public PMOnAssignListener(MessageService messageService, @Qualifier("AssignFormatter") TaskEventFormatter taskEventFormatter) {
+        super(messageService, taskEventFormatter);
     }
 
     @Override

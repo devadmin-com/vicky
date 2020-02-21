@@ -107,7 +107,7 @@ public class IssueModel implements Task {
     @Override
     public String getAssignee() {
         if (this.fields.getAssignee() != null) {
-            return this.fields.getAssignee().getName();
+            return this.fields.getAssignee().getDisplayName();
         } else {
             return "Unassigned";
         }
