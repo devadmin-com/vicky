@@ -6,10 +6,10 @@
 
 package com.devadmin.vicky.listener;
 
-import com.devadmin.vicky.*;
-import com.devadmin.vicky.format.TaskEventFormatter;
-import com.devadmin.vicky.model.jira.*;
 import com.devadmin.vicky.event.TaskEventModelWrapper;
+import com.devadmin.vicky.format.TaskEventFormatter;
+import com.devadmin.vicky.model.jira.FieldModel;
+import com.devadmin.vicky.model.jira.JiraEventModel;
 import com.devadmin.vicky.model.jira.changelog.AssignChangeLogItem;
 import com.devadmin.vicky.model.jira.changelog.ChangeLogItem;
 import com.devadmin.vicky.model.jira.changelog.ChangeType;
@@ -41,25 +41,15 @@ public class PMOnAssignListener extends TaskToMessageListener {
 
     @Override
     public void onApplicationEvent(TaskEventModelWrapper eventWrapper) {
-
         TaskEvent event = eventWrapper.getTaskEventModel();
+    }
 
-        if (event != null && event.getChangeLog() != null) {
-            for (ChangeLogItem changeLogItem : event.getChangeLog().getItems()) {
-                // don't send updates for own actions
-                if (changeLogItem.getChangeType() == ChangeType.ASSIGN && !isOwnAction(event, (AssignChangeLogItem) changeLogItem)) {
-                    Optional.ofNullable((JiraEventModel) eventWrapper.getEventModel())
-                            .map(JiraEventModel::getIssue)
-                            .map(IssueModel::getFields)
-                            .map(FieldModel::getAssignee)
-                            .filter(assignee -> assignee.getEmailAddress() != null)
-                            .ifPresent(assignee -> {
-                                log.info("Trying to send private message to {} about assigned task", assignee.getEmailAddress());
-                                messageService.sendPrivateMessage(assignee.getEmailAddress(), formatter.format(event));
-                            });
-                }
-            }
-        }
+    private boolean shouldListenerReactOnEvent(TaskEvent event, ChangeLogItem changeLogItem) {
+        return changeLogItem.getChangeType() == ChangeType.ASSIGN && !isOwnAction(event, (AssignChangeLogItem) changeLogItem);
+    }
+
+    private boolean isEventValid(TaskEvent event) {
+        return event != null && event.getChangeLog() != null;
     }
 
     /**
@@ -69,6 +59,29 @@ public class PMOnAssignListener extends TaskToMessageListener {
      */
     private static boolean isOwnAction(final TaskEvent event, final AssignChangeLogItem assignChangeLogItem) {
         return assignChangeLogItem.getAssignedTo() == null || assignChangeLogItem.getAssignedTo().equals(((JiraEventModel) event).getUser().getAccountId());
+    }
+
+    private void sendMessage(TaskEventModelWrapper eventWrapper, TaskEvent event) {
+        Optional.ofNullable((JiraEventModel) eventWrapper.getEventModel())
+                .map(JiraEventModel::getIssue)
+                .map(IssueModel::getFields)
+                .map(FieldModel::getAssignee)
+                .filter(assignee -> assignee.getEmailAddress() != null)
+                .ifPresent(assignee -> {
+                    log.info("Trying to send private message to {} about assigned task", assignee.getEmailAddress());
+                    messageService.sendPrivateMessage(assignee.getEmailAddress(), formatter.format(event));
+                });
+    }
+
+    private void sendMessages(TaskEventModelWrapper eventWrapper, TaskEvent event) {
+        if (isEventValid(event)) {
+            for (ChangeLogItem changeLogItem : event.getChangeLog().getItems()) {
+                // don't send updates for own actions
+                if (shouldListenerReactOnEvent(event, changeLogItem)) {
+                    sendMessage(eventWrapper, event);
+                }
+            }
+        }
     }
 }
 
