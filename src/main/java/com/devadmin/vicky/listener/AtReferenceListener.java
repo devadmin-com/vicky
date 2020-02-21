@@ -5,6 +5,7 @@
  */
 package com.devadmin.vicky.listener;
 
+import com.devadmin.vicky.service.EventService;
 import com.devadmin.vicky.service.slack.MessageService;
 import com.devadmin.vicky.MessageServiceException;
 import com.devadmin.vicky.model.jira.task.TaskEvent;
@@ -27,33 +28,30 @@ import java.util.List;
 @Slf4j
 public class AtReferenceListener extends TaskToMessageListener {
 
+    private EventService eventService;
+
     @Autowired
     public AtReferenceListener(MessageService messageService,
                                @Qualifier("SimpleFormatter") TaskEventFormatter taskEventFormatter,
-                               @Value("#{'${slack.notification.task-types.atReference}'.split(',')}")List<String> taskTypeIds) {
+                               @Value("#{'${slack.notification.task-types.atReference}'.split(',')}") List<String> taskTypeIds,
+                               EventService eventService) {
         super(messageService, taskEventFormatter, taskTypeIds);
+        this.eventService = eventService;
     }
 
     @Override
     public void onApplicationEvent(TaskEventModelWrapper eventWrapper) {
         TaskEvent event = eventWrapper.getTaskEventModel();
 
-        if (event.getComment() != null) {
+        if (commentNotEmpty(event)) {
             List<String> atReferences = event.getComment().getReferences();
 
             for (String atReference : atReferences) {
                 if (!atReference.equals(
-                        event
-                                .getComment()
-                                .getAuthor()
-                                .getName())) { // don't send updates for comments you write yourself
-                    try {
-                        log.info(
-                                "Sending private message to {}, because he was mentioned in comment", atReference);
-                        messageService.sendPrivateMessage(atReference, formatter.format(event));
-                    } catch (MessageServiceException e) {
-                        log.error(e.getMessage());
-                    }
+                        eventService.getEventAutorName(event))) { // don't send updates for comments you write yourself
+                    log.info(
+                            "Sending private message to {}, because he was mentioned in comment", atReference);
+                    messageService.sendPrivateMessage(atReference, formatter.format(event));
                 }
             }
         }

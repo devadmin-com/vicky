@@ -54,12 +54,8 @@ public class PMOnAssignListener extends TaskToMessageListener {
                             .map(FieldModel::getAssignee)
                             .filter(assignee -> assignee.getEmailAddress() != null)
                             .ifPresent(assignee -> {
-                                try {
-                                    log.info("Trying to send private message to {} about assigned task", assignee.getEmailAddress());
-                                    messageService.sendPrivateMessage(assignee.getEmailAddress(), formatter.format(event));
-                                } catch (MessageServiceException e) {
-                                    log.error(e.getMessage());
-                                }
+                                log.info("Trying to send private message to {} about assigned task", assignee.getEmailAddress());
+                                messageService.sendPrivateMessage(assignee.getEmailAddress(), formatter.format(event));
                             });
                 }
             }
@@ -75,3 +71,4 @@ public class PMOnAssignListener extends TaskToMessageListener {
         return assignChangeLogItem.getAssignedTo() == null || assignChangeLogItem.getAssignedTo().equals(((JiraEventModel) event).getUser().getAccountId());
     }
 }
+

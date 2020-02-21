@@ -54,4 +54,9 @@ public interface TaskEvent {
      * @return the user who performed the action which caused this event
      */
     String getActor();
+
+    /**
+     * @return the user who performed the email autor of this event
+     */
+    String getEmailAutor();
 }

@@ -6,13 +6,14 @@
 
 package com.devadmin.vicky.listener;
 
-import com.devadmin.vicky.service.slack.MessageService;
+import com.devadmin.vicky.event.TaskEventModelWrapper;
 import com.devadmin.vicky.format.TaskEventFormatter;
 import com.devadmin.vicky.model.jira.FieldModel;
+import com.devadmin.vicky.model.jira.JiraEventModel;
 import com.devadmin.vicky.model.jira.task.IssueModel;
 import com.devadmin.vicky.model.jira.task.IssueTypeModel;
-import com.devadmin.vicky.model.jira.JiraEventModel;
-import com.devadmin.vicky.event.TaskEventModelWrapper;
+import com.devadmin.vicky.model.jira.task.TaskEvent;
+import com.devadmin.vicky.service.slack.MessageService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;
 
@@ -49,7 +50,7 @@ public abstract class TaskToMessageListener implements ApplicationListener<TaskE
         return !(issueName.isPresent() && taskTypeIds.contains(issueName.get()));
     }
 
-
-
-
+    protected boolean commentNotEmpty(TaskEvent event) {
+        return event.getComment() != null;
+    }
 }

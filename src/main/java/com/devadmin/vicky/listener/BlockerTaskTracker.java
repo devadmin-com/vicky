@@ -69,11 +69,7 @@ public class BlockerTaskTracker {
      * @param message  the message to send
      */
     private void sendPrivateMessage(String assignee, String message) {
-        try {
-            messageService.sendPrivateMessage(assignee, message);
-        } catch (MessageServiceException e) {
-            log.error("was not able to send private message about Blocker task", e.getMessage());
-        }
+        messageService.sendPrivateMessage(assignee, message);
     }
 
     private void checkAndWarnIfNoCommentsForLongTime(Task task, Comment lastComment, LocalDateTime currentTime, String taskNameWithLink) {

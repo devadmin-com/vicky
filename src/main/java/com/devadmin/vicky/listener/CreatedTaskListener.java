@@ -1,6 +1,5 @@
 package com.devadmin.vicky.listener;
 
-import com.devadmin.vicky.*;
 import com.devadmin.vicky.event.TaskEventModelWrapper;
 import com.devadmin.vicky.format.TaskEventFormatter;
 import com.devadmin.vicky.model.jira.task.TaskEvent;
@@ -34,17 +33,14 @@ public class CreatedTaskListener extends TaskToMessageListener {
     @Override
     public void onApplicationEvent(TaskEventModelWrapper eventWrapper) {
         TaskEvent event = eventWrapper.getTaskEventModel();
+
         if (event.getType() == TaskEventType.CREATED) {
             String projectName = event.getTask().getProject();
 
-            try {
-                if (!this.shouldSkip(eventWrapper)) {
-                    messageService.sendChannelMessage(projectName, formatter.format(event));
-                } else {
-                    log.info("Event {} doesn't send notification", eventWrapper.getEventModel());
-                }
-            } catch (MessageServiceException e) {
-                log.error(e.getMessage());
+            if (!this.shouldSkip(eventWrapper)) {
+                messageService.sendChannelMessage(projectName, formatter.format(event));
+            } else {
+                log.info("Event {} doesn't send notification", eventWrapper.getEventModel());
             }
         }
     }

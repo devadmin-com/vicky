@@ -6,15 +6,13 @@
 
 package com.devadmin.vicky.service.slack;
 
-import com.devadmin.vicky.MessageServiceException;
-import com.devadmin.vicky.model.slack.Event;
 import com.devadmin.vicky.config.slack.SlackApiEndpoints;
 import com.devadmin.vicky.config.slack.SlackProperties;
+import com.devadmin.vicky.model.slack.Event;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.stream.Stream;
@@ -42,31 +40,25 @@ public class SlackMessageServiceImpl implements MessageService {
      * @see MessageService#sendChannelMessage(String, String)
      */
     @Override
-    public void sendChannelMessage(String channelName, String message)
-            throws MessageServiceException {
+    public void sendChannelMessage(String channelName, String message) {
 
         log.info("SlackMessageService sendChannelMessage() method");
-        try {
-            log.info("Trying to send channel message to {}", channelName);
-            final ResponseEntity<String> response = restTemplate.postForEntity(
-                    slackApiEndpoints.getChatPostMessageApi(),
-                    null,
-                    String.class,
-                    properties.getToken().getBot(),
-                    channelName,
-                    message + " " + additionalMessageInformation);
-            log.info("Response from slack message service is {}", response.getBody());
-        } catch (RestClientException e) {
-            log.error("Unable to post to given channel: {}", e);
-            throw new MessageServiceException(e.getMessage(), e);
-        }
+        log.info("Trying to send channel message to {}", channelName);
+        final ResponseEntity<String> response = restTemplate.postForEntity(
+                slackApiEndpoints.getChatPostMessageApi(),
+                null,
+                String.class,
+                properties.getToken().getBot(),
+                channelName,
+                message + " " + additionalMessageInformation);
+        log.info("Response from slack message service is {}", response.getBody());
     }
 
     /**
      * @see MessageService#sendPrivateMessage(String, String)
      */
     @Override
-    public void sendPrivateMessage(String personEmail, String message) throws MessageServiceException {
+    public void sendPrivateMessage(String personEmail, String message) {
         // getting the event with HTTP POST request, then getting list of all members in slack
         // let's keep it this way for now (would be better to find a way to send DM by person name)
         // TODO handle pagination problem (we can have next_cursor)
@@ -88,19 +80,14 @@ public class SlackMessageServiceImpl implements MessageService {
                         member.getProfile().getEmail() != null && member.getProfile().getEmail().equals(personEmail))
                 .findFirst()
                 .ifPresent(member -> {
-                    try {
-                        log.info("Trying to send private message to {}", personEmail);
-                        restTemplate.postForEntity(
-                                slackApiEndpoints.getChatPostMessageApi(),
-                                null,
-                                String.class,
-                                properties.getToken().getBot(),
-                                member.getId(),
-                                message + " " + additionalMessageInformation);
-                    } catch (RestClientException e) {
-                        log.error("Unable to post to given person Id: {}", e);
-                        throw e;
-                    }
+                    log.info("Trying to send private message to {}", personEmail);
+                    restTemplate.postForEntity(
+                            slackApiEndpoints.getChatPostMessageApi(),
+                            null,
+                            String.class,
+                            properties.getToken().getBot(),
+                            member.getId(),
+                            message + " " + additionalMessageInformation);
                 });
     }
 }

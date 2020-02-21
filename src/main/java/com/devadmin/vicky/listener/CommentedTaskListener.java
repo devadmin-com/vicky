@@ -6,6 +6,7 @@
 
 package com.devadmin.vicky.listener;
 
+import com.devadmin.vicky.service.EventService;
 import com.devadmin.vicky.service.slack.MessageService;
 import com.devadmin.vicky.MessageServiceException;
 import com.devadmin.vicky.model.jira.task.TaskEvent;
@@ -28,30 +29,39 @@ import java.util.List;
 @Slf4j
 public class CommentedTaskListener extends TaskToMessageListener {
 
+    private EventService eventService;
+
     @Autowired
     public CommentedTaskListener(MessageService messageService,
                                  @Qualifier("SimpleFormatter") TaskEventFormatter taskEventFormatter,
-                                 @Value("#{'${slack.notification.task-types.commentedTask}'.split(',')}") List<String> taskTypeIds) {
+                                 @Value("#{'${slack.notification.task-types.commentedTask}'.split(',')}") List<String> taskTypeIds,
+                                 EventService eventService) {
+
         super(messageService, taskEventFormatter, taskTypeIds);
+        this.eventService = eventService;
     }
 
     @Override
     public void onApplicationEvent(TaskEventModelWrapper eventWrapper) {
         TaskEvent event = eventWrapper.getTaskEventModel();
 
-        if (event.getComment() != null
-                && !event
-                .getComment()
-                .getAuthor()
-                .getDisplayName()
-                .equals(event.getTask().getFields().getAssignee().getDisplayName())) { // don't send updates for own actions
-            try {
-                log.info("Trying to send private message about commented task");
-                messageService.sendPrivateMessage(
-                        event.getComment().getAuthor().getEmailAddress(), formatter.format(event));
-            } catch (MessageServiceException e) {
-                log.error(e.getMessage());
-            }
+        if (shouldSendMessage(event)) {
+            sendPrivateMessage(event);
         }
+    }
+
+    private boolean shouldSendMessage(TaskEvent event) {
+        return commentNotEmpty(event) && !isOwnActions(event);
+    }
+
+    private boolean isOwnActions(TaskEvent event) {
+        return eventService.getEventAutorName(event).equals(event.getTask().getAssignee());
+    }
+
+    private void sendPrivateMessage(TaskEvent event) {
+        String emalToSent = event.getEmailAutor();
+        log.info("Trying to send private message about commented task to mail {}", emalToSent);
+
+        messageService.sendPrivateMessage(emalToSent, formatter.format(event));
     }
 }
