@@ -19,10 +19,8 @@ import com.devadmin.vicky.service.slack.MessageService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
 import java.util.Optional;
 
 /**
@@ -77,7 +75,6 @@ public class PMOnAssignListener extends TaskToMessageListener {
 
     private void sendMessages(TaskEventModelWrapper eventWrapper, TaskEvent event) {
         for (ChangeLogItem changeLogItem : event.getChangeLog().getItems()) {
-            // don't send updates for own actions
             if (shouldListenerReactOnEvent(event, changeLogItem)) {
                 sendMessage(eventWrapper, event);
             }

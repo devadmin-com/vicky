@@ -71,9 +71,6 @@ public class JiraEventModel implements TaskEvent {
         return this.comment.getAuthor().getEmailAddress();
     }
 
-    /*
-     * Will return readable user identifier
-     */
     public String getEventAuthorName() {
         return this.comment.getAuthor().getDisplayName();
     }

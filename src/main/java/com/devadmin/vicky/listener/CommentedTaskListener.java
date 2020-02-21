@@ -47,9 +47,9 @@ public class CommentedTaskListener extends TaskToMessageListener {
     }
 
     private void sendPrivateMessage(TaskEvent event) {
-        String emalToSent = event.getEmailAuthor();
-        log.info("Trying to send private message about commented task to mail {}", emalToSent);
+        String emailToSent = event.getEmailAuthor();
+        log.info("Trying to send private message about commented task to mail {}", emailToSent);
 
-        messageService.sendPrivateMessage(emalToSent, formatter.format(event));
+        messageService.sendPrivateMessage(emailToSent, formatter.format(event));
     }
 }
