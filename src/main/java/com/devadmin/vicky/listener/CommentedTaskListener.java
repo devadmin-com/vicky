@@ -6,12 +6,11 @@
 
 package com.devadmin.vicky.listener;
 
+import com.devadmin.vicky.event.TaskEventModelWrapper;
+import com.devadmin.vicky.format.TaskEventFormatter;
+import com.devadmin.vicky.model.jira.task.TaskEvent;
 import com.devadmin.vicky.service.EventService;
 import com.devadmin.vicky.service.slack.MessageService;
-import com.devadmin.vicky.MessageServiceException;
-import com.devadmin.vicky.model.jira.task.TaskEvent;
-import com.devadmin.vicky.format.TaskEventFormatter;
-import com.devadmin.vicky.event.TaskEventModelWrapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;

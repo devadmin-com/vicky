@@ -34,14 +34,19 @@ public class CreatedTaskListener extends TaskToMessageListener {
     public void onApplicationEvent(TaskEventModelWrapper eventWrapper) {
         TaskEvent event = eventWrapper.getTaskEventModel();
 
-        if (event.getType() == TaskEventType.CREATED) {
-            String projectName = event.getTask().getProject();
-
-            if (!this.shouldSkip(eventWrapper)) {
-                messageService.sendChannelMessage(projectName, formatter.format(event));
-            } else {
-                log.info("Event {} doesn't send notification", eventWrapper.getEventModel());
-            }
+        if (shouldListenerReactOnEvent(event, eventWrapper)) {
+            sendMessage(event);
+        } else {
+            log.info("Event {} doesn't send notification", eventWrapper.getEventModel());
         }
+    }
+
+    private boolean shouldListenerReactOnEvent(TaskEvent event, TaskEventModelWrapper eventWrapper) {
+        return event.getType() == TaskEventType.CREATED && this.shouldSkip(eventWrapper);
+    }
+
+    private void sendMessage(TaskEvent event) {
+        String projectName = event.getTask().getProject();
+        messageService.sendChannelMessage(projectName, formatter.format(event));
     }
 }

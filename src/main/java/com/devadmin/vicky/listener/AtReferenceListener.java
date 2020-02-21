@@ -58,6 +58,7 @@ public class AtReferenceListener extends TaskToMessageListener {
             sendMessageToReferencedPerson(atReference, event);
         }
     }
+
     private void sendMessageToReferencedPerson(String atReference, TaskEvent event) {
         if (!isOwnMessage(atReference, event)) { // don't send updates for comments you write yourself
             log.info("Sending private message to {}, because he was mentioned in comment", atReference);

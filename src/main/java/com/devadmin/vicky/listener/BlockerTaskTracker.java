@@ -1,9 +1,8 @@
 package com.devadmin.vicky.listener;
 
-import com.devadmin.vicky.service.slack.MessageService;
-import com.devadmin.vicky.MessageServiceException;
 import com.devadmin.vicky.model.jira.task.Task;
 import com.devadmin.vicky.service.jira.TaskService;
+import com.devadmin.vicky.service.slack.MessageService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.rcarz.jiraclient.Comment;
