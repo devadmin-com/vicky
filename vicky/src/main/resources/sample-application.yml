@@ -18,6 +18,14 @@ slack:
   token:
     bot: <your slack bot token>
     verification: <your slack slash command token>
+  notification:
+    task-types:
+      atReference: <comma-separated task ids you want to process in this listener>
+      commentedTask: <comma-separated task ids you want to process in this listener>
+      createdTask: <comma-separated task ids you want to process in this listener>
+      labeledTask: <comma-separated task ids you want to process in this listener>
+      pmOnAssign: <comma-separated task ids you want to process in this listener>
+      resolvedTask: <comma-separated task ids you want to process in this listener>
 
 # server properties
 server:
