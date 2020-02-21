@@ -42,6 +42,10 @@ public class PMOnAssignListener extends TaskToMessageListener {
     @Override
     public void onApplicationEvent(TaskEventModelWrapper eventWrapper) {
         TaskEvent event = eventWrapper.getTaskEventModel();
+
+        if (isEventValid(event)) {
+            sendMessages(eventWrapper, event);
+        }
     }
 
     private boolean shouldListenerReactOnEvent(TaskEvent event, ChangeLogItem changeLogItem) {
@@ -74,12 +78,10 @@ public class PMOnAssignListener extends TaskToMessageListener {
     }
 
     private void sendMessages(TaskEventModelWrapper eventWrapper, TaskEvent event) {
-        if (isEventValid(event)) {
-            for (ChangeLogItem changeLogItem : event.getChangeLog().getItems()) {
-                // don't send updates for own actions
-                if (shouldListenerReactOnEvent(event, changeLogItem)) {
-                    sendMessage(eventWrapper, event);
-                }
+        for (ChangeLogItem changeLogItem : event.getChangeLog().getItems()) {
+            // don't send updates for own actions
+            if (shouldListenerReactOnEvent(event, changeLogItem)) {
+                sendMessage(eventWrapper, event);
             }
         }
     }
