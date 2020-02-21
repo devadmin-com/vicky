@@ -41,10 +41,16 @@ public class AtReferenceListenerTest extends TaskListenerTest {
         comment.setAuthor(authorModel);
 
         TestTask testTask = new TestTask();
-        testTask.setFieldModel(new FieldModel());
+        FieldModel fieldModel = new FieldModel();
+        UserModel userModel = new UserModel();
+        userModel.setDisplayName("testDisplayName");
+        fieldModel.setAssignee(userModel);
+        testTask.setFieldModel(fieldModel);
+
         testTask.setStatus("Test status");
         testTask.setType(TaskType.OTHER);
         testTask.setPriority(TaskPriority.OTHER);
+
 
         TestTaskEventModel testEventModel = new TestTaskEventModel();
         testEventModel.setComment(comment);
