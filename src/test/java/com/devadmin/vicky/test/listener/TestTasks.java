@@ -1,4 +1,4 @@
-package com.devadmin.vicky.test;
+package com.devadmin.vicky.test.listener;
 
 import com.devadmin.vicky.model.jira.*;
 import com.devadmin.vicky.model.jira.changelog.ChangeLogModel;
