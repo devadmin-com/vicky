@@ -50,6 +50,8 @@ public class ResolvedTaskListener extends TaskToMessageListener {
      * What we want is just to send notification on resolved task , also we check if eventWrapper contain all the data or we should skip it
      */
     private boolean shouldListenerReactOnEvent(TaskEvent event, Task task, TaskEventModelWrapper eventWrapper) {
-        return task.isResolved() && event.getType() != null && event.getType().equals(TaskEventType.UPDATED) && !this.shouldSkip(eventWrapper);
+        return task.isResolved() && event.getType() != null
+                && event.getType() == TaskEventType.UPDATED
+                && !this.shouldSkip(eventWrapper);
     }
 }
