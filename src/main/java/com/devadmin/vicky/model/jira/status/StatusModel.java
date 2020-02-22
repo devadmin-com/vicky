@@ -11,6 +11,8 @@ import lombok.Data;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class StatusModel {
 
+    public static final String RESOLVED = "Resolved 解決済";
+
     @JsonProperty("self")
     private String self;
 

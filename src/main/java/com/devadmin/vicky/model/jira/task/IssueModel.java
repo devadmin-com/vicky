@@ -1,7 +1,8 @@
 package com.devadmin.vicky.model.jira.task;
 
-import com.devadmin.vicky.model.jira.comment.CommentModel;
 import com.devadmin.vicky.model.jira.FieldModel;
+import com.devadmin.vicky.model.jira.comment.CommentModel;
+import com.devadmin.vicky.model.jira.status.StatusModel;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.beans.factory.annotation.Value;
@@ -96,7 +97,7 @@ public class IssueModel implements Task {
      */
     @Override
     public Boolean isResolved() {
-        return "Resolved 解決済".equals(this.fields.getStatus().getName());
+        return StatusModel.RESOLVED.equals(this.fields.getStatus().getName());
     }
 
     @Override
