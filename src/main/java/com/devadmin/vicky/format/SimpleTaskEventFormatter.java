@@ -29,6 +29,7 @@ public class SimpleTaskEventFormatter implements TaskEventFormatter {
 
     private static final int COMMENT_CUT_LENGTH = 256; // all comments are cut off at this length for display
     private static final String DEFAULT_ICON_KEY = "default";
+    public static final String EMPTY_COMMENT = "This task does not contain comment";
 
     /**
      * composes basic part of message (without comment)
@@ -88,7 +89,7 @@ public class SimpleTaskEventFormatter implements TaskEventFormatter {
      */
     private String getIcon(@NotNull Task task) {
         String icon = issueTypeIdToIconsMapping.getProperty(task.getTypeId());
-        if(icon == null){
+        if (icon == null) {
             icon = issueTypeIdToIconsMapping.getProperty(DEFAULT_ICON_KEY);
         }
         return icon != null ? icon : "";
@@ -125,7 +126,7 @@ public class SimpleTaskEventFormatter implements TaskEventFormatter {
             Comment comment = task.getLastComment();
 
             if (comment == null || comment.getBody() == null) {
-                lastComment = "This task does not contain comment";
+                lastComment = EMPTY_COMMENT;
             } else {
                 String truncatedComment = truncateComment(comment.getBody());
                 lastComment = truncatedComment.replace("[~", "@").replace("]", "");

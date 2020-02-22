@@ -19,7 +19,7 @@ public class SummaryTaskEventFormatter extends SimpleTaskEventFormatter {
     @Override
     public String format(TaskEvent event) {
         final String lastComment = super.getLastComment(event);
-        if (StringUtils.isNotBlank(lastComment)) {
+        if (StringUtils.isNotBlank(lastComment) && !lastComment.equals(EMPTY_COMMENT)) {
             return String.format(
                     "%s %s %s ➠ %s",
                     super.formatBase(event),
