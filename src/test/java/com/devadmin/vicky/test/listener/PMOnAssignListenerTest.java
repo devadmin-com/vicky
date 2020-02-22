@@ -24,7 +24,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.util.Arrays;
 import java.util.List;
 
-import static com.devadmin.vicky.test.listener.TestTasks.taskModel;
+import static com.devadmin.vicky.test.TestTasks.taskModel;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.never;

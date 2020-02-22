@@ -9,6 +9,7 @@ import com.devadmin.vicky.model.jira.JiraEventModel;
 import com.devadmin.vicky.model.jira.task.TaskEventType;
 import com.devadmin.vicky.service.slack.MessageService;
 import com.devadmin.vicky.service.slack.SlackMessageServiceImpl;
+import com.devadmin.vicky.test.TestTasks;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
@@ -20,7 +21,7 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import static com.devadmin.vicky.test.listener.TestTasks.taskModel;
+import static com.devadmin.vicky.test.TestTasks.taskModel;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.never;
