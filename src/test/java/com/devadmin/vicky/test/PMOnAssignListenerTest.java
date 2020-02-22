@@ -66,7 +66,7 @@ public class PMOnAssignListenerTest {
     private MessageService messageService;
 
     /**
-     * Test that channel skip created type.
+     * Test that sends notification.
      */
     @Test
     public void testSendNotificationOnCreatedEvent() {

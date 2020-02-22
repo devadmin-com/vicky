@@ -56,7 +56,7 @@ public class CommentedTaskListenerTest {
     private MessageService messageService;
 
     /**
-     * test CommentedTaskListener if commenter and assignee is different users
+     * test CommentedTaskListener if commenter and assignee are different users
      */
     @Test
     public void testWhenCommenterAndAssigneeAreDifferent() {
