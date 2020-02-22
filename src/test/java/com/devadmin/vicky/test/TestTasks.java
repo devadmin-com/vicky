@@ -7,6 +7,7 @@ import com.devadmin.vicky.model.jira.comment.CommentModel;
 import com.devadmin.vicky.model.jira.status.StatusModel;
 import com.devadmin.vicky.model.jira.task.IssueModel;
 import com.devadmin.vicky.model.jira.task.IssueTypeModel;
+import com.devadmin.vicky.model.jira.task.TaskEventType;
 
 import java.util.Collections;
 
@@ -32,7 +33,7 @@ public final class TestTasks {
         issueTypeModel.setId("13");
 
         final StatusModel statusModel = new StatusModel();
-        statusModel.setName("test");
+        statusModel.setName(StatusModel.RESOLVED);
         statusModel.setDescription("Bla bla");
 
         final UserModel userModel = new UserModel();
@@ -67,7 +68,7 @@ public final class TestTasks {
         testEventModel.setIssue(issueModel);
         testEventModel.setTimeStamp(System.currentTimeMillis());
         testEventModel.setChangeLog(changeLogModel);
-
+        testEventModel.setType(TaskEventType.UPDATED);
 
         return testEventModel;
     }
