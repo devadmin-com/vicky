@@ -1,10 +1,14 @@
 package com.devadmin.vicky.test;
 
 import com.devadmin.vicky.model.jira.*;
+import com.devadmin.vicky.model.jira.changelog.ChangeLogModel;
+import com.devadmin.vicky.model.jira.changelog.JiraChangeLogItemModel;
 import com.devadmin.vicky.model.jira.comment.CommentModel;
 import com.devadmin.vicky.model.jira.status.StatusModel;
 import com.devadmin.vicky.model.jira.task.IssueModel;
 import com.devadmin.vicky.model.jira.task.IssueTypeModel;
+
+import java.util.Collections;
 
 /**
  * Create test tasks.
@@ -44,13 +48,27 @@ public final class TestTasks {
         fieldModel.setStatus(statusModel);
         fieldModel.setAssignee(userModel);
         fieldModel.setProject(projectModel);
+
         final IssueModel issueModel = new IssueModel();
         issueModel.setId("13");
         issueModel.setFields(fieldModel);
-        JiraEventModel testEventModel = new JiraEventModel();
+
+        final JiraChangeLogItemModel logItemModel = new JiraChangeLogItemModel();
+        logItemModel.setField("assignee");
+        logItemModel.setTo(assignee);
+
+        final ChangeLogModel changeLogModel = new ChangeLogModel();
+        changeLogModel.setId("13");
+        changeLogModel.setItems(Collections.singletonList(logItemModel));
+
+        final JiraEventModel testEventModel = new JiraEventModel();
         testEventModel.setComment(comment);
+        testEventModel.setUser(userModel);
         testEventModel.setIssue(issueModel);
         testEventModel.setTimeStamp(System.currentTimeMillis());
+        testEventModel.setChangeLog(changeLogModel);
+
+
         return testEventModel;
     }
 }
