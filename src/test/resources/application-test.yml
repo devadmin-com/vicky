@@ -1,0 +1,5 @@
+slack:
+  notification:
+      task-types:
+        createdTask: 13
+        resolvedTask: 13

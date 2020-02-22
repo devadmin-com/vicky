@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static com.devadmin.vicky.test.listener.TestTasks.taskModel;
@@ -37,6 +38,7 @@ import static org.mockito.Mockito.never;
                 ApplicationEventPublisher.class
         }
 )
+@ActiveProfiles("test")// to load yml
 public class ResolvedTestListenerTest {
 
     /**
