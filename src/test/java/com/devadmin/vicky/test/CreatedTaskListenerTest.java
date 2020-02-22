@@ -61,7 +61,7 @@ public class CreatedTaskListenerTest {
     private MessageService messageService;
 
     /**
-     * Test that channel skip created type.
+     * Test that channel will send notification.
      */
     @Test
     public void testSendNotificationOnCreatedEvent() {
@@ -107,6 +107,4 @@ public class CreatedTaskListenerTest {
                         any()
                 );
     }
-
-
 }
