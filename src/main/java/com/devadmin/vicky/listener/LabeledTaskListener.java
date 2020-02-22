@@ -51,7 +51,7 @@ public class LabeledTaskListener extends TaskToMessageListener {
 
     private void sendMessage(TaskEvent event) {
         for (String label : event.getTask().getLabels()) {
-            log.info("Trying to send channel message about labeled task");
+            log.info("Trying to send channel message about labeled task {}", label);
             messageService.sendChannelMessage(label, formatter.format(event));
         }
     }
