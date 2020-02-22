@@ -18,6 +18,8 @@ public final class TestTasks {
 
     public static final String PROJECT = "vicky";
 
+    public static final String TEST_ID = "13";
+
     public static JiraEventModel taskModel(final String creator, final String assignee, final String body) {
         final AuthorModel authorModel = new AuthorModel();
         authorModel.setName(creator);
@@ -30,7 +32,7 @@ public final class TestTasks {
 
 
         final IssueTypeModel issueTypeModel = new IssueTypeModel();
-        issueTypeModel.setId("13");
+        issueTypeModel.setId(TEST_ID);
 
         final StatusModel statusModel = new StatusModel();
         statusModel.setName(StatusModel.RESOLVED);
@@ -48,18 +50,21 @@ public final class TestTasks {
         fieldModel.setIssueType(issueTypeModel);
         fieldModel.setStatus(statusModel);
         fieldModel.setAssignee(userModel);
+        fieldModel.setSummary("Everything is ok");
         fieldModel.setProject(projectModel);
 
         final IssueModel issueModel = new IssueModel();
-        issueModel.setId("13");
+        issueModel.setId(TEST_ID);
+        issueModel.setKey("test key");
         issueModel.setFields(fieldModel);
+
 
         final JiraChangeLogItemModel logItemModel = new JiraChangeLogItemModel();
         logItemModel.setField("assignee");
         logItemModel.setTo(assignee);
 
         final ChangeLogModel changeLogModel = new ChangeLogModel();
-        changeLogModel.setId("13");
+        changeLogModel.setId(TEST_ID);
         changeLogModel.setItems(Collections.singletonList(logItemModel));
 
         final JiraEventModel testEventModel = new JiraEventModel();
