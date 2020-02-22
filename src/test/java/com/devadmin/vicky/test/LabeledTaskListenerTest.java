@@ -63,7 +63,7 @@ public class LabeledTaskListenerTest {
     private MessageService messageService;
 
     /**
-     * Tests that the event was not handled if task isn't contain label.
+     * Sip event if it doesn't have labels.
      */
     @Test
     public void eventShouldNotBeHandledWithoutLabelsTest() {

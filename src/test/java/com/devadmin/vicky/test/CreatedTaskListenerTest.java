@@ -93,7 +93,7 @@ public class CreatedTaskListenerTest {
     }
 
     /**
-     * Test that only issues with id 13 are supported.
+     * Test that unsupported issue ids ae skipped
      */
     @Test
     public void testSkipIssueId() {

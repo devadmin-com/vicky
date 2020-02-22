@@ -56,10 +56,10 @@ public class CommentedTaskListenerTest {
     private MessageService messageService;
 
     /**
-     * test CommentedTaskListener if commenter and assignee are different users
+     * test that listener sends notification.
      */
     @Test
-    public void testWhenCommenterAndAssigneeAreDifferent() {
+    public void testSendNotificationOnCreatedEvent() {
         final JiraEventModel testEventModel = taskModel("serpento", "testUser", "This is a simple comment");
         this.applicationEventPublisher.publishEvent(new TaskEventModelWrapper(testEventModel));
         Mockito.verify(
@@ -86,7 +86,7 @@ public class CommentedTaskListenerTest {
     }
 
     /**
-     * test CommentedTaskListener if event does not contain comment
+     * Skip message because comment is null.
      */
     @Test
     public void testCommentIsNull() {

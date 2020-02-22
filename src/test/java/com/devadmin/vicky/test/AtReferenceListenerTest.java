@@ -77,7 +77,7 @@ public class AtReferenceListenerTest {
     }
 
     /**
-     * Nobody will get message because reference format is incorrect.
+     * Nobody will get message because comment is null.
      */
     @Test
     public void testSkipEmptyComment() {
