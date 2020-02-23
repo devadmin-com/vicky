@@ -27,13 +27,18 @@ public class SlackMessageServiceImpl implements MessageService {
     private final SlackProperties properties;
     private final SlackApiEndpoints slackApiEndpoints;
     private final RestTemplate restTemplate;
-    @Value("${debug.message-service.additional-information:}")
-    private String additionalMessageInformation;
+    private final String additionalMessageInformation;
 
-    public SlackMessageServiceImpl(SlackProperties properties, SlackApiEndpoints slackApiEndpoints, RestTemplate restTemplate) {
+    public SlackMessageServiceImpl(
+            SlackProperties properties,
+            SlackApiEndpoints slackApiEndpoints,
+            RestTemplate restTemplate,
+            @Value("${debug.message-service.additional-information:}") final String additionalMessageInformation
+    ) {
         this.properties = properties;
         this.slackApiEndpoints = slackApiEndpoints;
         this.restTemplate = restTemplate;
+        this.additionalMessageInformation = additionalMessageInformation;
     }
 
     /**
