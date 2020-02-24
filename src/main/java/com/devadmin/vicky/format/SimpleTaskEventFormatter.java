@@ -91,8 +91,9 @@ public class SimpleTaskEventFormatter implements TaskEventFormatter {
         String icon = issueTypeIdToIconsMapping.getProperty(task.getTypeId());
         if (icon == null) {
             icon = issueTypeIdToIconsMapping.getProperty(DEFAULT_ICON_KEY);
+            assert icon != null;
         }
-        return icon != null ? icon : "";
+        return icon;
     }
 
     /**
