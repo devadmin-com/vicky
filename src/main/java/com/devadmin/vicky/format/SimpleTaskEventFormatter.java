@@ -28,8 +28,8 @@ public class SimpleTaskEventFormatter implements TaskEventFormatter {
     private Properties issueTypeIdToIconsMapping;
 
     private static final int COMMENT_CUT_LENGTH = 256; // all comments are cut off at this length for display
-    private static final String DEFAULT_ICON_KEY = "default";
-    public static final String EMPTY_COMMENT = "This task does not contain comment";
+    public static final String DEFAULT_ICON_KEY = "default";
+    static final String EMPTY_COMMENT = "This task does not contain comment";
 
     /**
      * composes basic part of message (without comment)
@@ -91,9 +91,8 @@ public class SimpleTaskEventFormatter implements TaskEventFormatter {
         String icon = issueTypeIdToIconsMapping.getProperty(task.getTypeId());
         if (icon == null) {
             icon = issueTypeIdToIconsMapping.getProperty(DEFAULT_ICON_KEY);
-            assert icon != null;
         }
-        return icon;
+        return icon != null ? icon : "";
     }
 
     /**

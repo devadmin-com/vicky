@@ -6,7 +6,6 @@ import com.devadmin.vicky.format.SimpleTaskEventFormatter;
 import com.devadmin.vicky.format.TaskEventFormatter;
 import com.devadmin.vicky.model.jira.task.Task;
 import com.devadmin.vicky.model.jira.task.TaskEvent;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +17,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Properties;
 
+import static com.devadmin.vicky.format.SimpleTaskEventFormatter.DEFAULT_ICON_KEY;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
@@ -32,6 +32,9 @@ public class SimpleTaskEventFormatterTest {
     @Autowired
     @Qualifier("SimpleFormatter")
     private TaskEventFormatter simpleTaskEventFormatter;
+
+    @SpyBean(name = "issueTypeIdToIconsMapping")
+    private Properties properties;
 
     @Test
     public void testFormattedEventHasRightIcon() {
@@ -54,5 +57,19 @@ public class SimpleTaskEventFormatterTest {
         when(taskEvent.getTask()).thenReturn(task);
         //Act + Assert
         assertThat(simpleTaskEventFormatter.format(taskEvent)).isEqualTo(":rocket: <null | null> null: null @null\n null ➠ This task does not contain comment");
+    }
+
+    @Test
+    @DirtiesContext
+    public void testFormattedEventHasEmptyIcon() {
+        //Arrange
+        Task task = mock(Task.class, RETURNS_DEEP_STUBS);
+        TaskEvent taskEvent = mock(TaskEvent.class);
+        when(task.getTypeId()).thenReturn("177");
+        when(taskEvent.getTask()).thenReturn(task);
+        when(properties.getProperty(DEFAULT_ICON_KEY)).thenReturn(null);
+
+        //Act + Assert
+        assertThat(simpleTaskEventFormatter.format(taskEvent)).isEqualTo(" <null | null> null: null @null\n null ➠ This task does not contain comment");
     }
 }
