@@ -11,6 +11,8 @@ gradle-app.setting
 # Cache of project
 .gradletasknamecache
 
+application.yml
+
 # # Work around https://youtrack.jetbrains.com/issue/IDEA-116898
 # gradle/wrapper/gradle-wrapper.properties
 
@@ -104,4 +106,7 @@ Icon
 Network Trash Folder
 Temporary Items
 .apdisk
+
+# private settings
+/**/resources/application.yml
 
