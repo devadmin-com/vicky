@@ -1,7 +1,7 @@
 {
-  "timestamp": 1584387513573,
-  "webhookEvent": "jira:issue_created",
-  "issue_event_type_name": "issue_created",
+  "timestamp": 1584387368400,
+  "webhookEvent": "jira:issue_updated",
+  "issue_event_type_name": "issue_generic",
   "user": {
     "self": "https://devadmin.atlassian.net/rest/api/2/user?accountId=5aec6a87fad8eb2e0df72a3e",
     "accountId": "5aec6a87fad8eb2e0df72a3e",
@@ -17,11 +17,11 @@
     "accountType": "atlassian"
   },
   "issue": {
-    "id": "62747",
-    "self": "https://devadmin.atlassian.net/rest/api/2/62747",
-    "key": "VT-61",
+    "id": "62745",
+    "self": "https://devadmin.atlassian.net/rest/api/2/62745",
+    "key": "VT-59",
     "fields": {
-      "statuscategorychangedate": "2020-03-17T00:38:33.673+0500",
+      "statuscategorychangedate": "2020-03-17T00:36:08.385+0500",
       "issuetype": {
         "self": "https://devadmin.atlassian.net/rest/api/2/issuetype/3",
         "id": "3",
@@ -48,35 +48,40 @@
       },
       "fixVersions": [],
       "aggregatetimespent": null,
-      "resolution": null,
-      "customfield_11201": "0|i0545z:",
+      "resolution": {
+        "self": "https://devadmin.atlassian.net/rest/api/2/resolution/1",
+        "id": "1",
+        "description": "A fix for this issue is checked into the tree and tested.",
+        "name": "Fixed"
+      },
+      "customfield_11201": "0|i0545j:",
       "customfield_11202": null,
+      "customfield_11203": "1_*:*_1_*:*_137388_*|*_6_*:*_1_*:*_0",
       "customfield_11400": null,
-      "customfield_11203": null,
       "customfield_10105": null,
       "customfield_10900": null,
       "customfield_10901": null,
-      "resolutiondate": null,
+      "resolutiondate": "2020-03-17T00:36:08.354+0500",
       "workratio": -1,
+      "lastViewed": "2020-03-17T00:36:08.317+0500",
       "watches": {
-        "self": "https://devadmin.atlassian.net/rest/api/2/issue/VT-61/watchers",
+        "self": "https://devadmin.atlassian.net/rest/api/2/issue/VT-59/watchers",
         "watchCount": 0,
         "isWatching": false
       },
-      "lastViewed": null,
-      "created": "2020-03-17T00:38:33.508+0500",
+      "created": "2020-03-17T00:33:51.012+0500",
       "customfield_12000": {
         "self": "https://devadmin.atlassian.net/rest/api/2/customFieldOption/10400",
         "value": "New Work　新開発サーバー",
         "id": "10400"
       },
+      "customfield_10100": null,
       "priority": {
         "self": "https://devadmin.atlassian.net/rest/api/2/priority/3",
         "iconUrl": "https://devadmin.atlassian.net/images/icons/priorities/major.svg",
         "name": "Major",
         "id": "3"
       },
-      "customfield_10100": null,
       "customfield_10101": null,
       "customfield_10103": null,
       "labels": [],
@@ -100,19 +105,19 @@
         "timeZone": "Asia/Karachi",
         "accountType": "atlassian"
       },
-      "updated": "2020-03-17T00:38:33.508+0500",
+      "updated": "2020-03-17T00:36:08.385+0500",
       "status": {
-        "self": "https://devadmin.atlassian.net/rest/api/2/status/1",
-        "description": "The issue is open and ready for the assignee to start work on it.",
-        "iconUrl": "https://devadmin.atlassian.net/images/icons/statuses/open.png",
-        "name": "Backlog",
-        "id": "1",
+        "self": "https://devadmin.atlassian.net/rest/api/2/status/6",
+        "description": "The issue is considered finished, the resolution is correct. Issues which are closed can be reopened.",
+        "iconUrl": "https://devadmin.atlassian.net/images/icons/statuses/closed.png",
+        "name": "Closed",
+        "id": "6",
         "statusCategory": {
-          "self": "https://devadmin.atlassian.net/rest/api/2/statuscategory/2",
-          "id": 2,
-          "key": "new",
-          "colorName": "blue-gray",
-          "name": "New"
+          "self": "https://devadmin.atlassian.net/rest/api/2/statuscategory/3",
+          "id": 3,
+          "key": "done",
+          "colorName": "green",
+          "name": "Complete"
         }
       },
       "components": [],
@@ -132,9 +137,9 @@
       "customfield_10600": "0.0",
       "customfield_12106": null,
       "security": null,
-      "aggregatetimeestimate": null,
       "attachment": [],
-      "summary": "Test",
+      "aggregatetimeestimate": null,
+      "summary": "Test vicky",
       "creator": {
         "self": "https://devadmin.atlassian.net/rest/api/2/user?accountId=5aec6a87fad8eb2e0df72a3e",
         "accountId": "5aec6a87fad8eb2e0df72a3e",
@@ -165,20 +170,20 @@
         "accountType": "atlassian"
       },
       "customfield_12101": null,
+      "customfield_12100": null,
       "aggregateprogress": {
         "progress": 0,
         "total": 0
       },
       "customfield_10000": null,
-      "customfield_12100": null,
       "customfield_12103": null,
-      "customfield_12102": null,
       "customfield_10002": null,
       "customfield_10200": null,
+      "customfield_12102": null,
       "customfield_10003": null,
       "customfield_12105": null,
-      "customfield_12104": [],
       "customfield_10004": null,
+      "customfield_12104": [],
       "customfield_11600": "{}",
       "environment": null,
       "customfield_11800": null,
@@ -190,74 +195,25 @@
     }
   },
   "changelog": {
-    "id": "417426",
+    "id": "417423",
     "items": [
       {
-        "field": "assignee",
+        "field": "resolution",
         "fieldtype": "jira",
-        "fieldId": "assignee",
-        "from": null,
-        "fromString": null,
-        "to": "5aec6a87fad8eb2e0df72a3e",
-        "toString": "Mr. Lollipop",
-        "tmpFromAccountId": null,
-        "tmpToAccountId": "5aec6a87fad8eb2e0df72a3e"
-      },
-      {
-        "field": "Type of work",
-        "fieldtype": "custom",
-        "fieldId": "customfield_12000",
-        "from": null,
-        "fromString": null,
-        "to": "10400",
-        "toString": "New Work　新開発サーバー"
-      },
-      {
-        "field": "description",
-        "fieldtype": "jira",
-        "fieldId": "description",
-        "from": null,
-        "fromString": null,
-        "to": null,
-        "toString": "Bla bla "
-      },
-      {
-        "field": "priority",
-        "fieldtype": "jira",
-        "fieldId": "priority",
-        "from": null,
-        "fromString": null,
-        "to": "3",
-        "toString": "Major"
-      },
-      {
-        "field": "reporter",
-        "fieldtype": "jira",
-        "fieldId": "reporter",
-        "from": null,
-        "fromString": null,
-        "to": "5aec6a87fad8eb2e0df72a3e",
-        "toString": "Mr. Lollipop",
-        "tmpFromAccountId": null,
-        "tmpToAccountId": "5aec6a87fad8eb2e0df72a3e"
-      },
-      {
-        "field": "Status",
-        "fieldtype": "jira",
-        "fieldId": "status",
+        "fieldId": "resolution",
         "from": null,
         "fromString": null,
         "to": "1",
-        "toString": "Backlog"
+        "toString": "Fixed"
       },
       {
-        "field": "summary",
+        "field": "status",
         "fieldtype": "jira",
-        "fieldId": "summary",
-        "from": null,
-        "fromString": null,
-        "to": null,
-        "toString": "Test"
+        "fieldId": "status",
+        "from": "1",
+        "fromString": "Backlog",
+        "to": "6",
+        "toString": "Closed"
       }
     ]
   }

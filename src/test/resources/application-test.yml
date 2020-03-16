@@ -1,5 +1,9 @@
 slack:
   notification:
-      task-types:
-        createdTask: 13
-        resolvedTask: 13
+    task-types:
+      createdTask: 13
+      resolvedTask: 13
+
+spring:
+  jackson:
+    property-naming-strategy: SNAKE_CASE
